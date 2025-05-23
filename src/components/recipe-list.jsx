@@ -1,3 +1,4 @@
+"use client";
 import RecipeListItem from "./recipe-list-item";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
@@ -16,7 +17,7 @@ const RecipeList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_STRAPI_URL}/api/recipes?fields=name&fields=slug&populate=coverImage&populate=tags`)
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes?fields=name&fields=slug&populate=coverImage&populate=tags`)
     // fetch('http://localhost:1337/api/recipes?fields=name&fields=slug&populate=coverImage&populate=tags')
       .then(res => res.json())
       .then(data => {
@@ -80,7 +81,7 @@ const RecipeList = () => {
             })}
 
             <RecipeListItem 
-                img={`${import.meta.env.VITE_STRAPI_MEDIA_URL}/still_life_pet_food_arrangement_45d067c3f8.jpg`} 
+                img={`${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}/still_life_pet_food_arrangement_45d067c3f8.jpg`} 
                 title="Transition Guide"
                 slug="transition-guide"
                 tags={["Guide"]}

@@ -1,4 +1,5 @@
-import { useParams } from "react-router-dom";
+"use client";
+import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 
@@ -34,7 +35,7 @@ const Blog = () => {
     const query = `?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`
   
     useEffect(() => {
-      fetch(`${import.meta.env.VITE_STRAPI_URL}/api/blogs${query}`)
+      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs${query}`)
         .then(res => res.json())
         .then(data => {
           if (data?.data?.length > 0) {

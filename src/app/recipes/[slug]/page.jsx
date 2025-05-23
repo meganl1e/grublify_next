@@ -1,9 +1,8 @@
+"use client";
 import React from "react";
-import Image from "../../../components/image.jsx";
 import RecipeCard from "../../../components/recipe-card.jsx";
-import chickenAndRiceRecipe from "../data/chicken-and-rice-recipe.json";
 import RecipeDetailedInstructions from "../../../components/recipe-detailed-instructions.jsx";
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -23,7 +22,7 @@ const Recipe = () => {
   `&populate[coverImage][populate]=true` // cover image for some reason idk
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_STRAPI_URL}/api/recipes${query}`)
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes${query}`)
       .then(res => res.json())
       .then(data => {
         if (data?.data?.length > 0) {

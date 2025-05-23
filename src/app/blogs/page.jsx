@@ -1,4 +1,6 @@
-import { useParams } from "react-router-dom";
+"use client";
+
+import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import BlogListItem from "../../components/blog-list-item";
 import Skeleton from "react-loading-skeleton";
@@ -12,7 +14,7 @@ const Blogs = () => {
   const query = `?fields=slug,title&populate=coverImage&populate=categories`;
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_STRAPI_URL}/api/blogs${query}`)
+    fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs${query}`)
       .then((res) => res.json())
       .then((data) => {
         if (data?.data?.length > 0) {

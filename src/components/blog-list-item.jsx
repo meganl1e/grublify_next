@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom"; // Updated import
+import Link from "next/link";
 
 const BlogListItem = ({ blog }) => {
   return (
-    <Link to={`/blogs/${blog.slug}`} className="flex-1">
+    <Link href={`/blogs/${blog.slug}`} className="flex-1">
       <div className="p-4 border rounded-lg shadow-sm flex flex-col gap-4 bg-white">
         <img
           src={blog.coverImage.formats.medium.url}

@@ -1,6 +1,9 @@
 // import about_hero from "../images/IMG_1663.jpg";
 // import family from "../images/family.png";
 // import creed from "../images/IMG_9176.jpg";
+import about_hero from "../../../public/about_hero.jpg";
+import about_mission from "../../../public/about_mission.jpg";
+import about_family from "../../../public/about_family.png";
 
 export default function About() {
   return (
@@ -48,7 +51,7 @@ export default function About() {
         </div>
         <div className="w-full md:w-1/2">
           <img
-            src={about_hero}
+            src={about_hero.src}
             alt="Dog enjoying fresh food"
             className="w-full h-[300px] md:h-[500px] object-cover object-center"
           />
@@ -59,7 +62,7 @@ export default function About() {
       <section className="w-full flex flex-col md:flex-row">
         <div className="w-full md:w-1/2">
           <img
-            src={creed}
+            src={about_mission.src}
             alt="Dog enjoying fresh food"
             className="hidden md:block w-full h-[300px] md:h-[500px] object-cover object-center"
           />
@@ -67,7 +70,7 @@ export default function About() {
         <div className="w-full md:w-1/2 bg-secondary/90 text-white flex items-center justify-center p-8">
           <div className="max-w-lg text-right">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Our approach</h1>
-            <p className="text-lg md:text-xl font-medium text-justify">
+            <p className="text-lg md:text-xl text-justify">
             Grublify makes homemade dog food easy and complete with AAFCO-standard nutrition packs, so every pet parent can confidently serve balanced meals, every day.
             </p>
           </div>
@@ -102,7 +105,7 @@ export default function About() {
           </div>
           <div className="flex justify-center mb-8">
             <img
-              src={family}
+              src={about_family.src}
               alt="Our journey with Grublify"
               className="h-[300px] md:h-[400px] object-cover object-center rounded-md"
             />

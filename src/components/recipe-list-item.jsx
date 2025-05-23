@@ -1,14 +1,14 @@
 import React from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
-import Image from './image';
 import StrapiImage from './strapi-image';
+import Link from 'next/link';
 
 const RecipeListItem = ({ title, slug, img, tags, alt }) => {
 
   return (
     
     <div>
-      <a 
+      <Link 
       href={`/recipes/${slug}`} 
       className="flex flex-col border-2 border-secondary transition-transform duration-200 ease-in-out hover:scale-105 hover:shadow-lg rounded-md overflow-hidden"
     >
@@ -23,9 +23,9 @@ const RecipeListItem = ({ title, slug, img, tags, alt }) => {
 
       {/* Details */}
       <div className="flex flex-col gap-2 p-4 bg-primary/10">
-        <a href={`/recipes/${slug}`} className="text-3xl text-secondary font-semibold hover:underline">
+        <div className="text-3xl text-secondary font-semibold hover:underline">
           {title}
-        </a>
+        </div>
         {/* Tag */}
         { tags && (
           <div className="flex flex-wrap gap-2 mt-1">
@@ -43,7 +43,7 @@ const RecipeListItem = ({ title, slug, img, tags, alt }) => {
         
 
       </div>
-    </a>
+    </Link>
     </div>
   );
 };
