@@ -1,13 +1,12 @@
 'use client';
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { useToast } from "../../components/use-toast";
 import axios from "axios";
+import { useState } from "react";
 
 export default function Waitlist() {
-
-  
-  const { toast } = useToast();
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const {
     register,
@@ -29,22 +28,19 @@ export default function Waitlist() {
       );
     },
     onSuccess: () => {
-      toast({
-        title: "Successfully joined waitlist!",
-        description: "We'll be in touch soon with updates.",
-      });
+      setSuccessMessage("Successfully joined waitlist! We'll be in touch soon with updates.");
+      setErrorMessage("");
       reset();
     },
     onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Error joining waitlist",
-        description: "Please try again later.",
-      });
+      setErrorMessage("Error joining waitlist. Please try again later.");
+      setSuccessMessage("");
     },
   });
 
   const onSubmit = (data) => {
+    setSuccessMessage("");
+    setErrorMessage("");
     mutation.mutate(data);
   };
 
@@ -69,6 +65,18 @@ export default function Waitlist() {
           </div>
 
           <div className="bg-white md:p-8 rounded-lg md:shadow-md">
+            {/* Success/Error Messages */}
+            {successMessage && (
+              <div className="mb-4 p-3 rounded bg-green-100 text-green-800 font-medium">
+                {successMessage}
+              </div>
+            )}
+            {errorMessage && (
+              <div className="mb-4 p-3 rounded bg-red-100 text-red-800 font-medium">
+                {errorMessage}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Name Field */}
               <div>
@@ -79,7 +87,7 @@ export default function Waitlist() {
                   id="name"
                   type="text"
                   {...register("name", { required: "Name is required" })}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2"
+                  className="mt-1 block w-full rounded-sm border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2"
                   placeholder="Your name"
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
@@ -100,7 +108,7 @@ export default function Waitlist() {
                       message: "Invalid email address",
                     },
                   })}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2"
+                  className="mt-1 block w-full rounded-sm border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2"
                   placeholder="your@email.com"
                 />
                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>}
@@ -114,7 +122,7 @@ export default function Waitlist() {
                 <textarea
                   id="message"
                   {...register("message")}
-                  className="mt-1 block w-full rounded-lg border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2 h-48"
+                  className="mt-1 block w-full rounded-sm border border-gray-300 shadow-sm focus:ring-2 focus:outline-none sm:text-sm px-4 py-2 h-48"
                   placeholder="Tell us about your dog and what you're looking for..."
                 />
               </div>
@@ -122,7 +130,7 @@ export default function Waitlist() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-3 px-6 bg-primary text-white font-bold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                className="w-full py-3 px-6 bg-primary text-white font-bold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
                 disabled={mutation.isPending}
               >
                 {mutation.isPending ? "Joining..." : "Join Waitlist"}

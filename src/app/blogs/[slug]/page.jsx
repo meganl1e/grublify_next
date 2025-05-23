@@ -1,66 +1,82 @@
-"use client";
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+// "use client";
+// import { useParams } from "next/navigation";
+// import { useState, useEffect } from "react";
+// import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import StrapiBlocksRenderer from "@/components/strapi-blocks-renderer";
+import Link from "next/link";
 
-const customBlocks = {
-  heading: ({ children, level }) => {
-    const HeadingTag = `h${level}`;
-    // Example: Tailwind classes for different heading levels
-    const classes = {
-      1: "text-4xl font-semibold mt-8 mb-4",
-      2: "text-3xl font-semibold mt-6 mb-4",
-      3: "text-2xl font-semibold mt-4 mb-4",
-    };
-    return <HeadingTag className={classes[level] || "text-xl font-bold mt-6 mb-4"}>{children}</HeadingTag>; // Adjusted spacing
-  },
-  paragraph: ({ children }) => (
-    <p className="text-base leading-relaxed mb-4">{children}</p> // Added margin-bottom for spacing
-  ),
-  list: ({ children, format }) =>
-    format === "ordered" ? (
-      <ol className="list-decimal ml-6">{children}</ol>
-    ) : (
-      <ul className="list-disc ml-6">{children}</ul>
-    ),
-  // Add more overrides as needed (quote, code, image, etc.)
-};
 
-const Blog = () => {
-  
-  const { slug } = useParams();
-  const [blog, setBlog] = useState(null);
-  const [loading, setLoading] = useState(true);
+// 1. Helper to fetch blog post from Strapi
+async function fetchBlog(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data?.[0] || null;
+}
 
-    const query = `?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`
-  
-    useEffect(() => {
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs${query}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data?.data?.length > 0) {
-            setBlog(data.data[0]);
-          }
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error("Error fetching blog:", err);
-          setLoading(false);
-        });
-    }, [slug]);
+// 2. Dynamic metadata for SEO/social sharing
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const blog = await fetchBlog(slug);
+  if (!blog) return {};
 
-    if (loading) {
-      return (
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-lg text-secondary">Loading...</p>
-        </div>
-      );
-    }
+  const title = blog.title;
+  const description = blog.excerpt || blog.summary || "";
+  const image = blog.coverImage?.formats?.large?.url
+    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${blog.coverImage.formats.large.url}`
+    : "https://grublify.com/og-image-default.png";
+  const categories = blog.categories?.map(cat => cat.name) || [];
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://grublify.com/blogs/${blog.slug}`,
+      siteName: "Grublify",
+      images: [
+        {
+          url: image,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      type: "article",
+      tags: categories,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+    alternates: {
+      canonical: `https://grublify.com/blogs/${blog.slug}`,
+    },
+  };
+}
+
+
+
+async function BlogPage({ params }) {
+  const { slug } = await params; 
+  const blog = await fetchBlog(slug);
+
+  if (!blog) return <div>Not found</div>;
 
 
   return (
     <div className="flex-1 px-6 py-10">
       <div className="max-w-4xl mx-auto">
+        <div className="text-secondary text-sm mb-4 flex flex-row gap-1">
+          <Link href='/blogs' className="hover:underline">Blogs</Link> 
+          <p>/</p>
+          <Link href={`/blogs/${blog.slug}`} className="font-semibold hover:underline">{blog.title}</Link>
+        </div>
         <img
           src={blog.coverImage.formats.large.url}
           alt={blog.title}
@@ -81,33 +97,32 @@ const Blog = () => {
             ))}
           </div>
 
-          {/* blog title */}
-          <h1 className="text-5xl font-bold mb-4 text-secondary">{blog.title}</h1> {/* Increased margin-bottom */}
-          
-          {/* published date */}
-          <div className="text-sm text-gray-500 mb-4 sm:mb-2"> {/* Increased margin-bottom */}
-            Published on {" "}
-            <time dateTime={blog.publishedDate}>
-              {new Date(blog.publishedDate).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </time>
-          </div>
+            {/* blog title */}
+            <h1 className="text-5xl font-bold mb-4 text-secondary">{blog.title}</h1> {/* Increased margin-bottom */}
+            
+            {/* published date */}
+            <div className="text-sm text-gray-500 mb-4 sm:mb-2"> {/* Increased margin-bottom */}
+              Published on {" "}
+              <time dateTime={blog.publishedDate}>
+                {new Date(blog.publishedDate).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}
+              </time>
+            </div>
 
 
           {/* content */}
-          <div className="mt-6"> {/* Increased margin-top */}
-            <BlocksRenderer content={blog.content} blocks={customBlocks}/>
+            <div className="mt-6">
+              <StrapiBlocksRenderer content={blog.content} />
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
-export default Blog;
+export default BlogPage;
 
 
-//test

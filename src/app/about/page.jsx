@@ -85,7 +85,7 @@ export default function About() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <p className="text-lg md:text-xl text-secondary/80 text-justify">
-              We’re a couple of <span className="font-bold">dog-obsessed parents</span> who wanted to give our Shiba Inu Creed the best life ever! And that starts with the foods he eats. When deciding what to feed him, we learned a surprising truth:
+              We’re a couple of <span className="font-bold">dog-obsessed parents</span> who wanted to give our Shiba Inu, Creed the best life ever! And that starts with the foods he eats. When deciding what to feed him, we learned a surprising truth:
               A {" "}
               <a 
                 href="https://www.ucdavis.edu/news/homemade-dog-food-recipes-can-be-risky-business-study-finds" 
