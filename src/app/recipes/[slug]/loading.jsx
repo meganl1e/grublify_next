@@ -15,7 +15,7 @@ export default function Loading() {
             </h2>
           </div>
           <Skeleton height={400} width={400} className="rounded-2xl" />
-          <Skeleton height={200} width="100%" borderRadius={8} />
+          <Skeleton className="mt-6" height={200} width="100%" borderRadius={8} />
         </main>
         <aside className="hidden lg:block p-6"></aside>
       </div>

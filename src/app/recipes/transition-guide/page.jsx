@@ -203,7 +203,7 @@ export default function TransitionGuide() {
               <select
                 id="oldFoodUnit"
                 className="bg-gray-50 border border-gray-300 text-secondary text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 p-2.5 h-[42px]"
-                defaultValue="grams"
+                // defaultValue="grams"
                 value={amounts.oldFoodUnit}
                 onChange={handleInputChange}
               >
@@ -233,7 +233,7 @@ export default function TransitionGuide() {
                 value={amounts.newFoodUnit}
                 onChange={handleInputChange}
                 className="bg-gray-50 border border-gray-300 text-secondary text-sm rounded-lg focus:ring-teal-500 focus:border-teal-500 p-2.5 h-[42px]"
-                defaultValue="grams"
+                // defaultValue="grams"
               >
                 <option value="grams">g</option>
                 <option value="cups">cups</option>

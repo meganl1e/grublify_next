@@ -51,14 +51,14 @@ const RecipeCard = ({ recipe }) => {
             {/* Unit Switcher */}
             <div className="flex items-center mb-4">
               <button
-                className={`px-3 py-1 rounded-l-lg font-semibold border border-secondary transition-colors duration-150
+                className={`px-3 py-1 rounded-l-lg font-semibold border border-secondary transition-colors duration-150 cursor-pointer
                   ${unit === "imperial" ? "bg-secondary text-white" : "bg-white text-secondary"}`}
                 onClick={() => setUnit("imperial")}
               >
                 Imperial
               </button>
               <button
-                className={`px-3 py-1 rounded-r-lg font-semibold border border-secondary border-l-0 transition-colors duration-150
+                className={`px-3 py-1 rounded-r-lg font-semibold border border-secondary border-l-0 transition-colors duration-150 cursor-pointer
                   ${unit === "metric" ? "bg-secondary text-white" : "bg-white text-secondary"}`}
                 onClick={() => setUnit("metric")}
               >
@@ -88,7 +88,7 @@ const RecipeCard = ({ recipe }) => {
             {recipe.cookingMethods.map((method, index) => (
               <button
                 key={index}
-                className={`px-4 py-2 rounded-lg font-semibold border border-secondary border-l transition-transform duration-200 ease-in-out ${
+                className={`px-4 py-2 rounded-lg font-semibold border border-secondary border-l transition-transform duration-200 ease-in-out cursor-pointer ${
                   selectedMethod === index
                     ? "bg-secondary text-white scale-105"
                     : "bg-white text-secondary hover:bg-secondary hover:text-white"

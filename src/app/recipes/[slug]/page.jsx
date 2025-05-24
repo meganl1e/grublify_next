@@ -1,10 +1,9 @@
 import React from "react";
 import RecipeCard from "../../../components/recipe-card.jsx";
 import RecipeDetailedInstructions from "../../../components/recipe-detailed-instructions.jsx";
-import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 
-// 1. Helper to fetch blog post from Strapi
+// 1. Helper to fetch recipe from Strapi
 async function fetchRecipe(slug) {
 
   const query = `?filters[slug][$eq]=${slug}` +

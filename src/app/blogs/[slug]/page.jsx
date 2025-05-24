@@ -1,7 +1,3 @@
-// "use client";
-// import { useParams } from "next/navigation";
-// import { useState, useEffect } from "react";
-// import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import StrapiBlocksRenderer from "@/components/strapi-blocks-renderer";
 import Link from "next/link";
 

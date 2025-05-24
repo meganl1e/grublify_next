@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import StrapiImage from "./strapi-image";
 import Skeleton from 'react-loading-skeleton';
