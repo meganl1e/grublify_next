@@ -57,7 +57,7 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/waitlist">
                       <button
-                        className="text-lg px-6 py-6 bg-primary hover:bg-primary/90 text-secondary font-semibold rounded-md border border-primary transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                        className="cursor-pointer text-lg px-6 py-4 bg-primary hover:bg-primary/90 text-secondary font-semibold rounded-md border border-primary transition-transform transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                       >
                         {data.callToActionText}
                       </button>
