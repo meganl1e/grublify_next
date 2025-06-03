@@ -63,12 +63,13 @@ const PRODUCT_QUERY = `
 `;
 
 export default async function ProductPage({ params }) {
-  const { handle } = params;
+  const { slug } = await params;
+  // console.log("Product slug:", slug);
   
   try {
     const data = await shopifyFetch({ 
       query: PRODUCT_QUERY, 
-      variables: { handle } 
+      variables: { handle: slug } 
     });
     
     const product = data?.product;
