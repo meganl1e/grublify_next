@@ -2,10 +2,26 @@ import { shopifyFetch } from '../../../lib/shopify-client';
 import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+import ProductImages from '@/components/product/ProductImages';
 
+// query to fetch id from handle (slug)
+  const ID_QUERY = `
+    {
+      products(first: 100) {
+        edges {
+          node {
+            id
+            handle
+          }
+        }
+      }
+    }
+  `;
+
+//query to fetch product details by id
 const PRODUCT_QUERY = `
-  query getProduct($handle: String!) {
-    product(handle: $handle) {
+  query getProduct($id: ID!) {
+    product(id: $id) {
       id
       title
       handle
@@ -36,7 +52,6 @@ const PRODUCT_QUERY = `
               currencyCode
             }
             availableForSale
-            quantityAvailable
             selectedOptions {
               name
               value
@@ -48,28 +63,30 @@ const PRODUCT_QUERY = `
         name
         values
       }
-      metafields(first: 10) {
-        edges {
-          node {
-            namespace
-            key
-            value
-            type
-          }
-        }
-      }
     }
   }
 `;
 
 export default async function ProductPage({ params }) {
+
+  // fetch id from handle (slug)
   const { slug } = await params;
-  // console.log("Product slug:", slug);
+  const allProductsData = await shopifyFetch({ query: ID_QUERY });
+  const product = allProductsData.products.edges.find(
+    edge => edge.node.handle === slug
+  );
+  const productId = product?.node?.id;
   
+  // if no product id, return not found
+  if (!productId) {
+    notFound();
+  }
+
+  // fetch product details by id
   try {
     const data = await shopifyFetch({ 
       query: PRODUCT_QUERY, 
-      variables: { handle: slug } 
+      variables: { id: productId } 
     });
     
     const product = data?.product;
@@ -77,7 +94,8 @@ export default async function ProductPage({ params }) {
     if (!product) {
       notFound();
     }
-
+    
+    // rendering logic
     const images = product.images?.edges?.map(edge => edge.node) || [];
     const variants = product.variants?.edges?.map(edge => edge.node) || [];
     const mainVariant = variants[0];
@@ -96,44 +114,10 @@ export default async function ProductPage({ params }) {
             <span className="text-gray-900">{product.title}</span>
           </div>
         </nav>
-
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-          {/* Product Images */}
-          <div className="space-y-4">
-            {images.length > 0 ? (
-              <div className="aspect-square relative bg-gray-100 rounded-lg overflow-hidden">
-                <Image
-                  src={images[0].url}
-                  alt={images[0].altText || product.title}
-                  fill
-                  className="object-cover"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
-            ) : (
-              <div className="aspect-square bg-gray-200 rounded-lg flex items-center justify-center">
-                <span className="text-gray-400">No Image Available</span>
-              </div>
-            )}
-            
-            {/* Thumbnail Images */}
-            {images.length > 1 && (
-              <div className="grid grid-cols-4 gap-2">
-                {images.slice(1, 5).map((image, index) => (
-                  <div key={index} className="aspect-square relative bg-gray-100 rounded overflow-hidden">
-                    <Image
-                      src={image.url}
-                      alt={image.altText || `${product.title} ${index + 2}`}
-                      fill
-                      className="object-cover"
-                      sizes="(max-width: 768px) 25vw, 12.5vw"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <ProductImages images={images} />
+
+        
 
           {/* Product Details */}
           <div className="space-y-6">
@@ -265,7 +249,7 @@ export default async function ProductPage({ params }) {
               </div>
             )}
           </div>
-        </div>
+
 
         {/* Back to Products */}
         <div className="mt-12 text-center">
@@ -279,6 +263,7 @@ export default async function ProductPage({ params }) {
             Back to All Products
           </Link>
         </div>
+        </div>
       </main>
     );
   } catch (error) {
@@ -287,147 +272,37 @@ export default async function ProductPage({ params }) {
   }
 }
 
-// Generate metadata for SEO
-export async function generateMetadata({ params }) {
-  const { handle } = params;
+// // Generate metadata for SEO
+// export async function generateMetadata({ params }) {
+//   const { handle } = params;
   
-  try {
-    const data = await shopifyFetch({ 
-      query: PRODUCT_QUERY, 
-      variables: { handle } 
-    });
+//   try {
+//     const data = await shopifyFetch({ 
+//       query: PRODUCT_QUERY, 
+//       variables: { handle } 
+//     });
     
-    const product = data?.product;
+//     const product = data?.product;
     
-    if (!product) {
-      return {
-        title: 'Product Not Found',
-      };
-    }
-
-    return {
-      title: product.title,
-      description: product.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Buy ${product.title}`,
-      openGraph: {
-        title: product.title,
-        description: product.description?.replace(/<[^>]*>/g, '').substring(0, 160),
-        images: product.images?.edges?.[0]?.node?.url ? [product.images.edges[0].node.url] : [],
-      },
-    };
-  } catch (error) {
-    return {
-      title: 'Product Not Found',
-    };
-  }
-}
-
-// "use client";
-// import {ProductProvider, useProduct} from '@shopify/hydrogen-react';
-// // import {useParams} from 'react-router-dom';
-// import { shopifyFetch, client } from '../../../lib/shopify-client';
-// import {useState, useEffect} from 'react';
-
-// const PRODUCT_QUERY = `
-//   query getProduct($id: ID!) {
-//     product(id: $id) {
-//       id
-//       title
-//       description
-//       handle
-//       featuredImage {
-//         url
-//         altText
-//       }
-//       priceRange {
-//         minVariantPrice {
-//           amount
-//           currencyCode
-//         }
-//       }
-//       variants(first: 10) {
-//         edges {
-//           node {
-//             id
-//             title
-//             selectedOptions {
-//               name
-//               value
-//             }
-//           }
-//         }
-//       }
+//     if (!product) {
+//       return {
+//         title: 'Product Not Found',
+//       };
 //     }
+
+//     return {
+//       title: product.title,
+//       description: product.description?.replace(/<[^>]*>/g, '').substring(0, 160) || `Buy ${product.title}`,
+//       openGraph: {
+//         title: product.title,
+//         description: product.description?.replace(/<[^>]*>/g, '').substring(0, 160),
+//         images: product.images?.edges?.[0]?.node?.url ? [product.images.edges[0].node.url] : [],
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       title: 'Product Not Found',
+//     };
 //   }
-// `;
-
-
-
-// export default function Product() {
-//   // const { handle } = useParams();
-//   const id = "gid://shopify/Product/14719423152498";
-//   const [product, setProduct] = useState(null);
-//   const [loading, setLoading] = useState(true);
-
- 
-
-//   useEffect(() => {
-//     async function fetchProduct() {
-//       const response = await fetch(client.getStorefrontApiUrl(), {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           ...client.getPublicTokenHeaders(),
-//         },
-//         body: JSON.stringify({
-//           query: PRODUCT_QUERY,
-//           variables: { id },
-//         }),
-//       });
-//       const json = await response.json();
-//       console.log("data:", json);
-//       setProduct(json.data.product);
-//       setLoading(false);
-//     }
-//     if (id) {
-//       fetchProduct();
-//     }
-//   }, [id]);
-
-
-//   if (loading) return <div>Loading...</div>;
-//   if (!product) return <div>Product not found.</div>;
-
-//   // Get the first variant's ID as initialVariantId
-//   const initialVariantId = product.variants?.edges[0]?.node.id;
-
-//   return (
-//     <ProductProvider data={product} initialVariantId={initialVariantId}>
-//       <UsingProduct />
-//     </ProductProvider>
-//   );
 // }
 
-// function UsingProduct() {
-//   const {product, variants = [], setSelectedVariant} = useProduct();
-
-//   // Flatten variants if needed
-//   const flattenedVariants = variants?.edges
-//     ? variants.edges.map(edge => edge.node)
-//     : variants;
-
-//   return (
-//     <>
-//       <h1 className='text-3xl'>{product?.title}</h1>
-//       <img
-//         src={product.featuredImage?.url}
-//         alt={product.featuredImage?.altText || product.title}
-//         width={400}
-//       />
-//       {flattenedVariants.map((variant) => (
-//         <button onClick={() => setSelectedVariant(variant)} key={variant?.id}>
-//           {variant?.title}
-//         </button>
-//       ))}
-//     </>
-//   );
-// }
