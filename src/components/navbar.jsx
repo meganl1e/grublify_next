@@ -9,10 +9,10 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/blogs", label: "Blog" },
+    { href: "/products", label: "Shop" },
     { href: "/recipes", label: "Recipes" },
+    { href: "/blogs", label: "Blog" },
+    { href: "/about", label: "About" },
   ];
 
   const handleClick = () => {
@@ -41,7 +41,7 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Menu */}
-        <div className="hidden lg:flex flex-grow justify-end space-x-6 items-center">
+        <div className="hidden lg:flex flex-grow space-x-6 items-center justify-end">
           {links.map((link) => (
             <Link href={link.href} key={link.href}>
               <span
@@ -58,21 +58,24 @@ export default function Navbar() {
             </button>
           </Link>
         </div>
+        {/* <Link href="/waitlist">
+          <button className="text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold ml-2 rounded-sm border border-primary cursor-pointer">
+            Get Started
+          </button>
+        </Link> */}
       </div>
 
       {/* MOBILE MENU */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ${
-          open ? "max-h-screen" : "max-h-0"
-        }`}
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"
+          }`}
       >
         <div className="bg-secondary text-white p-4 space-y-4">
           {links.map((link) => (
             <Link href={link.href} key={link.href}>
               <div
-                className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${
-                  pathname === link.href ? "text-primary" : "text-white/90"
-                }`}
+                className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${pathname === link.href ? "text-primary" : "text-white/90"
+                  }`}
                 onClick={() => setOpen(false)}
               >
                 {link.label}
