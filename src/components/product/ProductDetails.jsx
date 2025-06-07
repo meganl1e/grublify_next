@@ -2,6 +2,8 @@
 import { useState } from "react";
 import ProductDescription from "./ProductDescription";
 import ProductVariants from "./ProductVariants";
+import { ProductPrice } from "@shopify/hydrogen-react";
+import { AddToCartButton } from "@shopify/hydrogen-react";
 
 export default function ProductDetails({ product }) {
   // Extract variants array
@@ -16,6 +18,7 @@ export default function ProductDetails({ product }) {
 
   return (
     <div className="space-y-4">
+
       {/* Availability */}
       <div className="flex items-center space-x-2">
         {selectedVariant?.availableForSale ? (
@@ -41,32 +44,38 @@ export default function ProductDetails({ product }) {
         <h1 className="text-3xl font-bold text-gray-900 mb-4">{product.title}</h1>
         <div className="flex items-center space-x-4 mb-4">
           {price && (
-            <span className="text-2xl font-bold text-gray-900">
-              ${parseFloat(price.amount).toFixed(2)} {price.currencyCode}
-            </span>
+            <ProductPrice
+              data={product}
+              priceType="regular"
+              variantId={selectedVariant.id}
+              className="text-2xl font-bold text-gray-900"
+            />
           )}
-          {compareAtPrice &&
-            parseFloat(compareAtPrice.amount) > parseFloat(price?.amount || 0) && (
-              <span className="text-xl text-gray-500 line-through">
-                ${parseFloat(compareAtPrice.amount).toFixed(2)}
-              </span>
-            )}
+          {compareAtPrice && (
+            <ProductPrice
+              data={product}
+              priceType="compareAt"
+              variantId={selectedVariant.id}
+              className="text-xl text-gray-500 line-through"
+            />
+          )}
         </div>
       </div>
 
       <ProductVariants
-        variants={variants}
-        selectedVariantIndex={selectedVariantIndex}
-        setSelectedVariantIndex={setSelectedVariantIndex}
       />
 
       {/* Add to Cart Button */}
-      <button
+      <AddToCartButton
+        // onClick={() => console.log('Add to Cart clicked', selectedVariant.id)}
+        variantId={selectedVariant.id}
+        quantity={1}
+        accessibleAddingToCartLabel="Adding item to your cart"
+        disabled={!selectedVariant.availableForSale}
         className="w-full max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
-        disabled={!selectedVariant?.availableForSale}
       >
         Add to Cart
-      </button>
+      </AddToCartButton>
 
       {/* Description */}
       <ProductDescription
