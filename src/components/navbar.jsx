@@ -9,7 +9,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "/products", label: "Shop" },
+    { href: "/products/nutrition-pack-essentials", label: "Shop" },
     { href: "/recipes", label: "Recipes" },
     { href: "/blogs", label: "Blog" },
     { href: "/about", label: "About" },

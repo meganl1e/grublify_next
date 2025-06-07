@@ -1,9 +1,15 @@
 "use client";
 import Image from 'next/image';
 import { useState } from 'react';
+import { useProduct } from '@shopify/hydrogen-react';
 
-export default function ProductImages({ images }) {
+export default function ProductImages() {
+
+  // fetch images from the product context
+  const { product } = useProduct();
+  const images = product.images?.edges?.map(edge => edge.node) || [];
   
+  // set the cover image to the first image or null if no images
   const [selectedIndex, setSelectedIndex] = useState(0);
   const coverImage = images[selectedIndex] || null;
 

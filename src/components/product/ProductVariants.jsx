@@ -13,7 +13,7 @@ export default function ProductVariants() {
   } = useProduct();
 
  return (
-    <div className='mb-4'>
+    <div>
       <div>
         {options.map((option) => (
 
