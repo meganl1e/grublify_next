@@ -1,7 +1,7 @@
 
 import "./globals.css";
-import Navbar from "../components/navbar.jsx";
-import Footer from "../components/footer.jsx";
+import Navbar from "../components/layout/navbar.jsx";
+import Footer from "../components/layout/footer.jsx";
 import Providers from "./providers";
 import { SkeletonTheme } from "react-loading-skeleton";
 

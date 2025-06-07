@@ -40,7 +40,7 @@ export default function ProductDetails() {
         </span>
 
         <div className="flex items-center space-x-4">
-          {/* <ProductPrice
+          <ProductPrice
             data={product}
             variantId={selectedVariant.id}
             className="text-2xl font-bold text-gray-900"
@@ -52,10 +52,10 @@ export default function ProductDetails() {
               variantId={selectedVariant.id}
               className="text-xl text-gray-500 line-through"
             />
-          )} */}
+          )}
         </div>
-        {/* <ProductVariants /> */}
-        {/* <AddToCartButton
+        <ProductVariants />
+        <AddToCartButton
           // onClick={() => console.log('Add to Cart clicked', selectedVariant.id)}
           variantId={selectedVariant.id}
           quantity={1}
@@ -64,15 +64,15 @@ export default function ProductDetails() {
           className="w-full mb-4 max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
         >
           Add to Cart
-        </AddToCartButton> */}
-
+        </AddToCartButton>
+{/* 
         <Link href="/waitlist">
           <button
             className="w-full mb-4 max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
           >
             Sign Up For Early Access!
           </button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* Description */}

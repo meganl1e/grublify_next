@@ -2,7 +2,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import logo from "../../public/grublify_logo_simple.png";
+import CartButton from "../ui/CartButton";
+import ProfileButton from "../ui/ProfileButton";
+import logo from "../../../public/grublify_logo_simple.png";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -45,18 +47,20 @@ export default function Navbar() {
           {links.map((link) => (
             <Link href={link.href} key={link.href}>
               <span
-                className={`px-2 py-2 text-md font-semibold transition-colors hover:text-white cursor-pointer
+                className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer
                   ${pathname === link.href ? "text-primary" : "text-white/90"}`}
               >
                 {link.label}
               </span>
             </Link>
           ))}
-          <Link href="/waitlist">
+          {/* <Link href="/waitlist">
             <button className="text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold ml-2 rounded-sm border border-primary cursor-pointer">
               Get Started
             </button>
-          </Link>
+          </Link> */}
+          <ProfileButton />
+          <CartButton />
         </div>
         {/* <Link href="/waitlist">
           <button className="text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold ml-2 rounded-sm border border-primary cursor-pointer">
