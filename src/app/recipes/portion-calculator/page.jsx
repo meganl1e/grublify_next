@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { FiHelpCircle } from "react-icons/fi"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function PortionCalculator() {
