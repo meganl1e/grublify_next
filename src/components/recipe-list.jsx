@@ -44,7 +44,7 @@ async function RecipeList() {
       })}
 
       <RecipeListItem 
-          img={`${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}/still_life_pet_food_arrangement_45d067c3f8.jpg`} 
+          img={`${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}/dog-food-transition.jpg`} 
           title="Transition Guide"
           slug="transition-guide"
           tags={["Guide"]}
