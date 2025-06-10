@@ -158,7 +158,7 @@ export default function PortionCalculator() {
                       <TbDog className="inline text-base" /> Puppy (0-4 months)
                     </SelectItem>
                     <SelectItem value="puppy-4-12" className="flex items-center gap-2 cursor-pointer">
-                      <FaDog className="inline text-base" /> Puppy (4-12 months)
+                      <FaDog className="inline text-base" /> Adolescent (4-12 months)
                     </SelectItem>
                     <SelectItem value="adult" className="flex items-center gap-2 cursor-pointer">
                       <GiSittingDog className="inline text-base" /> Adult
