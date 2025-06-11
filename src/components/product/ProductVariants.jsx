@@ -1,16 +1,20 @@
 "use client";
 import { useProduct } from '@shopify/hydrogen-react';
+import { set } from 'react-hook-form';
 
 
 export default function ProductVariants() {
 
   const {
-    options,                // Array of product options (e.g. Size, Color)
+    product,
+    // options,                // Array of product options (e.g. Size, Color)
     selectedOptions,        // Object of currently selected option values
     setSelectedOption,      // Function to update selected option
     selectedVariant,        // The currently selected variant object
     variants                // All variant objects
   } = useProduct();
+
+  const options = product.options;
 
  return (
     <div>

@@ -46,7 +46,7 @@ const PRODUCTS_QUERY = `
 export default async function ProductsPage() {
 
   const data = await shopifyFetch({ query: PRODUCTS_QUERY });
-  console.log('Products data:', data);
+  // console.log('Products data:', data);
   const products = data?.products?.edges?.map(edge => edge.node) || [];
 
 
