@@ -1,11 +1,12 @@
 "ues client";
 import React, { useState, useEffect } from "react";
 import { CiShoppingCart } from "react-icons/ci";
-import { useCart } from "@shopify/hydrogen-react";
+import { useCart, CartLineProvider, CartCheckoutButton } from "@shopify/hydrogen-react";
+import CartLine from "./cart-line";
 
 export default function CartModal() {
 
-  const { lines, totalQuantity, cost, status } = useCart();
+  const { lines, totalQuantity, cost, status, checkoutUrl } = useCart();
   const itemCount = lines?.reduce((sum, line) => sum + line.quantity, 0) || 0;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +19,14 @@ export default function CartModal() {
     if (e.target === e.currentTarget) closeCart();
   };
 
-  console.log("shoppping cart:", lines)
+  // console.log("shoppping cart:", lines)
+
+  console.log("checkout: ", checkoutUrl)
+
+  // const url = new URL(checkoutUrl);
+  // const pathAndQuery = url.pathname + url.search;
+  // const shopifyCheckoutUrl = `https://grublify.myshopify.com${pathAndQuery}`;
+
 
 
 
@@ -55,27 +63,77 @@ export default function CartModal() {
           {/* Close button */}
           <button
             onClick={closeCart}
-            className="absolute right-6 text-2xl text-secondary"
+            className="absolute right-6 text-3xl text-secondary"
             aria-label="Close cart"
           >
             &times;
           </button>
           {/* Modal Header */}
-          <h2 className="mb-6 text-xl font-semibold text-secondary">My Cart</h2>
+          <h2 className="mb-6 text-2xl font-bold text-secondary">My Cart</h2>
           {/* Modal Content */}
           {lines.length > 0 ? (
-            <ul>
-              {lines.map((line) => (
-                <li key={line.id}>
-                  {line.merchandise.product.title} — {line.merchandise.selectedOptions[0].value} - {line.quantity}
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul>
+                {lines.map((line) => (
+                  <CartLineProvider key={line.id} line={line}>
+                    <CartLine closeCart={closeCart} />
+                  </CartLineProvider>
+                ))}
+              </ul>
+              {/* Cart Summary & Checkout */}
+              <div className="mt-6 pt-4">
+                <div className="flex justify-between text-lg font-semibold mb-2">
+                  <span>Subtotal</span>
+                  <span>
+                    ${cost?.subtotalAmount?.amount} {cost?.subtotalAmount?.currencyCode}
+                  </span>
+                </div>
+                {/* <CartCheckoutButton
+                  className="w-full mt-4 bg-primary text-secondary font-bold py-3 rounded hover:bg-primary/90 transition"
+                  disabled={status === "idle" && lines.length === 0}
+                >
+                  Checkout
+                </CartCheckoutButton> */}
+
+                <button
+                  className="w-full mt-4 bg-primary text-secondary font-bold py-3 rounded hover:bg-primary/90 transition cursor-pointer"
+                  disabled={lines.length === 0}
+                  onClick={() => {
+                    console.log("clicked")
+                    if (checkoutUrl) {
+                      // Extract the cart ID from your cart URL
+                      const url = new URL(checkoutUrl);
+                      const cartId = url.pathname.split('/cart/c/')[1];
+
+                      // Create clean checkout URL
+                      const shopifyCheckoutUrl = `https://grublify.myshopify.com/checkouts/cn/${cartId}`;
+
+                      // to open the link directly
+                      window.location.href = shopifyCheckoutUrl; 
+
+                      // to open the link in a new tab (this works better as it won't redirect you to grublify.com)
+                      // window.open(shopifyCheckoutUrl, '_blank');
+                      // console.log("shopify checkout url: ", shopifyCheckoutUrl)
+                    }
+                    else {
+                      console.log("no checkout url")
+                    }
+                  }}
+                >
+                  Checkout
+                </button>
+
+
+
+              </div>
+            </>
+
+
           ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-gray-400">
-            Your cart is empty.
-          </div>
-      )}
+            <div className="flex-1 flex flex-col items-center justify-center text-secondary">
+              Your cart is empty.
+            </div>
+          )}
 
         </div>
       </div>
