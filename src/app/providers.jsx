@@ -14,8 +14,9 @@ export default function Providers({ children }) {
         storeDomain={process.env.NEXT_PUBLIC_PUBLIC_SHOPIFY_DOMAIN}
         storefrontToken={process.env.NEXT_PUBLIC_PUBLIC_STOREFRONT_API_TOKEN}
         storefrontApiVersion="2025-04"
-        countryIsoCode="CA"
+        countryIsoCode="US"
         languageIsoCode="EN"
+        // LATER, CHANGE THIS SO IT WORKS FOR EVERY COUNTRY
       >
         <CartProvider>
           {children}

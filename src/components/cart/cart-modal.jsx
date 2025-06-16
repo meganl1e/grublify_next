@@ -21,7 +21,7 @@ export default function CartModal() {
 
   // console.log("shoppping cart:", lines)
 
-  console.log("checkout: ", checkoutUrl)
+  // console.log("checkout: ", checkoutUrl)
 
   // const url = new URL(checkoutUrl);
   // const pathAndQuery = url.pathname + url.search;

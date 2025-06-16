@@ -1,7 +1,7 @@
 "use client";
 import ProductDescription from "./ProductDescription";
 import ProductVariants from "./ProductVariants";
-import { ProductPrice, AddToCartButton, useProduct } from "@shopify/hydrogen-react";
+import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
 
 export default function ProductDetails() {
 
@@ -9,6 +9,8 @@ export default function ProductDetails() {
     product,
     selectedVariant,
   } = useProduct();
+
+  const { linesAdd } = useCart();
 
   const compareAtPrice = selectedVariant?.compareAtPrice;
 
@@ -41,7 +43,7 @@ export default function ProductDetails() {
         </div>
         <ProductVariants />
         <AddToCartButton
-          onClick={() => console.log('Add to Cart clicked', selectedVariant.id)}
+          onClick={() => console.log('Adding variant:', selectedVariant, 'Variant price:', selectedVariant.price, 'Variant available:', selectedVariant.availableForSale)}
           variantId={selectedVariant.id}
           quantity={1}
           accessibleAddingToCartLabel="Adding item to your cart"
@@ -51,6 +53,7 @@ export default function ProductDetails() {
           Add to Cart
         </AddToCartButton>
       </div>
+
 
       {/* Description */}
       <div className="px-6 lg:px-0">
