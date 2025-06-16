@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { useState } from 'react';
 import { CartProvider, ShopifyProvider } from '@shopify/hydrogen-react';
+import { CartUIProvider } from '@/components/cart/cart-context';
 
 export default function Providers({ children }) {
   // We use useState to ensure the QueryClient is only created once per app
@@ -16,11 +17,15 @@ export default function Providers({ children }) {
         storefrontApiVersion="2025-04"
         countryIsoCode="US"
         languageIsoCode="EN"
-        // LATER, CHANGE THIS SO IT WORKS FOR EVERY COUNTRY
+      // LATER, CHANGE THIS SO IT WORKS FOR EVERY COUNTRY
       >
+       
         <CartProvider>
-          {children}
+          <CartUIProvider>
+            {children}
+          </CartUIProvider>
         </CartProvider>
+  
       </ShopifyProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>

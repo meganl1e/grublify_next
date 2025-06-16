@@ -2,8 +2,16 @@
 import ProductDescription from "./ProductDescription";
 import ProductVariants from "./ProductVariants";
 import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
+import { useCartUI } from "../cart/cart-context";
 
 export default function ProductDetails() {
+
+  const { setIsCartOpen } = useCartUI();
+
+    const handleClick = () => {
+    setIsCartOpen(true); // Open the sidebar
+    // Optionally, you can also call any custom logic here
+  };
 
   const {
     product,
@@ -43,7 +51,7 @@ export default function ProductDetails() {
         </div>
         <ProductVariants />
         <AddToCartButton
-          onClick={() => console.log('Adding variant:', selectedVariant, 'Variant price:', selectedVariant.price, 'Variant available:', selectedVariant.availableForSale)}
+          onClick={handleClick}
           variantId={selectedVariant.id}
           quantity={1}
           accessibleAddingToCartLabel="Adding item to your cart"
