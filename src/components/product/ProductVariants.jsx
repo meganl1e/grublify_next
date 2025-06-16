@@ -16,6 +16,7 @@ export default function ProductVariants() {
 
   const options = product.options;
 
+
  return (
     <div>
       <div>

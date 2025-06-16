@@ -8,9 +8,8 @@ export default function ProductDetails() {
 
   const { setIsCartOpen } = useCartUI();
 
-    const handleClick = () => {
-    setIsCartOpen(true); // Open the sidebar
-    // Optionally, you can also call any custom logic here
+  const handleClick = () => {
+    setIsCartOpen(true);
   };
 
   const {
@@ -18,9 +17,19 @@ export default function ProductDetails() {
     selectedVariant,
   } = useProduct();
 
-  const { linesAdd } = useCart();
+
+
+  console.log("selected variant: ", selectedVariant)
 
   const compareAtPrice = selectedVariant?.compareAtPrice;
+
+  const hasOnlyDefaultVariant =
+    product.options.length === 1 &&
+    product.options[0].name === "Title" &&
+    product.options[0].values.length === 1 &&
+    product.options[0].values[0] === "Default Title" &&
+    product.variants.edges.length === 1;
+
 
 
   return (
@@ -49,15 +58,21 @@ export default function ProductDetails() {
             />
           )}
         </div>
-        <ProductVariants />
+        {!hasOnlyDefaultVariant &&
+          <ProductVariants />
+        }
         <AddToCartButton
           onClick={handleClick}
           variantId={selectedVariant.id}
           quantity={1}
           accessibleAddingToCartLabel="Adding item to your cart"
           disabled={!selectedVariant.availableForSale}
-          className="w-full mb-4 max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
+          className={`w-full mb-4 max-w-sm mx-auto py-3 px-6 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${!selectedVariant.availableForSale
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
+            }`}
         >
+
           Add to Cart
         </AddToCartButton>
       </div>

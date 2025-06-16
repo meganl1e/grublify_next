@@ -64,7 +64,7 @@ export default function Navbar() {
       {/* Left: Hamburger */}
       <button
         onClick={handleClick}
-        className="text-primary text-3xl flex-shrink-0"
+        className="text-white text-3xl flex-shrink-0"
         aria-label="Open menu"
       >
         {open ? "×" : "☰"}
@@ -79,7 +79,7 @@ export default function Navbar() {
       </Link>
 
       {/* Right: Profile and Cart */}
-      <div className="flex items-center gap-4 flex-shrink-0">
+      <div className="flex items-center gap-2 flex-shrink-0">
         <ProfileButton />
         <CartModal />
       </div>

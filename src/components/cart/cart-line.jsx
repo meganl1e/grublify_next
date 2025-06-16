@@ -94,7 +94,7 @@ export default function CartLine({ closeCart }) {
           <div
             className="flex justify-end space-y-2 text-right text-md font-semibold"
           >
-            ${line.cost.totalAmount.amount} {line.cost.totalAmount.currencyCode}
+             ${parseFloat(line.cost.totalAmount.amount).toFixed(2)} {line.cost.totalAmount.currencyCode}
           </div>
 
           {/* remove item */}
