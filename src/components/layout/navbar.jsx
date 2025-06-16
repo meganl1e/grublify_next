@@ -72,14 +72,14 @@ export default function Navbar() {
 
       {/* Center: Logo */}
       <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center cursor-pointer">
-        <img src={logo.src} alt="Grublify Logo" className="h-8 w-auto mr-2" />
-        <span className="text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
+        <img src={logo.src} alt="Grublify Logo" className="h-6 md:h-8 w-auto mr-2" />
+        <span className="text-2xl md:text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
           Grublify
         </span>
       </Link>
 
       {/* Right: Profile and Cart */}
-      <div className="flex items-center gap-2 flex-shrink-0">
+      <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
         <ProfileButton />
         <CartModal />
       </div>
