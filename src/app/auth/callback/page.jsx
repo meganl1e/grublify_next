@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { saveCustomerToken } from '@/components/login/login-cookies';
 
 export default async function AuthCallback({ searchParams }) {
   const { code, state } = await searchParams;
@@ -36,8 +37,8 @@ export default async function AuthCallback({ searchParams }) {
   const data = await response.json();
   console.log("Token Response:", data);
 
+  // await saveCustomerToken(data.accessToken);
 
-  // Now you can use `code` and `state` as needed
   return (
     <div>
       <div>Code: {code}</div>

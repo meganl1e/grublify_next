@@ -1,6 +1,7 @@
 "use client";
 import pkceChallenge from "pkce-challenge";
 import { setCodeVerifier } from "./login-cookies";
+import { CiUser } from "react-icons/ci";
 
 export default function LoginButton() {
   const handleLogin = async () => {
@@ -26,5 +27,7 @@ export default function LoginButton() {
     window.location.href = url.toString();
   };
 
-  return <button onClick={handleLogin}>Login with Shopify</button>;
+  return <button onClick={handleLogin}>
+    <CiUser className="w-8 h-8 text-white/90 hover:text-white transition-colors cursor-pointer" />
+  </button>;
 }
