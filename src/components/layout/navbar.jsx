@@ -54,7 +54,7 @@ export default function Navbar() {
 
       {/* Right: Profile and Cart */}
       <div className="flex items-center gap-6">
-        <ProfileButton />
+        {/* <ProfileButton /> */}
         <CartModal />
       </div>
     </div>
