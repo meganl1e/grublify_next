@@ -2,6 +2,7 @@ import React from "react";
 import RecipeCard from "../../../components/recipe-card.jsx";
 import RecipeDetailedInstructions from "../../../components/recipe-detailed-instructions.jsx";
 import "react-loading-skeleton/dist/skeleton.css";
+import NotFound from "@/app/not-found.jsx";
 
 // 1. Helper to fetch recipe from Strapi
 async function fetchRecipe(slug) {
@@ -69,9 +70,16 @@ export async function generateMetadata({ params }) {
 
 async function Recipe({ params }) {
   const { slug } = await params; 
-  const recipe = await fetchRecipe(slug);
 
-  if (!recipe) return <div>Not found</div>;
+  let recipe;
+  try {
+    recipe = await fetchRecipe(slug);
+  } catch (error) {
+    console.error("Error fetching recipe:", error);
+    return <NotFound />;
+  }
+
+  if (!recipe) return <NotFound />;
 
   return (
     <div className="min-h-screen p-4 sm:p-8">

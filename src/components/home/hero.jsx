@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import StrapiImage from "./strapi-image";
+import React from "react";
+import StrapiImage from "../strapi-image";
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Hero({ data, loading }) {
-
 
   // Guard: If there's an error or no data after loading
   if (!loading && !data) {
@@ -48,7 +48,7 @@ export default function Hero({ data, loading }) {
                   </div>
                 </div>
               ) : (
-                data.subheadline
+                <h2>{data.subheadline}</h2>
               )}
             </div>
               <div>
@@ -69,9 +69,14 @@ export default function Hero({ data, loading }) {
             <div className="flex-1 hidden sm:block">
               {loading
                 ? <Skeleton height={320} />
-                : <StrapiImage
-                    image={data.heroImage}
+                :
+                  <Image
+                    src={data.heroImage?.url || ""}
+                    alt={data.alternativeText || "Hero Image"}
+                    width={data.heroImage.width}
+                    height={data.heroImage.height}
                     className="rounded-md w-full h-auto max-w-xl"
+                    priority={true}
                   />
               }
             </div>
