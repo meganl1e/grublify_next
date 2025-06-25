@@ -1,49 +1,24 @@
-import { cookies } from 'next/headers';
-import { saveCustomerToken } from '@/components/login/login-cookies';
+import { redirect } from 'next/navigation';
+
+// this is the page that is shown after the user is redirected from shopify
 
 export default async function AuthCallback({ searchParams }) {
-  const { code, state } = await searchParams;
-  const cookieStore = await cookies();
-  const codeVerifier = cookieStore.get("code_verifier")?.value;
+  const params = await searchParams;
+  const code = params.code;
+  const state = params.state;
 
-
-  const shopId = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
-  const clientId = process.env.NEXT_PUBLIC_SHOPIFY_CLIENT_ID;
-  const redirectUri = process.env.NEXT_PUBLIC_SHOPIFY_REDIRECT_URI;
-
-  
-  // For debugging - verify values before sending
-  console.log("Client ID:", clientId);
-  console.log("Redirect URI:", redirectUri);
-  console.log("Code Verifier:", codeVerifier);
-
-  
-  const bodyParams = new URLSearchParams();
-  bodyParams.append('grant_type', 'authorization_code');
-  bodyParams.append('client_id', clientId);
-  bodyParams.append('redirect_uri', redirectUri);
-  bodyParams.append('code', code);
-  bodyParams.append('code_verifier', codeVerifier);
-
-  const response = await fetch(`https://shopify.com/authentication/${shopId}/oauth/token`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-    body: bodyParams.toString()
-    })
-  ;
-
-  const data = await response.json();
-  console.log("Token Response:", data);
-
-  // await saveCustomerToken(data.accessToken);
+  if (code) {
+    // Redirect to the API route to handle the token exchange and cookie
+    redirect(`/api/auth/callback?code=${encodeURIComponent(code)}&state=${encodeURIComponent(state || '')}`);
+  }
 
   return (
-    <div>
-      <div>Code: {code}</div>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-primary mb-4">Redirecting...</h1>
+        <p className="text-gray-600 mb-4">Please wait while we log you in.</p>
+      </div>
     </div>
-    
-  )
+  );
 }
 

@@ -1,6 +1,8 @@
+// OBSOLETE BASICALLY, THIS ONLY SHOWS ON /LOGIN LOL THIS WAS MY OLD ONE
+
 "use client";
 import pkceChallenge from "pkce-challenge";
-import { setCodeVerifier } from "./login-cookies";
+import { setCodeVerifier } from "@/lib/auth-actions";
 import { CiUser } from "react-icons/ci";
 
 export default function LoginButton() {

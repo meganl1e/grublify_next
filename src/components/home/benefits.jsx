@@ -14,11 +14,11 @@ export default function Benefits({ data, loading }) {
     return <div>No benefits found</div>;
   }
 
-  useEffect(() => {
-    // Your code to run when benedits changes
-    console.log("benefits changed:", data);
-    // ...other logic...
-  }, [data]);
+  // useEffect(() => {
+  //   // Your code to run when benedits changes
+  //   console.log("benefits changed:", data);
+  //   // ...other logic...
+  // }, [data]);
 
 
   return (

@@ -27,7 +27,6 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto">
 
         {/* DESKTOP NAVBAR */}
-        {/* DESKTOP NAVBAR */}
         <div className="hidden lg:grid grid-cols-3 items-center w-full">
           {/* Left: Logo */}
           <div className="flex justify-start">
@@ -57,7 +56,7 @@ export default function Navbar() {
 
           {/* Right: Profile and Cart */}
           <div className="flex justify-end items-center gap-6">
-            {/* <ProfileButton /> */}
+            <ProfileButton />
             <CartModal />
           </div>
         </div>
