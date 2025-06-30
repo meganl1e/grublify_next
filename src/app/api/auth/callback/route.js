@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
+import { saveCustomerToken, clearCodeVerifier, saveIdToken } from '@/lib/auth-actions';
 
 export async function GET(request) {
   try {
@@ -39,19 +40,15 @@ export async function GET(request) {
     const data = await response.json();
 
     if (data.access_token) {
-      await cookieStore.set('customer_token', data.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 60 * 60 * 24 * 7, // 1 week
-      });
-      await cookieStore.delete('code_verifier');
+      await saveCustomerToken(data.access_token);
+      await saveIdToken(data.id_token);
+      await clearCodeVerifier();
       await cookieStore.delete('return_to');
       
       // Always use the ngrok URL as the base
       const ngrokUrl = 'https://b833-2600-1700-2806-e010-9179-632e-9857-3bba.ngrok-free.app/auth/callback';
-      const redirectUrl = new URL(returnTo, ngrokUrl);
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+      const redirectUrl = new URL(returnTo, baseUrl);
       console.log('[Shopify Auth Callback] Final redirect URL:', redirectUrl.toString());
       return NextResponse.redirect(redirectUrl.toString());
     } else {

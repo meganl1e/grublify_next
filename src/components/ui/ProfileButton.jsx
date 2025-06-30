@@ -2,17 +2,61 @@
 import { useAuth } from '@/hooks/useAuth';
 import pkceChallenge from "pkce-challenge";
 import { CiUser } from "react-icons/ci";
-import { CiLogout } from "react-icons/ci";
+import React from "react";
+import {useEffect, useRef } from "react";
+import AuthErrorModal from "./AuthErrorModal";
+import ProfileDropdown from "./ProfileDropdown";
 
 export default function ProfileButton() {
-  const { isAuthenticated, user, loading, logout } = useAuth();
+  const { isAuthenticated, user, loading, logout, error } = useAuth();
+  const [showError, setShowError] = React.useState(true);
+  const [showDropdown, setShowDropdown] = React.useState(false);
+  const buttonRef = useRef(null);
+  const dropdownRef = useRef(null);
+  const closeTimeout = useRef(null);
+
+  // Handle outside click to close dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
+  // Delayed close on mouse leave
+  const handleMouseLeave = () => {
+    closeTimeout.current = setTimeout(() => setShowDropdown(false), 200);
+  };
+  const handleMouseEnter = () => {
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current);
+      closeTimeout.current = null;
+    }
+    setShowDropdown(true);
+  };
 
   const handleLogin = async () => {
     const shopId = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
     const clientId = process.env.NEXT_PUBLIC_SHOPIFY_CLIENT_ID;
-    let redirectUri = process.env.NEXT_PUBLIC_SHOPIFY_REDIRECT_URI; // need to change to grublify domain later
+    let redirectUri = process.env.NEXT_PUBLIC_SHOPIFY_REDIRECT_URI;
     const scope = 'openid email customer-account-api:full';
-    const state = crypto.randomUUID();
+    const timestamp = Date.now().toString();
+    const randomString = Math.random().toString(36).substring(2);
+    const state = timestamp + randomString;
     const nonce = crypto.randomUUID();
     const { code_challenge, code_verifier } = await pkceChallenge();
 
@@ -51,29 +95,39 @@ export default function ProfileButton() {
     );
   }
 
+  // Show error modal if there is an authentication error
+  if (error && showError) {
+    return (
+      <AuthErrorModal
+        error={error}
+        onLogout={() => { logout(); setShowError(false); }}
+        open={showError}
+      />
+    );
+  }
+
   // if user is authenticated and has a user object
   if (isAuthenticated && user) {
     return (
-      <div className="relative group">
-        <button className="flex items-center space-x-2 text-white/90 hover:text-white transition-colors">
+      <div className="relative">
+        <button
+          ref={buttonRef}
+          className="flex items-center text-white/90 hover:text-white transition-colors"
+          onClick={() => setShowDropdown((v) => !v)}
+          onMouseEnter={handleMouseEnter}
+          aria-haspopup="true"
+          aria-expanded={showDropdown}
+        >
           <CiUser className="w-8 h-8" />
-          <span className="hidden md:block text-sm">{user.firstName || user.email}</span>
         </button>
-        
-        {/* Dropdown menu */}
-        <div className="absolute right-0 mt-2 w-48 bg-secondary border border-white/20 rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
-          <div className="py-2">
-            <div className="px-4 py-2 text-sm text-white/70 border-b border-white/10">
-              {user.email}
-            </div>
-            <button
-              onClick={logout}
-              className="w-full text-left px-4 py-2 text-sm text-white/90 hover:text-white hover:bg-white/10 transition-colors flex items-center space-x-2"
-            >
-              <CiLogout className="w-4 h-4" />
-              <span>Logout</span>
-            </button>
-          </div>
+        <div
+          ref={dropdownRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}
+          className={`absolute right-0 mt-2 z-50 transition-all duration-200 ${showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'} w-64`}
+        >
+          {showDropdown && <ProfileDropdown user={user} onLogout={logout} />}
         </div>
       </div>
     );

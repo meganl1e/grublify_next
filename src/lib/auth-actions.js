@@ -30,6 +30,22 @@ export async function saveCustomerToken(value) {
   });
 }
 
+// sets id token after successful auth
+// this is needed to logout
+export async function saveIdToken(value) {
+  cookies().set('id_token', value, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+}
+
+export async function getIdToken() {
+  const cookieStore = await cookies();
+  return cookieStore.get('id_token')?.value;
+}
+
 // deletes customer token cookie
 // logs out user
 export async function clearCustomerToken() {
@@ -63,13 +79,10 @@ export async function logout() {
 // if success, fetch current user profile from shopify
 export async function getCurrentUser() {
   try {
-    console.log('[getCurrentUser] Called');
     const customerToken = await getCustomerToken();
-    console.log('[getCurrentUser] customer_token:', customerToken);
-
     if (!customerToken) {
-      console.log('[getCurrentUser] No customer_token found');
-      return null;
+      console.log('[getCurrentUser] No customer token found');
+      return { error: 'No customer token found' };
     }
 
     // Verify token with Shopify Customer Account API
@@ -77,7 +90,7 @@ export async function getCurrentUser() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `${customerToken}`,
+        'Authorization': customerToken, // No Bearer!
       },
       body: JSON.stringify({
         query: `
@@ -95,25 +108,21 @@ export async function getCurrentUser() {
       })
     });
 
-    console.log('[getCurrentUser] Shopify API response status:', response.status);
-    console.log('[getCurrentUser] Response headers:', Object.fromEntries(response.headers.entries()));
-
     if (!response.ok) {
       const errorText = await response.text();
-      console.log('[getCurrentUser] Shopify API error response:', errorText);
-      return null;
+      console.log('[getCurrentUser] Shopify API error:', response.status, errorText);
+      return { error: `Shopify API error: ${response.status} - ${errorText}` };
     }
 
     const data = await response.json();
     if (data.errors || !data.data?.customer) {
       console.log('[getCurrentUser] Shopify API GraphQL errors:', data.errors);
-      return null;
+      return { error: data.errors ? JSON.stringify(data.errors) : 'No customer data returned' };
     }
-    console.log('[getCurrentUser] Shopify API GraphQL data:', data.data.customer);
     return data.data.customer;
 
   } catch (error) {
     console.error('[getCurrentUser] Auth check error:', error);
-    return null;
+    return { error: error.message || 'Unknown error' };
   }
 } 
