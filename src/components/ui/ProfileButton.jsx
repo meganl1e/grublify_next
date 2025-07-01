@@ -6,6 +6,7 @@ import React from "react";
 import { useEffect, useRef } from "react";
 import AuthErrorModal from "./AuthErrorModal";
 import ProfileDropdown from "./ProfileDropdown";
+import { useShopifyLogin } from '@/hooks/useShopifyLogin';
 
 export default function ProfileButton() {
   const { isAuthenticated, user, loading, logout, error } = useAuth();
@@ -49,52 +50,54 @@ export default function ProfileButton() {
     setShowDropdown(true);
   };
 
-  const handleLogin = async () => {
-    const shopId = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
-    const clientId = process.env.NEXT_PUBLIC_SHOPIFY_CLIENT_ID;
-    let redirectUri = process.env.NEXT_PUBLIC_SHOPIFY_REDIRECT_URI;
-    const scope = 'openid email customer-account-api:full';
-    const timestamp = Date.now().toString();
-    const randomString = Math.random().toString(36).substring(2);
-    const state = timestamp + randomString;
-    const nonce = crypto.randomUUID();
-    const { code_challenge, code_verifier } = await pkceChallenge();
+  const login = useShopifyLogin();
 
-    // Set code_verifier cookie server-side
-    await fetch('/api/auth/set-code-verifier', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ code_verifier }),
-    });
+  // const handleLogin = async () => {
+  //   const shopId = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
+  //   const clientId = process.env.NEXT_PUBLIC_SHOPIFY_CLIENT_ID;
+  //   let redirectUri = process.env.NEXT_PUBLIC_SHOPIFY_REDIRECT_URI;
+  //   const scope = 'openid email customer-account-api:full';
+  //   const timestamp = Date.now().toString();
+  //   const randomString = Math.random().toString(36).substring(2);
+  //   const state = timestamp + randomString;
+  //   const nonce = crypto.randomUUID();
+  //   const { code_challenge, code_verifier } = await pkceChallenge();
 
-    // Set state cookie server-side
-    await fetch('/api/auth/set-state', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ state }),
-    });
+  //   // Set code_verifier cookie server-side
+  //   await fetch('/api/auth/set-code-verifier', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ code_verifier }),
+  //   });
 
-    // Store the current URL in a cookie (return_to)
-    await fetch('/api/auth/set-return-to', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ return_to: window.location.pathname + window.location.search }),
-    });
+  //   // Set state cookie server-side
+  //   await fetch('/api/auth/set-state', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ state }),
+  //   });
 
-    const url = new URL(`https://shopify.com/authentication/${shopId}/oauth/authorize`);
-    url.searchParams.append('scope', scope);
-    url.searchParams.append('client_id', clientId);
-    url.searchParams.append('response_type', 'code');
-    url.searchParams.append('redirect_uri', redirectUri);
-    url.searchParams.append('state', state);
-    url.searchParams.append('nonce', nonce);
-    url.searchParams.append('code_challenge', code_challenge);
-    url.searchParams.append('code_challenge_method', 'S256');
+  //   // Store the current URL in a cookie (return_to)
+  //   await fetch('/api/auth/set-return-to', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify({ return_to: window.location.pathname + window.location.search }),
+  //   });
 
-    console.log('[handleLogin] url:', url.toString());
+  //   const url = new URL(`https://shopify.com/authentication/${shopId}/oauth/authorize`);
+  //   url.searchParams.append('scope', scope);
+  //   url.searchParams.append('client_id', clientId);
+  //   url.searchParams.append('response_type', 'code');
+  //   url.searchParams.append('redirect_uri', redirectUri);
+  //   url.searchParams.append('state', state);
+  //   url.searchParams.append('nonce', nonce);
+  //   url.searchParams.append('code_challenge', code_challenge);
+  //   url.searchParams.append('code_challenge_method', 'S256');
 
-    window.location.href = url.toString();
-  };
+  //   console.log('[handleLogin] url:', url.toString());
+
+  //   window.location.href = url.toString();
+  // };
 
   if (loading) {
     return (
@@ -133,7 +136,7 @@ export default function ProfileButton() {
         style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}
         className={`absolute right-0 mt-2 z-50 transition-all duration-200 ${showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'} w-64`}
       >
-        {showDropdown && <ProfileDropdown user={user} isAuthenticated={isAuthenticated} onLogin={handleLogin} onLogout={logout} />}
+        {showDropdown && <ProfileDropdown user={user} isAuthenticated={isAuthenticated} onLogin={login} onLogout={logout} />}
       </div>
     </div>
   );

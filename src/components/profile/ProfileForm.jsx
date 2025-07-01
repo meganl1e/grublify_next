@@ -27,11 +27,23 @@ export default function ProfileForm({ user }) {
 
   const handleSave = async () => {
     setStatus("saving");
-    // TODO: Call your API route to update the customer in Shopify
-    setTimeout(() => {
+    const res = await fetch("/api/shopify/customer-update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        firstName: form.firstName,
+        lastName: form.lastName,
+      }),
+    });
+    const data = await res.json();
+    if (res.ok) {
       setStatus("success");
       setEditing(false);
-    }, 1000);
+    } else {
+      setStatus("error");
+    }
   };
 
   return (
