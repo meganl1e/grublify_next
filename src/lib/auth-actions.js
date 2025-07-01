@@ -58,6 +58,12 @@ export async function clearCodeVerifier() {
   cookies().delete('code_verifier');
 }
 
+// deletes state cookie
+// cleanup after login flow
+export async function clearState() {
+  cookies().delete('state');
+}
+
 // reads and returns customer token cookie
 export async function getCustomerToken() {
   const cookieStore = await cookies();
@@ -102,6 +108,9 @@ export async function getCurrentUser() {
               id
               firstName
               lastName
+              phoneNumber {
+                phoneNumber
+              }
             }
           }
         `

@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/useAuth';
 import pkceChallenge from "pkce-challenge";
 import { CiUser } from "react-icons/ci";
 import React from "react";
-import {useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import AuthErrorModal from "./AuthErrorModal";
 import ProfileDropdown from "./ProfileDropdown";
 
@@ -67,6 +67,13 @@ export default function ProfileButton() {
       body: JSON.stringify({ code_verifier }),
     });
 
+    // Set state cookie server-side
+    await fetch('/api/auth/set-state', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ state }),
+    });
+
     // Store the current URL in a cookie (return_to)
     await fetch('/api/auth/set-return-to', {
       method: 'POST',
@@ -106,38 +113,29 @@ export default function ProfileButton() {
     );
   }
 
-  // if user is authenticated and has a user object
-  if (isAuthenticated && user) {
-    return (
-      <div className="relative">
-        <button
-          ref={buttonRef}
-          className="flex items-center text-white/90 hover:text-white transition-colors"
-          onClick={() => setShowDropdown((v) => !v)}
-          onMouseEnter={handleMouseEnter}
-          aria-haspopup="true"
-          aria-expanded={showDropdown}
-        >
-          <CiUser className="w-8 h-8" />
-        </button>
-        <div
-          ref={dropdownRef}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}
-          className={`absolute right-0 mt-2 z-50 transition-all duration-200 ${showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'} w-64`}
-        >
-          {showDropdown && <ProfileDropdown user={user} onLogout={logout} />}
-        </div>
-      </div>
-    );
-  }
-
-  // if user is not authenticated
+  // Always show dropdown button, regardless of authentication status
   return (
-    <button onClick={handleLogin}>
-      <CiUser className="w-8 h-8 text-white/90 hover:text-white transition-colors cursor-pointer" />
-    </button>
+    <div className="relative">
+      <button
+        ref={buttonRef}
+        className="flex items-center text-white/90 hover:text-white transition-colors"
+        onClick={() => setShowDropdown((v) => !v)}
+        onMouseEnter={handleMouseEnter}
+        aria-haspopup="true"
+        aria-expanded={showDropdown}
+      >
+        <CiUser className="w-8 h-8" />
+      </button>
+      <div
+        ref={dropdownRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}
+        className={`absolute right-0 mt-2 z-50 transition-all duration-200 ${showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'} w-64`}
+      >
+        {showDropdown && <ProfileDropdown user={user} isAuthenticated={isAuthenticated} onLogin={handleLogin} onLogout={logout} />}
+      </div>
+    </div>
   );
 }
 

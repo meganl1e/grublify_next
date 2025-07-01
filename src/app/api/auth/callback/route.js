@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { saveCustomerToken, clearCodeVerifier, saveIdToken } from '@/lib/auth-actions';
+import { saveCustomerToken, clearCodeVerifier, saveIdToken, clearState } from '@/lib/auth-actions';
 
 export async function GET(request) {
   try {
@@ -10,7 +10,21 @@ export async function GET(request) {
 
     const cookieStore = await cookies();
     const codeVerifier = cookieStore.get('code_verifier')?.value;
+    const storedState = cookieStore.get('state')?.value;
     const returnTo = cookieStore.get('return_to')?.value || '/';
+
+    // Validate state parameter for CSRF protection
+    if (!storedState || state !== storedState) {
+      console.error('[Shopify Auth Callback] State validation failed:', { received: state, stored: storedState });
+      return new NextResponse(
+        `<!DOCTYPE html><html><body style="font-family:sans-serif;text-align:center;padding:2rem;">
+          <h1 style="color:#e11d48;">Security Error</h1>
+          <p>Invalid state parameter. This could be a CSRF attack.</p>
+          <a href="/" style="color:#2563eb;">Return to Home</a>
+        </body></html>`,
+        { status: 403, headers: { 'content-type': 'text/html' } }
+      );
+    }
 
     const shopId = process.env.NEXT_PUBLIC_SHOPIFY_SHOP_ID;
     const clientId = process.env.NEXT_PUBLIC_SHOPIFY_CLIENT_ID;
@@ -43,6 +57,7 @@ export async function GET(request) {
       await saveCustomerToken(data.access_token);
       await saveIdToken(data.id_token);
       await clearCodeVerifier();
+      await clearState();
       await cookieStore.delete('return_to');
       
       // Always use the ngrok URL as the base
