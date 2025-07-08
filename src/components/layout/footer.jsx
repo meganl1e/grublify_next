@@ -1,4 +1,4 @@
-import logo from "../../public/grublify_logo_simple.png";
+import logo from "../../../public/grublify_logo_simple.png";
 import Link from "next/link";
 
 

@@ -1,49 +1,53 @@
 "use client";
-import { useState } from "react";
 import ProductDescription from "./ProductDescription";
 import ProductVariants from "./ProductVariants";
-import { ProductPrice, AddToCartButton, useProduct } from "@shopify/hydrogen-react";
-import Link from "next/link";
+import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
+import { useCartUI } from "../cart/cart-context";
 
 export default function ProductDetails() {
+
+  const { setIsCartOpen } = useCartUI();
+
+  const handleClick = () => {
+    setIsCartOpen(true);
+  };
 
   const {
     product,
     selectedVariant,
   } = useProduct();
 
+
+
+  console.log("selected variant: ", selectedVariant)
+
   const compareAtPrice = selectedVariant?.compareAtPrice;
 
-  return (
-    <div className="space-y-4">
+  const hasOnlyDefaultVariant =
+    product.options.length === 1 &&
+    product.options[0].name === "Title" &&
+    product.options[0].values.length === 1 &&
+    product.options[0].values[0] === "Default Title" &&
+    product.variants.edges.length === 1;
 
-      {/* Availability
-      <div className="flex items-center space-x-2">
-        {selectedVariant?.availableForSale ? (
-          <>
-            <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-            <span className="text-green-600 font-medium">In Stock</span>
-          </>
-        ) : (
-          <>
-            <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-            <span className="text-red-600 font-medium">Out of Stock</span>
-          </>
-        )}
-      </div> */}
+
+
+  return (
+    <div className="flex flex-col space-y-6 items-center lg:items-start ">
 
       {/* Title, Price, Variants, and Button grouped as a "buy box" */}
       <div className="space-y-4 mb-4">
         <h1 className="text-3xl font-bold text-secondary mb-2">{product.title}</h1>
-        <span className="inline-block bg-amber-100 text-amber-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-amber-200">
+        {/* <span className="inline-block bg-amber-100 text-amber-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-amber-200">
           Coming Soon!
-        </span>
+        </span> */}
+
 
         <div className="flex items-center space-x-4">
-          {/* <ProductPrice
+          <ProductPrice
             data={product}
             variantId={selectedVariant.id}
-            className="text-2xl font-bold text-gray-900"
+            className="text-2xl font-bold text-secondary"
           />
           {compareAtPrice && (
             <ProductPrice
@@ -52,31 +56,32 @@ export default function ProductDetails() {
               variantId={selectedVariant.id}
               className="text-xl text-gray-500 line-through"
             />
-          )} */}
+          )}
         </div>
-        {/* <ProductVariants /> */}
-        {/* <AddToCartButton
-          // onClick={() => console.log('Add to Cart clicked', selectedVariant.id)}
+        {!hasOnlyDefaultVariant &&
+          <ProductVariants />
+        }
+        <AddToCartButton
+          onClick={handleClick}
           variantId={selectedVariant.id}
           quantity={1}
           accessibleAddingToCartLabel="Adding item to your cart"
           disabled={!selectedVariant.availableForSale}
-          className="w-full mb-4 max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
+          className={`w-full mb-4 max-w-sm mx-auto py-3 px-6 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${!selectedVariant.availableForSale
+              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+              : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
+            }`}
         >
-          Add to Cart
-        </AddToCartButton> */}
 
-        <Link href="/waitlist">
-          <button
-            className="w-full mb-4 max-w-sm mx-auto py-3 px-6 bg-primary text-white font-semibold rounded-md shadow-sm hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer"
-          >
-            Sign Up For Early Access!
-          </button>
-        </Link>
+          Add to Cart
+        </AddToCartButton>
       </div>
 
+
       {/* Description */}
-      <ProductDescription />
+      <div className="px-6 lg:px-0">
+        <ProductDescription />
+      </div>
 
       {/* Tags */}
       {product.tags && product.tags.length > 0 && (

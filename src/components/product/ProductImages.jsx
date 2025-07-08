@@ -41,6 +41,7 @@ export default function ProductImages() {
               aria-label="Previous Image"
               onClick={prevImage} 
               className="
+                flex items-center justify-center
                 absolute left-2 top-1/2 transform -translate-y-1/2
                 bg-gray-500 text-white font-bold p-2 rounded-full w-8 h-8 md:w-12 md:h-12
                 opacity-0 group-hover:opacity-70
@@ -53,6 +54,7 @@ export default function ProductImages() {
               aria-label="Next Image"
               onClick={nextImage} 
               className="
+                flex items-center justify-center
                 absolute right-2 top-1/2 transform -translate-y-1/2
                 bg-gray-600 text-white p-2 rounded-full w-8 h-8 md:w-12 md:h-12
                 opacity-0 group-hover:opacity-70

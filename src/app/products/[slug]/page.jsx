@@ -67,6 +67,12 @@ const PRODUCT_QUERY = `
 
 export default async function ProductPage({ params }) {
 
+  // const { slug } = await params;
+
+  // fetch products using helper
+  // const product = await getProduct(slug);
+  // console.log('Product data:', product);
+
   // fetch id from handle (slug)
   const { slug } = await params;
   const allProductsData = await shopifyFetch({ query: ID_QUERY });
@@ -92,8 +98,6 @@ export default async function ProductPage({ params }) {
     if (!product) {
       notFound();
     }
-
-    const images = product.images?.edges?.map(edge => edge.node) || [];
 
     return (
       <ProductPageClient product={product} />

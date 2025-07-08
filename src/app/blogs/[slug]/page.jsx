@@ -1,5 +1,6 @@
 import StrapiBlocksRenderer from "@/components/strapi-blocks-renderer";
 import Link from "next/link";
+import NotFound from "@/app/not-found";
 
 
 // 1. Helper to fetch blog post from Strapi
@@ -60,9 +61,16 @@ export async function generateMetadata({ params }) {
 
 async function BlogPage({ params }) {
   const { slug } = await params; 
-  const blog = await fetchBlog(slug);
 
-  if (!blog) return <div>Not found</div>;
+  let blog;
+  try {
+    blog = await fetchBlog(slug);
+  } catch (error) {
+    console.error("Error fetching blog:", error);
+    return <NotFound />;
+  }
+  if (!blog) return <NotFound />;
+
 
 
   return (
