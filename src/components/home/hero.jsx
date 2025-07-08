@@ -56,7 +56,7 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/products/nutrition-pack-essentials">
                       <button
-                        className="w-full cursor-pointer text-lg px-8 py-3 bg-primary text-secondary font-bold rounded-full shadow-lg  hover:bg-primary/90 hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer text-lg px-8 py-3 bg-primary text-secondary font-bold rounded-2xl md:rounded-full shadow-lg  hover:bg-primary/90 hover:scale-105 transition-all duration-200"
                       >
                         {data.callToActionText}
                       </button>
@@ -68,7 +68,7 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/recipes">
                       <button
-                        className="w-full cursor-pointer text-lg px-8 py-3 bg-gray-200 text-secondary font-bold rounded-full shadow-lg hover:bg-gray-300 hover:text-secondary hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer text-lg px-8 py-3 bg-gray-200 text-secondary font-bold rounded-2xl md:rounded-full shadow-lg hover:bg-gray-300 hover:text-secondary hover:scale-105 transition-all duration-200"
                       >
                         Explore Recipes
                       </button>
