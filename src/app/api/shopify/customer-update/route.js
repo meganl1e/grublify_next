@@ -40,7 +40,7 @@ export async function POST(request) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': customerToken, // No Bearer!
+      'Authorization': customerToken, 
     },
     body: JSON.stringify({ query: mutation, variables }),
   });

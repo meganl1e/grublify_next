@@ -111,6 +111,28 @@ export async function getCurrentUser() {
               phoneNumber {
                 phoneNumber
               }
+              orders(first: 10) {
+                edges {
+                  node {
+                    id
+                    name
+                    processedAt
+                    fulfillmentStatus
+                    totalPrice {
+                      amount
+                      currencyCode
+                    }
+                    lineItems(first: 5) {
+                      edges {
+                        node {
+                          title
+                          quantity
+                        }
+                      }
+                    }
+                  }
+                }
+              }
             }
           }
         `

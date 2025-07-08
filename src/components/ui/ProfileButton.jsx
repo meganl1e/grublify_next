@@ -118,27 +118,15 @@ export default function ProfileButton() {
 
   // Always show dropdown button, regardless of authentication status
   return (
-    <div className="relative">
-      <button
-        ref={buttonRef}
-        className="flex items-center text-white/90 hover:text-white transition-colors"
-        onClick={() => setShowDropdown((v) => !v)}
-        onMouseEnter={handleMouseEnter}
-        aria-haspopup="true"
-        aria-expanded={showDropdown}
-      >
-        <CiUser className="w-8 h-8" />
-      </button>
-      <div
-        ref={dropdownRef}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        style={{ pointerEvents: showDropdown ? 'auto' : 'none' }}
-        className={`absolute right-0 mt-2 z-50 transition-all duration-200 ${showDropdown ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-2'} w-64`}
-      >
-        {showDropdown && <ProfileDropdown user={user} isAuthenticated={isAuthenticated} onLogin={login} onLogout={logout} />}
-      </div>
-    </div>
+    <a
+      href="https://account.grublify.com"
+      className="flex items-center text-white/90 hover:text-white transition-colors"
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Account"
+    >
+      <CiUser className="w-8 h-8" />
+    </a>
   );
 }
 

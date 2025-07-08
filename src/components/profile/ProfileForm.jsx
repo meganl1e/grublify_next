@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import Card from '@/components/ui/Card';
 
 export default function ProfileForm({ user }) {
   const [editing, setEditing] = useState(false);
@@ -47,7 +48,7 @@ export default function ProfileForm({ user }) {
   };
 
   return (
-    <div className="bg-white rounded shadow max-w-lg mx-auto p-6">
+    <Card className="max-w-lg mx-auto p-6">
       <div className="flex items-center mb-6">
         <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500 mr-4">
           {form.firstName?.[0] || "?"}
@@ -128,6 +129,6 @@ export default function ProfileForm({ user }) {
           <div className="text-red-600 mt-2">Error updating profile. Please try again.</div>
         )}
       </form>
-    </div>
+    </Card>
   );
 } 

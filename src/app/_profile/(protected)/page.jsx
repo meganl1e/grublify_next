@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/auth-actions';
-import ProfilePageClient from '@/components/profile/ProfilePageClient';
+import ProfileForm from '@/components/profile/ProfileForm';
 
 export default async function ProfilePage() {
   const user = await getCurrentUser();
@@ -17,7 +17,7 @@ export default async function ProfilePage() {
   return (
     <div className="max-w-2xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Profile</h1>
-      <ProfilePageClient user={user} />
+      <ProfileForm user={user} />
     </div>
   );
 }

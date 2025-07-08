@@ -3,9 +3,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import CartButton from "../ui/CartButton";
-import ProfileButton from "../ui/ProfileButton";
 import logo from "../../../public/grublify_logo_simple.png";
 import CartModal from "../cart/cart-modal";
+import ProfileButton from "../ui/ProfileButton";
+
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -86,31 +87,28 @@ export default function Navbar() {
             <CartModal />
           </div>
         </div>
-      </div>
-      <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"
-          }`}
-      >
-        <div className="bg-secondary text-white p-4 space-y-4">
-          {links.map((link) => (
-            <Link href={link.href} key={link.href}>
-              <div
-                className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${pathname === link.href ? "text-primary" : "text-white/90"
-                  }`}
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </div>
-            </Link>
-          ))}
-          {/* <Link href="/waitlist">
-            <button className="mt-2 text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold rounded-sm border border-primary cursor-pointer" onClick={() => setOpen(false)}>
-              Get Started
-            </button>
-          </Link> */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"}`}
+        >
+          <div className="bg-secondary text-white p-4 space-y-4">
+            {links.map((link) => (
+              <Link href={link.href} key={link.href}>
+                <div
+                  className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${pathname === link.href ? "text-primary" : "text-white/90"}`}
+                  onClick={() => setOpen(false)}
+                >
+                  {link.label}
+                </div>
+              </Link>
+            ))}
+            {/* <Link href="/waitlist">
+              <button className="mt-2 text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold rounded-sm border border-primary cursor-pointer" onClick={() => setOpen(false)}>
+                Get Started
+              </button>
+            </Link> */}
+          </div>
         </div>
       </div>
     </nav>
   );
 }
-
