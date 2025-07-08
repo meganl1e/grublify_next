@@ -1,6 +1,5 @@
 import React from 'react';
 import 'react-loading-skeleton/dist/skeleton.css';
-import StrapiImage from './strapi-image';
 import Link from 'next/link';
 
 const RecipeListItem = ({ title, slug, img, tags, alt }) => {

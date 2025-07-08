@@ -11,7 +11,7 @@ import { CiTrash } from "react-icons/ci";
 export default function CartLine({ closeCart }) {
 
   const line = useCartLine();
-  console.log("cart line: ", line)
+  // console.log("cart line: ", line)
 
   const { linesRemove } = useCart();
 

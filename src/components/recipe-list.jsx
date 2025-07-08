@@ -1,4 +1,6 @@
 import RecipeListItem from "./recipe-list-item";
+import { fetchStrapiImage } from "@/lib/strapi-client";
+
 
 // fetch recipes from strapi
 async function fetchRecipes() {
@@ -11,8 +13,13 @@ async function fetchRecipes() {
 }
 
 
+
+
 async function RecipeList() {
   const recipes = await fetchRecipes();
+  const transitionGuideImage = await fetchStrapiImage(12);
+  const portionCalculatorImage = await fetchStrapiImage(44);
+
 
   if (!recipes) return <div>Not found</div>;
 
@@ -44,13 +51,13 @@ async function RecipeList() {
       })}
 
       <RecipeListItem 
-          img={`${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}/still_life_pet_food_arrangement_45d067c3f8.jpg`} 
+          img={transitionGuideImage.url} 
           title="Transition Guide"
           slug="transition-guide"
           tags={["Guide"]}
         />
         <RecipeListItem 
-          img={`${process.env.NEXT_PUBLIC_STRAPI_MEDIA_URL}/still_life_pet_food_arrangement_45d067c3f8.jpg`} 
+          img={portionCalculatorImage.url} 
           title="Portion Calculator"
           slug="portion-calculator"
           tags={["Guide", "Calculator"]}
