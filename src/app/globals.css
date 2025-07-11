@@ -4,34 +4,42 @@
 /* Define your design tokens with @theme */
 @theme {
   /* Colors */
-  --color-background: hsl(0 0% 100%);
-  --color-foreground: hsl(222 47% 11%);
-  --color-primary: hsl(168 53% 62%);
-  --color-primary-foreground: hsl(0 0% 100%);
-  --color-secondary: hsl(203 34% 26%);
-  --color-secondary-foreground: hsl(0 0% 100%);
-  --color-muted: hsl(210 40% 96%);
-  --color-muted-foreground: hsl(215 20% 65%);
-  --color-accent: hsl(24 100% 50%);
-  --color-accent-foreground: hsl(0 0% 100%);
-  --color-destructive: hsl(0 100% 67%);
-  --color-destructive-foreground: hsl(0 0% 100%);
-  --color-border: hsl(214 32% 91%);
-  --color-input: hsl(214 32% 91%);
-  --color-ring: hsl(168 53% 62%);
+  --color-background: hsl(0 0% 100%);  /* Pure white */
+  --color-foreground: hsl(222 47% 11%);  /* Dark gray text */
+
+  --color-primary: hsl(168 53% 62%);  /* Teal green */
+  --color-primary-foreground: hsl(0 0% 100%); /* White text on primary */
+
+  /* --color-secondary: hsl(195, 30%, 25%); */
+  --color-secondary: hsl(215, 28%, 27%);
+  --color-secondary-foreground: hsl(0 0% 100%); /* White text on secondary */
+
+  --color-muted: hsl(210 40% 96%);              /* Light gray background */
+  --color-muted-foreground: hsl(215 20% 65%); /* Light gray background */
+  
+  --color-accent: hsl(24 100% 50%);    /* Bright orange */
+  --color-accent-foreground: hsl(0 0% 100%); /* White text on accent */
+
+  --color-destructive: hsl(0 100% 67%); /* Bright red */
+  --color-destructive-foreground: hsl(0 0% 100%); /* White text on destructive */
+
+  --color-border: hsl(214 32% 91%); /* Light gray border */
+  --color-input: hsl(214 32% 91%); /* Light gray input */
+  --color-ring: hsl(168 53% 62%); /* Teal green ring */
   /* Chart, sidebar, and any other tokens can go here */
 
   /* Border radius */
-  --radius: 1rem;
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
+  --radius: 1rem;                               /* Base radius: 16px */
+  --radius-lg: var(--radius);                   /* Large: 16px */
+  --radius-md: calc(var(--radius) - 2px);      /* Medium: 14px */
+  --radius-sm: calc(var(--radius) - 4px);      /* Small: 12px */
 
   /* Fonts */
   --font-sans: 'Source Sans 3', sans-serif;
 }
 
 /* Tailwind base, components, and utilities */
+/*  imports all of the flex grid block hudden p-4 bg-red-500 things like that */
 @tailwind utilities;
 
 /* Global base styles */

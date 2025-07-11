@@ -14,8 +14,8 @@ export default function Hero({ data, loading }) {
 
   return (
     <div className="flex-1">
-      <section className="relative py-12 lg:py-24 px-12 bg-secondary">
-        <div className="max-w-7xl mx-auto">
+      <section className="relative bg-gradient-to-br from-secondary to-secondary/90 py-12 lg:py-24">
+        <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
               <h1 className="text-4xl md:text-6xl font-bold text-white">
@@ -36,7 +36,7 @@ export default function Hero({ data, loading }) {
                 )}
               </h1>
 
-              <div className="text-xl text-white/90">
+              <div className="text-xl text-slate-200 ">
                 {loading ? (
                   <div>
                     <div className="h-6 md:h-7 mb-1">
@@ -56,10 +56,12 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/products/nutrition-pack-essentials">
                       <button
-                        className="w-full cursor-pointer text-lg px-8 py-3 bg-primary text-secondary font-bold rounded-2xl md:rounded-full shadow-lg  hover:bg-primary/90 hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer border-2 border-primary text-lg px-8 py-3 bg-primary text-secondary font-semibold rounded-2xl  hover:bg-primary/90 hover:scale-105 transition-all duration-200"
                       >
                         {data.callToActionText}
                       </button>
+
+                      
                     </Link>
                   )
                 }
@@ -68,7 +70,7 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/recipes">
                       <button
-                        className="w-full cursor-pointer text-lg px-8 py-3 bg-gray-200 text-secondary font-bold rounded-2xl md:rounded-full shadow-lg hover:bg-gray-300 hover:text-secondary hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer border-2 border-muted text-lg px-8 py-3 bg-transparent text-muted font-semibold rounded-2xl  hover:bg-muted hover:text-secondary hover:scale-105 transition-all duration-200"
                       >
                         Explore Recipes
                       </button>
@@ -81,16 +83,19 @@ export default function Hero({ data, loading }) {
               {loading
                 ? <Skeleton height={320} />
                 :
+                <div className="rounded-md w-full h-auto max-w-md mx-auto border-6 border-white shadow-2xl">
                 <Image
                   src={data.heroImage?.url || ""}
                   alt={data.alternativeText || "Hero Image"}
                   width={data.heroImage.width}
                   height={data.heroImage.height}
-                  className="rounded-md w-full h-auto max-w-xl"
+                  className="rounded-md w-full h-auto max-w-md mx-auto"
                   priority={true}
                 />
+                </div>
               }
             </div>
+            
           </div>
         </div>
       </section>

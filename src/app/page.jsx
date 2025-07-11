@@ -19,7 +19,7 @@ export default async function Home() {
   if (!home) return <NotFound />;
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Hero data={home} />
       <HowItWorks data={home} />
       <Benefits data={home}/>
