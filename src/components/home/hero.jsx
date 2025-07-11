@@ -14,10 +14,12 @@ export default function Hero({ data, loading }) {
 
   return (
     <div className="flex-1">
-      <section className="relative bg-gradient-to-br from-secondary to-secondary/90 py-12 lg:py-24">
+      <section className="relative bg-gradient-to-br from-secondary to-secondary/90 py-12 lg:py-20">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
+
+              {/* headline */}
               <h1 className="text-4xl md:text-6xl font-bold text-white">
                 {loading ? (
                   <div>
@@ -36,6 +38,7 @@ export default function Hero({ data, loading }) {
                 )}
               </h1>
 
+              {/* subheadline */}
               <div className="text-xl text-slate-200 ">
                 {loading ? (
                   <div>
@@ -50,7 +53,9 @@ export default function Hero({ data, loading }) {
                   <h2>{data.subheadline}</h2>
                 )}
               </div>
-              <div className="flex md:flex-row gap-4 md:gap-6">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6">
+
+                {/* shop nutrition packs button */}
                 {loading
                   ? <Skeleton width={180} height={48} />
                   : (
@@ -60,11 +65,11 @@ export default function Hero({ data, loading }) {
                       >
                         {data.callToActionText}
                       </button>
-
-                      
                     </Link>
                   )
                 }
+
+                {/* explore recipes button */}
                 {loading
                   ? <Skeleton width={180} height={48} />
                   : (
@@ -79,6 +84,8 @@ export default function Hero({ data, loading }) {
                 }
               </div>
             </div>
+
+            {/* hero image */}
             <div className="flex-1 hidden sm:block">
               {loading
                 ? <Skeleton height={320} />
@@ -86,7 +93,7 @@ export default function Hero({ data, loading }) {
                 <div className="rounded-md w-full h-auto max-w-md mx-auto border-6 border-white shadow-2xl">
                 <Image
                   src={data.heroImage?.url || ""}
-                  alt={data.alternativeText || "Hero Image"}
+                  alt={data.alternativeText || "Shiba Inu dog standing by a window next to a Grublify nutrition pack"}
                   width={data.heroImage.width}
                   height={data.heroImage.height}
                   className="rounded-md w-full h-auto max-w-md mx-auto"
