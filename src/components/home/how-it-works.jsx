@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "../ui/Card";
+// import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/Card";
 
 import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
@@ -48,18 +48,18 @@ export default function HowItWorks({ data, loading }) {
               console.warn(`No icon for step index ${idx}`);
             }
             return (
-              <Card key={step.id || idx} className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center">
+              <div key={step.id || idx} className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center">
                 <div className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center mb-4">
                   {/* {Icon ? <Icon className="h-8 w-8 text-white" /> : <span>?</span>} */}
                 </div>
-                <CardTitle className="flex flex-col gap-2 ">
+                <div className="flex flex-col gap-2 ">
                   <div className="text-primary font-bold text-md tracking-widest">{`STEP ${String(idx + 1)}`}</div>
                   <p className="text-xl font-extrabold text-secondary">{step.step || "Missing step title"}</p>
-                </CardTitle>
-                <CardContent className="p-0">
+                </div>
+                <div className="p-0">
                   <p className="text-secondary text-base text-center">{step.description || "No description provided."}</p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             );
           })}
         </div>
@@ -71,3 +71,15 @@ export default function HowItWorks({ data, loading }) {
 
 
 
+// <Card key={step.id || idx} className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center">
+// <div className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center mb-4">
+  {/* {Icon ? <Icon className="h-8 w-8 text-white" /> : <span>?</span>} */}
+{/* </div>
+<CardTitle className="flex flex-col gap-2 ">
+  <div className="text-primary font-bold text-md tracking-widest">{`STEP ${String(idx + 1)}`}</div>
+  <p className="text-xl font-extrabold text-secondary">{step.step || "Missing step title"}</p>
+</CardTitle>
+<CardContent className="p-0">
+  <p className="text-secondary text-base text-center">{step.description || "No description provided."}</p>
+</CardContent>
+</Card> */}
