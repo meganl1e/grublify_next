@@ -4,7 +4,12 @@ import Navbar from "../components/layout/navbar.jsx";
 import Footer from "../components/layout/footer.jsx";
 import Providers from "./providers";
 import { SkeletonTheme } from "react-loading-skeleton";
+import { Inter } from "next/font/google"
 
+const inter = Inter({
+  subsets: ["latin"], // or ["latin-ext"] if you need more
+  display: "swap",    // optional, for better performance
+});
 
 export const metadata = {
   title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
@@ -19,7 +24,8 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      {/* <body className={inter.className}> */}
+      <body >
         <Providers>
           <SkeletonTheme
             baseColor="rgba(120,130,140,0.18)"

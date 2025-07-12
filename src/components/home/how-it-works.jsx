@@ -6,12 +6,14 @@ import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
 export default function HowItWorks({ data, loading }) {
 
+  console.log("data: ", data)
+
   const stepIcons = [LuPawPrint, LuChefHat, LuDog];
 
 
   // Show loading state
   if (loading) {
-    return <section className="bg-primary/50 py-16 min-h-screen"></section>;
+    return <section className="bg-primary-light py-16 min-h-screen"></section>;
   }
 
   // Guard: If there's an error or no data after loading
@@ -20,7 +22,7 @@ export default function HowItWorks({ data, loading }) {
   }
 
   return (
-    <section className="bg-teal-50 py-16">
+    <section className="bg-primary-light py-16">
 
       <div className="md:max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 mb-10">
