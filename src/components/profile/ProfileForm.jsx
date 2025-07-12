@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import Card from '@/components/ui/Card';
+import Card from '@/components/ui/card';
 
 export default function ProfileForm({ user }) {
   const [editing, setEditing] = useState(false);

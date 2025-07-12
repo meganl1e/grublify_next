@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/auth-actions';
-import Card from '@/components/ui/Card';
+import Card from '@/components/ui/card';
 
 export default async function OrdersPage() {
   const user = await getCurrentUser();
