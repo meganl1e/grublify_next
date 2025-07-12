@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@components/ui/card";
+import { Card } from "../ui/card";
+
 
 import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
