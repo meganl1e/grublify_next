@@ -1,5 +1,4 @@
 import Hero from "../components/home/hero";
-import Benefits from "../components/home/benefits";
 import HowItWorks from "../components/home/how-it-works";
 import NotFound from "./not-found";
 
@@ -10,7 +9,7 @@ async function fetchHome() {
     { cache: 'no-store' }
   );
   const data = await res.json();
-  console.log('Home data:', data);
+  // console.log('Home data:', data);
   return data?.data || null;
 }
 
@@ -22,7 +21,6 @@ export default async function Home() {
     <div className="flex flex-col min-h-screen">
       <Hero data={home} />
       <HowItWorks data={home} />
-      {/* <Benefits data={home}/> */}
     </div>
   );
 }
