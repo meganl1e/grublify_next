@@ -6,7 +6,7 @@ import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
 export default function HowItWorks({ data, loading }) {
 
-  console.log("data: ", data)
+  // console.log("data: ", data)
 
   const stepIcons = [LuPawPrint, LuChefHat, LuDog];
 
