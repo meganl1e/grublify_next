@@ -1,6 +1,3 @@
-"use client";
-import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import NotFound from "../../not-found";
 
@@ -27,52 +24,30 @@ const customBlocks = {
   // Add more overrides as needed (quote, code, image, etc.)
 };
 
-export default function Policy() {
+// Helper to fetch policy from Strapi
+async function fetchPolicy(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?filters[slug][$eq]=${slug}`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data?.[0] || null;
+}
 
-  const { slug } = useParams();
-  const [policy, setPolicy] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const query = `?filters[slug][$eq]=${slug}`
-
-      useEffect(() => {
-      fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies${query}`)
-        .then(res => res.json())
-        .then(data => {
-          if (data?.data?.length > 0) {
-            setPolicy(data.data[0]);
-            console.log("Fetched policy data:", data.data);
-          }
-          setLoading(false);
-        })
-        .catch(err => {
-          console.error("Error fetching policy:", err);
-          setLoading(false);
-        });
-    }, [slug]);
-
-    if (loading) {
-      return (
-        <div className="flex-1 flex items-center justify-center">
-          <p className="text-lg text-secondary">Loading...</p>
-        </div>
-      );
-    }
-
-    if (!policy && !loading) {
-      return (
-        <NotFound />
-      )
-    }
+export default async function Policy({ params }) {
+  const { slug } = await params;
+  const policy = await fetchPolicy(slug);
+  
+  if (!policy) return <NotFound />;
 
   return (
     <div className="flex-1 px-6 py-12">
       <div className="max-w-4xl mx-auto text-secondary">
         <div className="text-center mb-8 text-5xl font-semibold">
-            {policy.title}
+            {policy.attributes?.title || policy.title}
         </div>
-        <BlocksRenderer content={policy?.content || []} blocks={customBlocks}/>
+        <BlocksRenderer content={policy.attributes?.content || policy.content || []} blocks={customBlocks}/>
       </div>   
     </div>
-  )
+  );
 }
