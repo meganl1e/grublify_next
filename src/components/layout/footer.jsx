@@ -34,7 +34,7 @@ export default function Footer() {
           <ul className="text-sm text-primary space-y-1">
             <li><Link href="/" className="hover:underline">Home</Link></li>
             <li><Link href="/about" className="hover:underline">About</Link></li>
-            <li><Link href="/team" className="hover:underline">Team</Link></li>
+            {/* <li><Link href="/team" className="hover:underline">Team</Link></li> */}
             <li><Link href="/blogs" className="hover:underline">Blogs</Link></li>
             <li><Link href="/recipes" className="hover:underline">Recipes</Link></li>
             <li><Link href="/waitlist" className="hover:underline">Waitlist</Link></li>
@@ -59,8 +59,9 @@ export default function Footer() {
           <ul className="text-sm text-primary space-y-1">
             <li><Link href="/policies/disclaimer" className="hover:underline">Disclaimer</Link></li>
             <li><Link href="/policies/privacy" className="hover:underline">Privacy Policy</Link></li>
-            <li><Link href="/policies/anti-diversion" className="hover:underline">Anti Diversion</Link></li>
-            <li><Link href="/policies/data-sale-opt-out" className="hover:underline">Data Sale Opt Out</Link></li>
+            <li><Link href="/policies/return-and-refund-policy" className="hover:underline">Return and Refund Policy</Link></li>
+            {/* <li><Link href="/policies/anti-diversion" className="hover:underline">Anti Diversion</Link></li> */}
+            {/* <li><Link href="/policies/data-sale-opt-out" className="hover:underline">Data Sale Opt Out</Link></li> */}
             <li><Link href="/policies/terms-of-service" className="hover:underline">Terms of Service</Link></li>
           </ul>
         </div>
