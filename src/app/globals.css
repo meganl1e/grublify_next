@@ -9,6 +9,7 @@
 
   --color-primary: hsl(168 53% 62%);  /* Teal green */
   --color-primary-light: hsl(168, 53%, 90%); /* light teal */
+  --color-primary-dark: hsl(171, 55%, 39%);
   --color-primary-foreground: hsl(0 0% 100%); /* White text on primary */
 
   /* --color-secondary: hsl(195, 30%, 25%); */
