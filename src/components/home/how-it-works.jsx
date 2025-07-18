@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { Card } from "../ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 
 
 import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
 export default function HowItWorks({ data, loading }) {
-  console.log("HowItWorks data prop:", data);
+  // console.log("HowItWorks data prop:", data);
 
   const stepIcons = [LuPawPrint, LuChefHat, LuDog];
 
@@ -50,16 +50,16 @@ export default function HowItWorks({ data, loading }) {
             }
             return (
               <Card key={step.id || idx} className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center">
-                <div className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center mb-4">
+                <CardTitle className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center">
                   {Icon ? <Icon className="h-8 w-8 text-white" /> : <span>?</span>}
-                </div>
-                <div className="flex flex-col gap-2 ">
+                </CardTitle>
+                <div className="flex flex-col gap-1 ">
                   <div className="text-primary font-bold text-md tracking-widest">{`STEP ${String(idx + 1)}`}</div>
-                  <p className="text-xl font-extrabold text-secondary">{step.step || "Missing step title"}</p>
+                  <p className="text-2xl font-extrabold text-secondary">{step.step || "Missing step title"}</p>
                 </div>
-                <div className="p-0">
+                <CardContent className="p-0">
                   <p className="text-secondary text-base text-center">{step.description || "No description provided."}</p>
-                </div>
+                </CardContent>
               </Card>
             );
           })}
