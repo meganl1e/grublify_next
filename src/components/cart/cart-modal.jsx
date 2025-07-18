@@ -31,7 +31,12 @@ export default function CartModal() {
         className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 ${
           isCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
-        onClick={() => setIsCartOpen(false)}
+        onClick={(e) => {
+          // Only close if clicking the backdrop itself, not its children
+          if (e.target === e.currentTarget) {
+            setIsCartOpen(false);
+          }
+        }}
         aria-hidden={!isCartOpen}
       >
         {/* Sliding Panel */}
