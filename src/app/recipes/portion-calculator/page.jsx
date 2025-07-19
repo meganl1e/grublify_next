@@ -138,7 +138,7 @@ export default function PortionCalculator() {
           <CardContent className="px-6 pb-10">
             <div className="flex flex-col gap-y-4">
               <div className="mb-2">
-                <Label htmlFor="weight" className="text-sm text-gray-700">Weight</Label>
+                <Label htmlFor="weight" className="text-sm text-gray-700">Weight (lbs)</Label>
                 <Input id="weight" type="number" placeholder="Enter weight (lbs)" value={formData.weight} onChange={handleChange} className="mt-1 bg-gray-100 border border-gray-200 rounded-xl px-4 py-2" />
                 {errors.weight && (
                   <Alert variant="destructive" className="mt-3 bg-red-100 text-black border-red-200 animate-slide-in">
@@ -161,7 +161,7 @@ export default function PortionCalculator() {
                       <FaDog className="inline text-base" /> Adolescent (4-12 months)
                     </SelectItem>
                     <SelectItem value="adult" className="flex items-center gap-2 cursor-pointer">
-                      <GiSittingDog className="inline text-base" /> Adult
+                      <GiSittingDog className="inline text-base" /> Adult (12+ months)
                     </SelectItem>
                   </SelectContent>
                 </Select>

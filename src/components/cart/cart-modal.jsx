@@ -32,7 +32,7 @@ export default function CartModal() {
           isCartOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
         onClick={(e) => {
-          // Only close if clicking the backdrop itself, not its children
+          // Only close if clicking the backdrop itself, not its children, otherwise increasing item in cart closes the modal
           if (e.target === e.currentTarget) {
             setIsCartOpen(false);
           }
