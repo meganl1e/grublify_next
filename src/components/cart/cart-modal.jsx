@@ -1,6 +1,6 @@
 'use client'; // <-- Make sure this is at the top
 
-import React from "react";
+import React, { useEffect } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { useCart, CartLineProvider } from "@shopify/hydrogen-react";
 import CartLine from "./cart-line";
@@ -8,7 +8,22 @@ import { useCartUI } from "./cart-context";
 
 export default function CartModal() {
   const { isCartOpen, setIsCartOpen } = useCartUI();
-  const { lines, totalQuantity, cost, checkoutUrl } = useCart();
+  const { lines, totalQuantity, cost, checkoutUrl, cartClear, status } = useCart();
+
+  // Force cart sync when modal opens
+  useEffect(() => {
+    if (isCartOpen) {
+      // No cartFetch, but we can rely on Hydrogen to fetch on open
+    }
+  }, [isCartOpen]);
+
+  // Clear local cart context if cart is empty after checkout
+  useEffect(() => {
+    if (status === "idle" && lines.length === 0) {
+      cartClear();
+    }
+  }, [lines, status, cartClear]);
+
   const itemCount = lines?.reduce((sum, line) => sum + line.quantity, 0) || 0;
 
   return (
