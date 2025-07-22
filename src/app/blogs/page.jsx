@@ -4,7 +4,7 @@ import NotFound from "../not-found";
 // Helper to fetch blogs from Strapi
 async function fetchBlogs() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=publishedDate&populate=coverImage&populate=categories`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories`,
     { cache: 'no-store' }
   );
   const data = await res.json();
@@ -31,7 +31,7 @@ export default async function Blogs() {
       <section className="py-10 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-secondary">Latest Posts</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.map((blog) => (
               <BlogListItem
                 key={blog.id}
