@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/auth-actions';
-import LoginOrSignupButton from '@/components/ui/LoginOrSignupButton';
+import LoginOrSignupButton from '@/components/archive/profile/login-or-signup-button';
 import SidebarNav from '../../../components/archive/profile/sidebar-nav';
 
 const navItems = [

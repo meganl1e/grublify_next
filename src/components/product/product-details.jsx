@@ -1,6 +1,6 @@
 "use client";
-import ProductDescription from "./ProductDescription";
-import ProductVariants from "./ProductVariants";
+import ProductDescription from "./product-description";
+import ProductVariants from "./product-variants";
 import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
 import { useCartUI } from "../cart/cart-context";
 

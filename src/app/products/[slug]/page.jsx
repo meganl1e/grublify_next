@@ -1,6 +1,6 @@
 import { shopifyFetch } from '../../../lib/shopify-client';
 import { notFound } from 'next/navigation';
-import ProductPageClient from '@/components/product/ProductPageClient';
+import ProductPageClient from '@/components/product/product-page-client';
 
 // query to fetch id from handle (slug)
 const ID_QUERY = `

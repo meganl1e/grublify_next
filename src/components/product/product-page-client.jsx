@@ -1,8 +1,8 @@
 "use client";
 import { ProductProvider } from '@shopify/hydrogen-react';
-import ProductImages from '@/components/product/ProductImages';
-import ProductDetails from '@/components/product/ProductDetails';
-import ProductBreadcrumb from '@/components/product/ProductBreadcrumb';
+import ProductImages from '@/components/product/product-images';
+import ProductDetails from '@/components/product/product-details';
+import ProductBreadcrumb from '@/components/product/product-breadcrumb';
 
 
 export default function ProductPageClient({ product }) {

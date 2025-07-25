@@ -32,7 +32,7 @@ export default function ProductImages() {
               src={coverImage.url}
               alt={coverImage.altText || "Alt text not defined"}
               fill
-              className="object-cover rounded-sm"
+              className="object-contain rounded-sm"
               priority
               sizes="(max-width: 768px) 90vw, 50vw"
             />
@@ -89,7 +89,7 @@ export default function ProductImages() {
                 src={image.url}
                 alt={image.altText || "Alt text not defined"}
                 fill
-                className="object-cover rounded-xs cursor-pointer"
+                className="object-contain rounded-xs cursor-pointer"
                 sizes="(max-width: 768px) 25vw, 20vw"
               />
             </button>
