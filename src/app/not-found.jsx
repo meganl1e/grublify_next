@@ -1,4 +1,5 @@
 export default function NotFound() {
+
   return (
     <div className="flex-1 w-full h-screen flex items-center justify-center bg-background">
       <div className="w-full max-w-md mx-4 shadow-lg bg-white rounded-lg p-10 flex flex-col items-center">
