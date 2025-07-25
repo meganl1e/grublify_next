@@ -4,7 +4,7 @@ import NotFound from "../not-found";
 // Helper to fetch blogs from Strapi
 async function fetchBlogs() {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate`,
     { cache: 'no-store' }
   );
   const data = await res.json();
