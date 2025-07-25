@@ -1,4 +1,4 @@
-import BlogListItem from "../../components/blog-list-item";
+import BlogListItem from "../../components/blogs/blog-list-item";
 import NotFound from "../not-found";
 
 // Helper to fetch blogs from Strapi

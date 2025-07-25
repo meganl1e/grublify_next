@@ -1,6 +1,6 @@
 import React from "react";
-import RecipeCard from "../../../components/recipe-card.jsx";
-import RecipeDetailedInstructions from "../../../components/recipe-detailed-instructions.jsx";
+import RecipeCard from "../../../components/recipes/recipe-card.jsx";
+import RecipeDetailedInstructions from "../../../components/recipes/recipe-detailed-instructions.jsx";
 import "react-loading-skeleton/dist/skeleton.css";
 import NotFound from "@/app/not-found.jsx";
 

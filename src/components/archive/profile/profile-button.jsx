@@ -4,8 +4,8 @@ import pkceChallenge from "pkce-challenge";
 import { CiUser } from "react-icons/ci";
 import React from "react";
 import { useEffect, useRef } from "react";
-import AuthErrorModal from "./AuthErrorModal";
-import ProfileDropdown from "./ProfileDropdown";
+import AuthErrorModal from "../../ui/auth-error-modal";
+// import ProfileDropdown from "./profile-dropdown";
 import { useShopifyLogin } from '@/hooks/useShopifyLogin';
 
 export default function ProfileButton() {
@@ -99,22 +99,22 @@ export default function ProfileButton() {
   //   window.location.href = url.toString();
   // };
 
-  if (loading) {
-    return (
-      <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="w-8 h-8 animate-pulse bg-white/20 rounded-full"></div>
+  //   );
+  // }
 
-  // Show error modal if there is an authentication error
-  if (error && showError) {
-    return (
-      <AuthErrorModal
-        error={error}
-        onLogout={() => { logout(); setShowError(false); }}
-        open={showError}
-      />
-    );
-  }
+  // // Show error modal if there is an authentication error
+  // if (error && showError) {
+  //   return (
+  //     <AuthErrorModal
+  //       error={error}
+  //       onLogout={() => { logout(); setShowError(false); }}
+  //       open={showError}
+  //     />
+  //   );
+  // }
 
   // Always show dropdown button, regardless of authentication status
   return (

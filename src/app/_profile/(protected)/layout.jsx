@@ -1,6 +1,6 @@
 import { getCurrentUser } from '@/lib/auth-actions';
 import LoginOrSignupButton from '@/components/ui/LoginOrSignupButton';
-import SidebarNav from '../../../components/profile/SidebarNav';
+import SidebarNav from '../../../components/archive/profile/sidebar-nav';
 
 const navItems = [
   { href: "/profile", label: "Profile" },

@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@/lib/auth-actions';
-import ProfileForm from '@/components/profile/ProfileForm';
+import ProfileForm from '@/components/archive/profile/profile-form';
 
 export default async function ProfilePage() {
   const user = await getCurrentUser();

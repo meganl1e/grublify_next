@@ -2,10 +2,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import CartButton from "../ui/CartButton";
 import logo from "../../../public/grublify_logo_simple.png";
 import CartModal from "../cart/cart-modal";
-import ProfileButton from "../ui/ProfileButton";
+import ProfileButton from "../archive/profile/profile-button";
 
 
 export default function Navbar() {

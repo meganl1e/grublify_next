@@ -1,4 +1,4 @@
-import PolicyBlocksRenderer from "@/components/policy-blocks-renderer";
+import PolicyBlocksRenderer from "@/components/ui/blocks/policy-blocks-renderer";
 import NotFound from "../../not-found";
 
 async function fetchPolicy(slug) {

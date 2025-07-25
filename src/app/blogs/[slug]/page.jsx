@@ -1,4 +1,5 @@
-import StrapiBlocksRenderer from "@/components/strapi-blocks-renderer";
+
+import StrapiBlocksRenderer from "@/components/ui/blocks/strapi-blocks-renderer";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
 
