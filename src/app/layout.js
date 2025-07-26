@@ -24,8 +24,7 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      {/* <body className={inter.className}> */}
-      <body >
+      <body suppressHydrationWarning={true}>
         <Providers>
           <SkeletonTheme
             baseColor="rgba(120,130,140,0.18)"

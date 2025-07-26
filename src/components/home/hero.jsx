@@ -18,9 +18,8 @@ export default function Hero({ data, loading }) {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
-
               {/* headline */}
-              <h1 className="text-4xl md:text-6xl font-bold text-white">
+              <h1 className="text-4xl md:text-6xl font-bold text-white animate-slide-in" style={{ animationDuration: '1.2s' }}>
                 {loading ? (
                   <div>
                     <div className="h-[40px] md:h-[64px] mb-2">
@@ -39,7 +38,7 @@ export default function Hero({ data, loading }) {
               </h1>
 
               {/* subheadline */}
-              <div className="text-xl text-slate-200 ">
+              <div className="text-xl text-slate-200 animate-slide-in" style={{ animationDelay: '0.4s', animationDuration: '1.2s' }}>
                 {loading ? (
                   <div>
                     <div className="h-6 md:h-7 mb-1">
@@ -53,15 +52,14 @@ export default function Hero({ data, loading }) {
                   <h2>{data.subheadline}</h2>
                 )}
               </div>
-              <div className="flex flex-col md:flex-row gap-4 md:gap-6">
-
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6 animate-slide-in" style={{ animationDelay: '0.8s', animationDuration: '1.2s' }}>
                 {/* shop nutrition packs button */}
                 {loading
                   ? <Skeleton width={180} height={48} />
                   : (
                     <Link href="/products/nutrition-pack-essentials">
                       <button
-                        className="w-full cursor-pointer border-2 border-primary text-lg px-8 py-3 bg-primary text-secondary font-semibold rounded-2xl  hover:bg-primary/90 hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer border-2 border-primary text-lg px-8 py-3 bg-primary text-secondary font-semibold rounded-2xl hover:bg-primary/90 hover:scale-105 transition-all duration-300 ease-out"
                       >
                         {data.callToActionText}
                       </button>
@@ -75,7 +73,7 @@ export default function Hero({ data, loading }) {
                   : (
                     <Link href="/recipes">
                       <button
-                        className="w-full cursor-pointer border-2 border-muted text-lg px-8 py-3 bg-transparent text-muted font-semibold rounded-2xl  hover:bg-muted hover:text-secondary hover:scale-105 transition-all duration-200"
+                        className="w-full cursor-pointer border-2 border-muted text-lg px-8 py-3 bg-transparent text-muted font-semibold rounded-2xl hover:bg-muted hover:text-secondary hover:scale-105 transition-all duration-300 ease-out"
                       >
                         Explore Recipes
                       </button>

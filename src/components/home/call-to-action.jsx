@@ -8,28 +8,28 @@ export default function CallToAction() {
       {/* CTA Section */}
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center ">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white animate-slide-in">
             Ready to Transform Your Dog's Meals?
           </h2>
-          <p className="text-xl mb-8 text-white opacity-90">
+          <p className="text-xl mb-8 text-white opacity-90 animate-slide-in" style={{ animationDelay: '0.1s' }}>
             Make every meal fresh, simple, and wholesome with Grublify.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-slide-in" style={{ animationDelay: '0.2s' }}>
             <Link href="/products/nutrition-pack-essentials">
 
-              <Button className="bg-white border-2 text-primary-dark hover:bg-gray-100 px-8 py-6 rounded-xl text-lg font-medium cursor-pointer">
+              <Button className="bg-white border-2 text-primary-dark hover:bg-gray-100 px-8 py-6 rounded-xl text-lg font-medium cursor-pointer hover:scale-105 transition-transform duration-200">
                 Try Grublify Now
               </Button>
             </Link>
             <Link href="/recipes">
               <Button
-                className="border-white border-2 bg-transparent text-white hover:bg-primary px-8 py-6 rounded-xl text-lg font-medium cursor-pointer"
+                className="border-white border-2 bg-transparent text-white hover:bg-primary px-8 py-6 rounded-xl text-lg font-medium cursor-pointer hover:scale-105 transition-transform duration-200"
               >
                 Explore Recipes
               </Button>
             </Link>
           </div>
-          <p className="mt-8 text-sm opacity-80 text-white">
+          <p className="mt-8 text-sm opacity-80 text-white animate-slide-in" style={{ animationDelay: '0.3s' }}>
             Free shipping on orders over $30 • 30-day money-back guarantee • Made in the USA
           </p>
         </div>
