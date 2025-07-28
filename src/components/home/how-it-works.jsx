@@ -31,10 +31,10 @@ export default function HowItWorks({ data, loading }) {
     <section className="bg-primary-light py-16">
       <div className="md:max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 mb-10">
-          <h2 className="md:text-5xl text-3xl font-bold text-center text-secondary animate-slide-in">
+          <h2 className="md:text-5xl text-3xl font-bold text-center text-secondary">
             {data.howItWorksTitle || "How It Works"}
           </h2>
-          <p className="text-foreground text-lg md:text-xl px-4 animate-slide-in" style={{ animationDelay: '0.1s' }}>
+          <p className="text-foreground text-lg md:text-xl px-4">
             {data.howItWorksSubtitle || "Making nutritionally complete homemade dog food has never been easier"}
           </p>
         </div>
@@ -51,8 +51,7 @@ export default function HowItWorks({ data, loading }) {
             return (
               <Card 
                 key={step.id || idx} 
-                className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center animate-slide-in hover:scale-105 transition-transform duration-300" 
-                style={{ animationDelay: `${0.2 + idx * 0.1}s` }}
+                className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center hover:scale-105 transition-transform duration-300" 
               >
                 <CardTitle className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center">
                   {Icon ? <Icon className="h-8 w-8 text-white" /> : <span>?</span>}

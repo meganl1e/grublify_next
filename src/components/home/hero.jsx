@@ -19,7 +19,7 @@ export default function Hero({ data, loading }) {
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="flex-1 space-y-6">
               {/* headline */}
-              <h1 className="text-4xl md:text-6xl font-bold text-white animate-slide-in" style={{ animationDuration: '1.2s' }}>
+              <h1 className="text-4xl md:text-6xl font-bold text-white">
                 {loading ? (
                   <div>
                     <div className="h-[40px] md:h-[64px] mb-2">
@@ -38,7 +38,7 @@ export default function Hero({ data, loading }) {
               </h1>
 
               {/* subheadline */}
-              <div className="text-xl text-slate-200 animate-slide-in" style={{ animationDelay: '0.4s', animationDuration: '1.2s' }}>
+              <div className="text-xl text-slate-200">
                 {loading ? (
                   <div>
                     <div className="h-6 md:h-7 mb-1">
@@ -52,7 +52,7 @@ export default function Hero({ data, loading }) {
                   <h2>{data.subheadline}</h2>
                 )}
               </div>
-              <div className="flex flex-col md:flex-row gap-4 md:gap-6 animate-slide-in" style={{ animationDelay: '0.8s', animationDuration: '1.2s' }}>
+              <div className="flex flex-col md:flex-row gap-4 md:gap-6">
                 {/* shop nutrition packs button */}
                 {loading
                   ? <Skeleton width={180} height={48} />
