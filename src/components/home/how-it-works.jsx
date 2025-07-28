@@ -6,7 +6,6 @@ import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { LuPawPrint, LuChefHat, LuDog } from "react-icons/lu";
 
 export default function HowItWorks({ data, loading }) {
-  // console.log("HowItWorks data prop:", data);
 
   const stepIcons = [LuPawPrint, LuChefHat, LuDog];
 

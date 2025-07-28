@@ -3,30 +3,31 @@ import RecipeCard from "../../../components/recipes/recipe-card.jsx";
 import RecipeDetailedInstructions from "../../../components/recipes/recipe-detailed-instructions.jsx";
 import "react-loading-skeleton/dist/skeleton.css";
 import NotFound from "@/app/not-found.jsx";
+import { fetchRecipeBySlug } from "@/lib/strapi-client.js";
 
-// 1. Helper to fetch recipe from Strapi
-async function fetchRecipe(slug) {
+// // 1. Helper to fetch recipe from Strapi
+// async function fetchRecipe(slug) {
 
-  const query = `?filters[slug][$eq]=${slug}` +
-  `&populate[ingredients][populate]=true` + // all ingredients
-  `&populate[ingredients][populate]=imperial` + // imperial measurements for each ingredient
-  `&populate[ingredients][populate]=metric` + // metric measurements for each ingredient
-  `&populate[cookingMethods][populate]=instructions` + // recipe card cooking methods
-  `&populate[detailedInstructions][populate]=images` + // detailed instruction images
-  `&populate[coverImage][populate]=true` // cover image for some reason idk
+//   const query = `?filters[slug][$eq]=${slug}` +
+//   `&populate[ingredients][populate]=true` + // all ingredients
+//   `&populate[ingredients][populate]=imperial` + // imperial measurements for each ingredient
+//   `&populate[ingredients][populate]=metric` + // metric measurements for each ingredient
+//   `&populate[cookingMethods][populate]=instructions` + // recipe card cooking methods
+//   `&populate[detailedInstructions][populate]=images` + // detailed instruction images
+//   `&populate[coverImage][populate]=true` // cover image for some reason idk
 
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes${query}`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data?.[0] || null;
-}
+//   const res = await fetch(
+//     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes${query}`,
+//     { cache: 'no-store' }
+//   );
+//   const data = await res.json();
+//   return data?.data?.[0] || null;
+// }
 
 // 2. Dynamic metadata for SEO/social sharing
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const recipe = await fetchRecipe(slug);
+  const recipe = await fetchRecipeBySlug(slug);
   if (!recipe) return {};
 
   const title = recipe.title;
@@ -73,9 +74,9 @@ async function Recipe({ params }) {
 
   let recipe;
   try {
-    recipe = await fetchRecipe(slug);
+    recipe = await fetchRecipeBySlug(slug);
   } catch (error) {
-    console.error("Error fetching recipe:", error);
+    // console.error("Error fetching recipe:", error);
     return <NotFound />;
   }
 

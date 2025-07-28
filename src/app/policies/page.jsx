@@ -1,21 +1,12 @@
 import React from "react";
 import Link from "next/link";
-// import NotFound from "./not-found";
+import { fetchPolicies } from "@/lib/strapi-client";
 
-// Helper to fetch policies from Strapi
-async function fetchPolicies() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?fields=title&fields=slug`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data || null;
-}
+
 
 export default async function Policies() {
   const policies = await fetchPolicies();
-  
-  // if (!policies) return <NotFound />;
+
 
   return (
     <div className="max-w-xl mx-auto my-8 flex-1">

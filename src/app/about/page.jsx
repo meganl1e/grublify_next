@@ -1,6 +1,3 @@
-// import about_hero from "../images/IMG_1663.jpg";
-// import family from "../images/family.png";
-// import creed from "../images/IMG_9176.jpg";
 import about_hero from "../../../public/about_hero.jpg";
 import about_mission from "../../../public/about_mission.jpg";
 import about_family from "../../../public/about_family.png";

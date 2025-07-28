@@ -1,33 +1,9 @@
 import RecipeListItem from "./recipe-list-item";
-import { fetchStrapiImage } from "@/lib/strapi-client";
 
-
-// fetch recipes from strapi
-async function fetchRecipes() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes?fields=name&fields=slug&populate=coverImage&populate=tags`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data || null;
-}
-
-
-
-
-async function RecipeList() {
-  const recipes = await fetchRecipes();
-  const transitionGuideImage = await fetchStrapiImage(12);
-  const portionCalculatorImage = await fetchStrapiImage(44);
-
-
-  if (!recipes) return <div>Not found</div>;
-
+function RecipeList({ recipes, transitionGuideImage, portionCalculatorImage }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
       {recipes.map((recipe) => {
-
-
         const tags = Array.isArray(recipe.tags)
           ? recipe.tags.map(tag => tag.name)
           : [];

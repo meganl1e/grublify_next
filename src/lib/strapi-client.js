@@ -1,5 +1,91 @@
-// fetch one image from strapi
-export async function fetchStrapiImage(imageId) {
+// fetch data for homepage
+export async function fetchHome() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
+    { cache: 'no-store' }
+  );
+  if (!res.ok) {
+    throw new Error('Failed to fetch homepage data');
+  }
+  const data = await res.json();
+  return data?.data || null;
+}
+
+
+// fetch all blogs
+export async function fetchBlogs() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data || null;
+}
+
+// fetch one blog by slug
+export async function fetchBlogBySlug(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data?.[0] || null;
+}
+
+// fetch all recipes
+export async function fetchRecipes() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes?fields=name&fields=slug&populate=coverImage&populate=tags`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data || null;
+}
+
+// fetch recipe by slug
+export async function fetchRecipeBySlug(slug) {
+
+  const query = `?filters[slug][$eq]=${slug}` +
+  `&populate[ingredients][populate]=true` + // all ingredients
+  `&populate[ingredients][populate]=imperial` + // imperial measurements for each ingredient
+  `&populate[ingredients][populate]=metric` + // metric measurements for each ingredient
+  `&populate[cookingMethods][populate]=instructions` + // recipe card cooking methods
+  `&populate[detailedInstructions][populate]=images` + // detailed instruction images
+  `&populate[coverImage][populate]=true` // cover image for some reason idk
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes${query}`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data?.[0] || null;
+}
+
+
+// fetch all policies
+export async function fetchPolicies() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?fields=title&fields=slug`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data || null;
+}
+
+// fetch one policy by slug
+export async function fetchPolicyBySlug(slug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?filters[slug][$eq]=${slug}`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data?.[0] || null;
+}
+
+
+// fetch one image from strapi by id (usually it's just a number)
+// images are from media library
+export async function fetchStrapiImageById(imageId) {
   const res = await fetch(`${process.env.NEXT_PUBLIC_STRAPI_URL}/api/upload/files/${imageId}`);
   if (!res.ok) {
     let errorMsg = `Failed to fetch image (status: ${res.status})`;
@@ -30,4 +116,25 @@ export async function fetchAllStrapiImages() {
     throw new Error(errorMsg);
   }
   return await res.json();
+}
+
+// fetch team info
+export async function fetchTeam() {
+  try {
+    const query = '?populate[teamMembers][populate]=profilePicture';
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/team${query}`,
+      { cache: 'no-store' }
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch team data');
+    }
+
+    const data = await res.json();
+    return data.data || null;
+  } catch (error) {
+    console.error('Error fetching team data:', error);
+    return null;
+  }
 }

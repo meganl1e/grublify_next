@@ -2,22 +2,12 @@
 import StrapiBlocksRenderer from "@/components/ui/blocks/strapi-blocks-renderer";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
-
-
-// 1. Helper to fetch blog post from Strapi
-async function fetchBlog(slug) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data?.[0] || null;
-}
+import { fetchBlogBySlug } from "@/lib/strapi-client";
 
 // 2. Dynamic metadata for SEO/social sharing
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const blog = await fetchBlog(slug);
+  const blog = await fetchBlogBySlug(slug);
   if (!blog) return {};
 
   const title = blog.title;
@@ -65,9 +55,9 @@ async function BlogPage({ params }) {
 
   let blog;
   try {
-    blog = await fetchBlog(slug);
+    blog = await fetchBlogBySlug(slug);
   } catch (error) {
-    console.error("Error fetching blog:", error);
+    // console.error("Error fetching blog:", error);
     return <NotFound />;
   }
   if (!blog) return <NotFound />;

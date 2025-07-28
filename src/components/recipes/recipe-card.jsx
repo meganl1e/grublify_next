@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
+import { Button } from "../ui/button";
 
 const RecipeCard = ({ recipe }) => {
   const [selectedMethod, setSelectedMethod] = useState(0)
@@ -7,7 +9,7 @@ const RecipeCard = ({ recipe }) => {
 
   return (
     <div className="bg-primary/40 min-h-screen p-6 rounded-lg">
-      
+
       <div className="max-w-4xl p-6 bg-white rounded-lg overflow-hidden">
 
         {/* Title */}
@@ -15,7 +17,7 @@ const RecipeCard = ({ recipe }) => {
 
         {/* Recipe Information */}
         <div className="mb-6">
-            
+
           {/* Content */}
           <div className="grid grid-cols-2 gap-4 p-2 text-gray-800">
             {/* Prep Time */}
@@ -39,7 +41,21 @@ const RecipeCard = ({ recipe }) => {
             {/* Servings */}
             <div>
               <p className="font-semibold">Servings:</p>
-              <p>XX</p>
+              <Button 
+                variant="default"
+                size="sm"
+              >
+                <Link
+                  aria-label="Open portion calculator in a new tab"
+                  href="/recipes/portion-calculator"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Portion Calculator
+                </Link>
+
+              </Button>
+
             </div>
           </div>
         </div>
@@ -88,11 +104,10 @@ const RecipeCard = ({ recipe }) => {
             {recipe.cookingMethods.map((method, index) => (
               <button
                 key={index}
-                className={`px-4 py-2 rounded-lg font-semibold border border-secondary border-l transition-transform duration-200 ease-in-out cursor-pointer ${
-                  selectedMethod === index
-                    ? "bg-secondary text-white scale-105"
-                    : "bg-white text-secondary hover:bg-secondary hover:text-white"
-                }`}
+                className={`px-4 py-2 rounded-lg font-semibold border border-secondary border-l transition-transform duration-200 ease-in-out cursor-pointer ${selectedMethod === index
+                  ? "bg-secondary text-white scale-105"
+                  : "bg-white text-secondary hover:bg-secondary hover:text-white"
+                  }`}
                 onClick={() => setSelectedMethod(index)}
               >
                 {method.methodType}

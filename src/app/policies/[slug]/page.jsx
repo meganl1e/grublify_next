@@ -1,18 +1,11 @@
 import PolicyBlocksRenderer from "@/components/ui/blocks/policy-blocks-renderer";
 import NotFound from "../../not-found";
+import { fetchPolicyBySlug } from "@/lib/strapi-client";
 
-async function fetchPolicy(slug) {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?filters[slug][$eq]=${slug}`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data?.[0] || null;
-}
 
 export default async function Policy({ params }) {
   const { slug } = await params;
-  const policy = await fetchPolicy(slug);
+  const policy = await fetchPolicyBySlug(slug);
 
 
   if (!policy ) return <NotFound />;

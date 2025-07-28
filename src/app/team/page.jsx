@@ -1,26 +1,5 @@
 import Image from "next/image";
-import { Card } from "@/components/ui/card";
-
-// Helper to fetch blogs from Strapi
-async function fetchTeam() {
-  try {
-    const query = '?populate[teamMembers][populate]=profilePicture';
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/team${query}`,
-      { cache: 'no-store' }
-    );
-
-    if (!res.ok) {
-      throw new Error('Failed to fetch team data');
-    }
-
-    const data = await res.json();
-    return data.data || null;
-  } catch (error) {
-    console.error('Error fetching team data:', error);
-    return null;
-  }
-}
+import { fetchTeam } from "@/lib/strapi-client";
 
 export default async function Team() {
   const team = await fetchTeam();
