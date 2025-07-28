@@ -86,10 +86,10 @@ async function Recipe({ params }) {
     <div className="min-h-screen p-4 sm:p-8">
 
       {/* Main content area */}
-      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-full lg:max-w-6xl">
+      <div className="container mx-auto max-w-6xl">
 
         {/* Main content */}
-        <main className="w-full lg:col-span-6 lg:col-start-3 pt-4 lg:pt-6 space-y-6">
+        <main className="w-full lg:w-1/2 lg:mx-auto pt-4 lg:pt-6 space-y-6">
           <div className="flex flex-col gap-1">
             {/* recipe title */}
             <h3 className="text-lg font-bold text-secondary/80">RECIPE</h3>
@@ -110,9 +110,6 @@ async function Recipe({ params }) {
           {/* Detailed Instructions */}
           <RecipeDetailedInstructions data={recipe.detailedInstructions} />
         </main>
-        
-        {/* Sidebar (hidden on mobile) */}
-        <aside className="hidden lg:block p-6"></aside>
       </div>
     </div>
   );
