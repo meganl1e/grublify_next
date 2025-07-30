@@ -3,6 +3,7 @@ import HowItWorks from "../components/home/how-it-works";
 import NotFound from "./not-found";
 import CallToAction from "@/components/home/call-to-action";
 import { fetchHome } from "@/lib/strapi-client";
+import EmailSignup from "@/components/popups/EmailSignup";
 
 // // 1. Helper to fetch blog post from Strapi
 // async function fetchHome() {
@@ -15,17 +16,20 @@ import { fetchHome } from "@/lib/strapi-client";
 //   return data?.data || null;
 // }
 
-export default async function Home() { 
+export default async function Home() {
   // throw new Error("Test error to trigger Global Error Boundary");
 
   const home = await fetchHome();
   if (!home) return <NotFound />;
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Hero data={home} />
-      <HowItWorks data={home} />
-      <CallToAction />
+    <div>
+      <div className="flex flex-col min-h-screen">
+        <Hero data={home} />
+        <HowItWorks data={home} />
+        <CallToAction />
+      </div>
+      <EmailSignup />
     </div>
   );
 }
