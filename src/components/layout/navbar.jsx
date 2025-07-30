@@ -5,6 +5,7 @@ import { useState } from "react";
 import logo from "../../../public/grublify_logo_simple.png";
 import CartModal from "../cart/cart-modal";
 import ProfileButton from "../archive/profile/profile-button";
+import DropdownMenu, { DropdownItem } from "../ui/dropdown-menu";
 
 
 export default function Navbar() {
@@ -12,10 +13,32 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   const links = [
-    { href: "/products/nutrition-pack-essentials", label: "Shop" },
-    { href: "/recipes", label: "Recipes" },
+    {
+      href: "/products",
+      label: "Shop",
+      children: [
+        { href: "/products/", label: "All Products" },
+        { href: "/products/nutrition-pack-essentials", label: "Nutrition Packs" }
+      ]
+    },
+    {
+      href: "/recipes",
+      label: "Recipes",
+      children: [
+        { href: "/recipes", label: "All Recipes" },
+        { href: "/recipes/portion-calculator", label: "Portion Calculator" },
+        { href: "/recipes/transition-guide", label: "Transition Guide" }
+      ]
+    },
     { href: "/blogs", label: "Blog" },
-    { href: "/about", label: "About" },
+    {
+      href: "/about",
+      label: "About",
+      children: [
+        { href: "/about", label: "Our Story" },
+        { href: "/team", label: "Team" }
+      ]
+    },
   ];
 
   const handleClick = () => {
@@ -42,16 +65,57 @@ export default function Navbar() {
 
           {/* Center: Links */}
           <div className="flex justify-center items-center gap-8">
-            {links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                <span
-                  className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer
-            ${pathname === link.href ? "text-primary" : "text-white/90"}`}
-                >
-                  {link.label}
-                </span>
-              </Link>
-            ))}
+            {links.map((link) => {
+              if (link.children) {
+                return (
+                  <DropdownMenu
+                    key={link.href}
+                    trigger={
+                      <Link href={link.href}>
+                        <span
+                          className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer flex items-center gap-1
+                    ${pathname === link.href ? "text-primary" : "text-white/90"}`}
+                        >
+                          {link.label}
+                          {/* the dropdown arrow thing is kinda ugly */}
+                          {/* <svg 
+                            className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg> */}
+                        </span>
+                      </Link>
+                    }
+                  >
+                    {(handleItemClick) => 
+                      link.children.map((child) => (
+                        <DropdownItem 
+                          key={child.href} 
+                          href={child.href}
+                          onClick={handleItemClick}
+                        >
+                          {child.label}
+                        </DropdownItem>
+                      ))
+                    }
+                  </DropdownMenu>
+                );
+              }
+
+              return (
+                <Link href={link.href} key={link.href}>
+                  <span
+                    className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer
+              ${pathname === link.href ? "text-primary" : "text-white/90"}`}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
 
           {/* Right: Profile and Cart */}
@@ -100,11 +164,6 @@ export default function Navbar() {
                 </div>
               </Link>
             ))}
-            {/* <Link href="/waitlist">
-              <button className="mt-2 text-md px-4 py-2 bg-primary hover:bg-white/90 text-secondary font-semibold rounded-sm border border-primary cursor-pointer" onClick={() => setOpen(false)}>
-                Get Started
-              </button>
-            </Link> */}
           </div>
         </div>
       </div>
