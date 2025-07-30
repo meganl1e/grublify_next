@@ -103,19 +103,12 @@ export default function EmailSignup() {
         setIsSuccess(true);
         setIsSubmitting(false);
 
-        // Close after showing success for 2 seconds
-        setTimeout(() => {
-          // Mark as subscribed (don't show again)
-          localStorage.setItem('email_popup_data', JSON.stringify({
-            lastShown: Date.now(),
-            dismissedCount: 0,
-            subscribed: true
-          }));
-          setOpen(false);
-          setEmail('');
-          setIsSubmitting(false);
-          setIsSuccess(false);
-        }, 2000);
+        // Mark as subscribed (don't show again)
+        localStorage.setItem('email_popup_data', JSON.stringify({
+          lastShown: Date.now(),
+          dismissedCount: 0,
+          subscribed: true
+        }));
       } else {
         throw new Error(data.error || 'Failed to subscribe');
       }
@@ -153,18 +146,20 @@ export default function EmailSignup() {
 
             {/* Content section */}
             <div className="flex-1 p-8">
-              {/* Header */}
-              <div className="text-center sm:text-left mb-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 sm:hidden">
-                  <Mail className="w-8 h-8 text-primary" />
+              {/* Header - only show when not in success state */}
+              {!isSuccess && (
+                <div className="text-center sm:text-left mb-6">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 sm:hidden">
+                    <Mail className="w-8 h-8 text-primary" />
+                  </div>
+                  <DialogTitle className="text-2xl font-bold text-primary mb-2">
+                    GET 40% OFF YOUR FIRST ORDER!
+                  </DialogTitle>
+                  <DialogDescription className="text-secondary text-base leading-relaxed">
+                    Balanced homemade meals for your dog, made easy. Sign up for nutrition tips, simple recipes, and 40% off!
+                  </DialogDescription>
                 </div>
-                <DialogTitle className="text-2xl font-bold text-primary mb-2">
-                  GET 40% OFF YOUR FIRST ORDER!
-                </DialogTitle>
-                <DialogDescription className="text-secondary text-base leading-relaxed">
-                  Balanced homemade meals for your dog, made easy. Sign up for nutrition tips, simple recipes, and 40% off!
-                </DialogDescription>
-              </div>
+              )}
 
               {/* Form */}
               {!isSuccess ? (
@@ -220,11 +215,18 @@ export default function EmailSignup() {
                     <Sparkles className="w-8 h-8 text-green-600" />
                   </div>
                   <h3 className="text-xl font-semibold text-secondary mb-2">
-                    Success! Your pup’s about to eat better. 🐾 
+                    Success! Your pup's about to eat better. 🐾 
                   </h3>
-                  <p className="text-foreground">
+                  <p className="text-secondary mb-6">
                     Check your email for your exclusive discount code!
                   </p>
+                  <Button
+                    onClick={handleClose}
+                    className="w-full h-12 text-base font-medium bg-primary hover:bg-primary/90 transition-all duration-200 cursor-pointer"
+                    variant="default"
+                  >
+                    Close
+                  </Button>
                 </div>
               )}
             </div>
