@@ -13,6 +13,7 @@ import { useState, useEffect } from 'react';
 import { Mail, Gift, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import about_mission from "../../../public/about_mission.jpg";
+import email_image from "../../../public/email.jpg";
 
 export default function EmailSignup() {
   const [open, setOpen] = useState(false);
@@ -21,10 +22,32 @@ export default function EmailSignup() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   useEffect(() => {
-    // Check if popup has been shown before
-    const hasSeenPopup = localStorage.getItem('email_popup_shown');
+    // Check if popup has been shown recently
+    const popupData = localStorage.getItem('email_popup_data');
+    let shouldShowPopup = true;
 
-    if (!hasSeenPopup) {
+    if (popupData) {
+      try {
+        const data = JSON.parse(popupData);
+        const { lastShown, dismissedCount, subscribed } = data;
+        const now = Date.now();
+        const daysSinceLastShown = (now - lastShown) / (1000 * 60 * 60 * 24);
+
+        // Don't show if:
+        // 1. Already subscribed, OR
+        // 2. Shown in last 7 days, OR
+        // 3. Dismissed more than 3 times
+        if (subscribed || daysSinceLastShown < 7 || dismissedCount >= 3) {
+          shouldShowPopup = false;
+        }
+      } catch (error) {
+        console.error('Error parsing popup data:', error);
+        // If there's an error, reset the data
+        localStorage.removeItem('email_popup_data');
+      }
+    }
+
+    if (shouldShowPopup) {
       // Show popup after 8 seconds
       const timer = setTimeout(() => {
         setOpen(true);
@@ -36,7 +59,23 @@ export default function EmailSignup() {
 
   const handleClose = () => {
     setOpen(false);
-    localStorage.setItem('email_popup_shown', 'true');
+
+    // Update popup tracking data
+    const popupData = localStorage.getItem('email_popup_data');
+    let data = { lastShown: Date.now(), dismissedCount: 0 };
+
+    if (popupData) {
+      try {
+        data = JSON.parse(popupData);
+        data.lastShown = Date.now();
+        data.dismissedCount += 1;
+      } catch (error) {
+        console.error('Error parsing popup data:', error);
+      }
+    }
+
+    localStorage.setItem('email_popup_data', JSON.stringify(data));
+
     // Reset form state
     setEmail('');
     setIsSubmitting(false);
@@ -66,7 +105,16 @@ export default function EmailSignup() {
 
         // Close after showing success for 2 seconds
         setTimeout(() => {
-          handleClose();
+          // Mark as subscribed (don't show again)
+          localStorage.setItem('email_popup_data', JSON.stringify({
+            lastShown: Date.now(),
+            dismissedCount: 0,
+            subscribed: true
+          }));
+          setOpen(false);
+          setEmail('');
+          setIsSubmitting(false);
+          setIsSuccess(false);
         }, 2000);
       } else {
         throw new Error(data.error || 'Failed to subscribe');
@@ -95,7 +143,7 @@ export default function EmailSignup() {
             {/* Image section */}
             <div className="hidden sm:block w-1/3 relative overflow-hidden">
               <Image
-                src={about_mission}
+                src={email_image}
                 alt="Dog enjoying fresh food"
                 className="w-full h-full object-cover"
                 fill
@@ -110,11 +158,11 @@ export default function EmailSignup() {
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 sm:hidden">
                   <Mail className="w-8 h-8 text-primary" />
                 </div>
-                <DialogTitle className="text-2xl font-semibold text-foreground mb-2">
-                  Join the Grublify Family! 🍽️
+                <DialogTitle className="text-2xl font-bold text-primary mb-2">
+                  GET 40% OFF YOUR FIRST ORDER!
                 </DialogTitle>
-                <DialogDescription className="text-muted-foreground text-base leading-relaxed">
-                  Get exclusive recipes, cooking tips, and <span className="font-semibold text-accent">15% off your first order</span> delivered straight to your inbox!
+                <DialogDescription className="text-secondary text-base leading-relaxed">
+                  Balanced homemade meals for your dog, made easy. Sign up for nutrition tips, simple recipes, and 40% off!
                 </DialogDescription>
               </div>
 
@@ -128,10 +176,11 @@ export default function EmailSignup() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
-                      className="h-12 text-base pr-12"
+                        className="h-12 text-base pr-12"
                       disabled={isSubmitting}
                     />
                     <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                   
                   </div>
 
                   <Button
@@ -147,13 +196,21 @@ export default function EmailSignup() {
                     ) : (
                       <>
                         <Gift className="w-5 h-5 mr-2" />
-                        Get My 10% Discount
+                        Get My 40% Discount
                       </>
                     )}
                   </Button>
+                  
+                  <Button
+                    className="text-muted-foreground w-full h-4"
+                    variant="link"
+                    onClick={handleClose}
+                  >
+                    I’ll stick to kibble (for now)
+                  </Button>
 
-                  <p className="text-xs text-muted-foreground text-center sm:text-left">
-                    No spam, just delicious content! Unsubscribe anytime.
+                  <p className="text-xs text-muted-foreground text-center">
+                    No spam or sharing. Opt out anytime.
                   </p>
                 </form>
               ) : (
@@ -162,10 +219,10 @@ export default function EmailSignup() {
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                     <Sparkles className="w-8 h-8 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    Welcome to the family! 🎉
+                  <h3 className="text-xl font-semibold text-secondary mb-2">
+                    Success! Your pup’s about to eat better. 🐾 
                   </h3>
-                  <p className="text-muted-foreground">
+                  <p className="text-foreground">
                     Check your email for your exclusive discount code!
                   </p>
                 </div>

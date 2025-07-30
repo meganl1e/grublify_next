@@ -3,18 +3,6 @@ import HowItWorks from "../components/home/how-it-works";
 import NotFound from "./not-found";
 import CallToAction from "@/components/home/call-to-action";
 import { fetchHome } from "@/lib/strapi-client";
-import EmailSignup from "@/components/popups/email-signup";
-
-// // 1. Helper to fetch blog post from Strapi
-// async function fetchHome() {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
-//     { cache: 'no-store' }
-//   );
-//   const data = await res.json();
-//   // console.log('Home data:', data);
-//   return data?.data || null;
-// }
 
 export default async function Home() {
   // throw new Error("Test error to trigger Global Error Boundary");
@@ -29,7 +17,6 @@ export default async function Home() {
         <HowItWorks data={home} />
         <CallToAction />
       </div>
-      <EmailSignup />
     </div>
   );
 }
