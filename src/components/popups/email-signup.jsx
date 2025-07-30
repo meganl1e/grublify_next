@@ -10,7 +10,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useState, useEffect } from 'react';
-import { Mail, Gift, X, Sparkles } from 'lucide-react';
+import { Mail, Gift, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import about_mission from "../../../public/about_mission.jpg";
 
@@ -22,7 +22,7 @@ export default function EmailSignup() {
 
   useEffect(() => {
     // Check if popup has been shown before
-    const hasSeenPopup = localStorage.getItem('grublify_newsletter_popup_shown');
+    const hasSeenPopup = localStorage.getItem('email_popup_shown');
 
     if (!hasSeenPopup) {
       // Show popup after 8 seconds
@@ -36,7 +36,7 @@ export default function EmailSignup() {
 
   const handleClose = () => {
     setOpen(false);
-    localStorage.setItem('grublify_newsletter_popup_shown', 'true');
+    localStorage.setItem('email_popup_shown', 'true');
     // Reset form state
     setEmail('');
     setIsSubmitting(false);
@@ -49,16 +49,34 @@ export default function EmailSignup() {
 
     setIsSubmitting(true);
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('/api/email-signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
 
-    setIsSuccess(true);
-    setIsSubmitting(false);
+      const data = await response.json();
 
-    // Close after showing success for 2 seconds
-    setTimeout(() => {
-      handleClose();
-    }, 2000);
+      if (response.ok) {
+        setIsSuccess(true);
+        setIsSubmitting(false);
+
+        // Close after showing success for 2 seconds
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      } else {
+        throw new Error(data.error || 'Failed to subscribe');
+      }
+    } catch (error) {
+      console.error('Email signup error:', error);
+      setIsSubmitting(false);
+      // You could add error state handling here if needed
+      alert('Failed to subscribe. Please try again.');
+    }
   };
 
   return (
@@ -75,7 +93,7 @@ export default function EmailSignup() {
           {/* Main content with image */}
           <div className="flex">
             {/* Image section */}
-            <div className="hidden sm:block w-1/3 bg-gradient-to-br from-primary/20 to-accent/20 relative overflow-hidden">
+            <div className="hidden sm:block w-1/3 relative overflow-hidden">
               <Image
                 src={about_mission}
                 alt="Dog enjoying fresh food"

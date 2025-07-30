@@ -3,7 +3,7 @@ import HowItWorks from "../components/home/how-it-works";
 import NotFound from "./not-found";
 import CallToAction from "@/components/home/call-to-action";
 import { fetchHome } from "@/lib/strapi-client";
-import EmailSignup from "@/components/popups/EmailSignup";
+import EmailSignup from "@/components/popups/email-signup";
 
 // // 1. Helper to fetch blog post from Strapi
 // async function fetchHome() {
