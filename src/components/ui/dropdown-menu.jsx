@@ -74,7 +74,7 @@ export function DropdownItem({ href, children, className = "", onClick }) {
     <Link href={href} onClick={handleClick}>
       <div
         className={`
-          px-4 py-4 text-sm text-secondary hover:text-secondary hover:bg-primary-light
+          px-4 py-4 text-sm text-secondary hover:text-secondary hover:bg-primary-light font-medium
           transition-colors cursor-pointer rounded-sm
           ${className}
         `}

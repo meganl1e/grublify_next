@@ -11,7 +11,9 @@ import DropdownMenu, { DropdownItem } from "../ui/dropdown-menu";
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState({});
 
+  // put in strapi later i am lazy
   const links = [
     {
       href: "/products",
@@ -43,6 +45,13 @@ export default function Navbar() {
 
   const handleClick = () => {
     setOpen((prev) => !prev);
+  };
+
+  const toggleMobileDropdown = (linkHref) => {
+    setMobileExpanded(prev => ({
+      ...prev,
+      [linkHref]: !prev[linkHref]
+    }));
   };
 
   return (
@@ -150,19 +159,66 @@ export default function Navbar() {
             <CartModal />
           </div>
         </div>
+        
+        {/* MOBILE MENU */}
         <div
           className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"}`}
         >
           <div className="bg-secondary text-white p-4 space-y-4">
             {links.map((link) => (
-              <Link href={link.href} key={link.href}>
-                <div
-                  className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${pathname === link.href ? "text-primary" : "text-white/90"}`}
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </div>
-              </Link>
+              <div key={link.href}>
+                {link.children ? (
+                  // Dropdown item
+                  <div>
+                    <button
+                      onClick={() => toggleMobileDropdown(link.href)}
+                      className="flex items-center justify-between w-full px-1 py-2 text-lg font-semibold text-white/90 hover:text-primary transition-colors"
+                    >
+                      {link.label}
+                      <svg 
+                        className={`w-5 h-5 transition-transform duration-200 ${
+                          mobileExpanded[link.href] ? 'rotate-180' : ''
+                        }`}
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </button>
+                    
+                    {/* Dropdown Content */}
+                    <div className={`overflow-hidden transition-all duration-300 ${
+                      mobileExpanded[link.href] ? 'max-h-96' : 'max-h-0'
+                    }`}>
+                      <div className="pl-4 space-y-2">
+                        {link.children.map((child) => (
+                          <Link href={child.href} key={child.href}>
+                            <div
+                              className="px-1 py-2 text-base text-white/70 hover:text-primary transition-colors cursor-pointer"
+                              onClick={() => setOpen(false)}
+                            >
+                              {child.label}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  // Regular link
+                  <Link href={link.href}>
+                    <div
+                      className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${
+                        pathname === link.href ? "text-primary" : "text-white/90"
+                      }`}
+                      onClick={() => setOpen(false)}
+                    >
+                      {link.label}
+                    </div>
+                  </Link>
+                )}
+              </div>
             ))}
           </div>
         </div>
