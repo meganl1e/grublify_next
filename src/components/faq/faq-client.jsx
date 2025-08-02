@@ -133,7 +133,7 @@ export default function FaqClient({ faqs }) {
         </div>
       </div>
 
-      <FaqContact />
+      {/* <FaqContact /> */}
     </>
   )
 }
