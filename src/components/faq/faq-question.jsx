@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronDown, ChevronUp } from "lucide-react";
+import StrapiBlocksRenderer from "../ui/blocks/strapi-blocks-renderer";
 
 export default function FaqQuestion({ questions, category, openQuestions, toggleQuestion }) {
   return (
@@ -26,7 +27,9 @@ export default function FaqQuestion({ questions, category, openQuestions, toggle
               {isOpen && (
                 <div className="px-6 pb-6">
                   <div className="border-t pt-4">
-                    <p className="text-secondary leading-relaxed">{faq.answer}</p>
+                    <p className="text-secondary leading-relaxed">
+                      <StrapiBlocksRenderer content={faq.answer} />
+                    </p>
                   </div>
                 </div>
               )}

@@ -12,11 +12,48 @@ function groupByCategory(faqItems) {
   return grouped;
 }
 
+function slugify(text) {
+  return text.toString().toLowerCase()
+    .replace(/\s+/g, '-')     // Replace spaces with dash
+    .replace(/[^\w-]/g, '')   // Remove all non-word chars except dash
+    .replace(/--+/g, '-')     // Replace multiple dashes with one dash
+    .replace(/^-+/, '')       // Trim starting dash
+    .replace(/-+$/, '');      // Trim ending dash
+}
+
+function groupFaqItemsToCategories(faqItems) {
+  const grouped = {};
+
+  // Group items by category (or "Uncategorized")
+  faqItems.forEach(item => {
+    const cat = item.category || "Uncategorized";
+    if (!grouped[cat]) grouped[cat] = [];
+    grouped[cat].push(item);
+  });
+
+  // Transform grouped object into array of category objects
+  const categories = Object.entries(grouped).map(([categoryName, items]) => ({
+    id: slugify(categoryName),
+    title: categoryName,
+    // icon: iconMap[categoryName] || null,   // or undefined if no icon
+    // color: colorMap[categoryName] || null, // or undefined if no color
+    questions: items.map(({ question, answer }) => ({
+      question,
+      answer,
+    })),
+  }));
+
+  // console.log("CATEGORIES: ", categories)
+
+  return categories;
+}
+
 
 export default async function Faqs() {
   const faqs = await fetchFaqs();
 
-  const groupedFaqs = groupByCategory(faqs);
+  // const groupedFaqs = groupByCategory(faqs);
+  const groupedFaqs = groupFaqItemsToCategories(faqs);
 
   // console.log(groupedFaqs)
 
