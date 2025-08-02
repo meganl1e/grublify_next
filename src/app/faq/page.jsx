@@ -59,7 +59,7 @@ export default async function Faqs() {
       </section>
 
       <FaqClient faqs={groupedFaqs} />
-      <FaqContact />
+      {/* <FaqContact /> */}
     </div>
   );
 }
