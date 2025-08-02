@@ -5,7 +5,6 @@ import { fetchPolicies } from "@/lib/strapi-client";
 
 
 export default async function Policies() {
-  const policies = await fetchPolicies();
 
 
   return (

@@ -32,6 +32,17 @@ export async function fetchBlogBySlug(slug) {
   return data?.data?.[0] || null;
 }
 
+// fetch faqs
+export async function fetchFaqs() {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  // console.log(data);
+  return data?.data || null;
+}
+
 // fetch all recipes
 export async function fetchRecipes() {
   const res = await fetch(
