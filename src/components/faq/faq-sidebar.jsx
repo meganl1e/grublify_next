@@ -4,7 +4,7 @@ import { ChevronDown, ChevronUp, Search, User, ShoppingCart, HelpCircle, Play, H
 export default function FaqSidebar({ scrollToCategory, categories }) {
 
   
-  console.log("CAT: ", categories)
+  // console.log("CAT: ", categories)
 
 
   return (
@@ -16,7 +16,7 @@ export default function FaqSidebar({ scrollToCategory, categories }) {
             onClick={() => scrollToCategory("all")}
             className="w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 bg-white text-secondary hover:bg-gray-100"
           >
-            <HelpCircle className="w-5 h-5" />
+            {/* <HelpCircle className="w-5 h-5" /> */}
             All Questions
           </button>
           {categories.map((category) => {

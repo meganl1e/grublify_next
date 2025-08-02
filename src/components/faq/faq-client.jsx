@@ -37,8 +37,9 @@ export default function FaqClient({ faqs }) {
     if (searchTerm) {
       return category.questions.some(
         (q) =>
-          q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
+          q.question.toLowerCase().includes(searchTerm.toLowerCase())
+        // ||
+        //   q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     }
     return true
@@ -49,8 +50,9 @@ export default function FaqClient({ faqs }) {
     if (!searchTerm) return questions
     return questions.filter(
       (q) =>
-        q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
+        q.question.toLowerCase().includes(searchTerm.toLowerCase())
+              // ||
+        //   q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
     )
   }
 
