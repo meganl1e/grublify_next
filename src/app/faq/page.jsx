@@ -2,16 +2,6 @@ import FaqClient from "@/components/faq/faq-client";
 import FaqContact from "@/components/faq/faq-contact";
 import { fetchFaqs } from "@/lib/strapi-client";
 
-function groupByCategory(faqItems) {
-  const grouped = {};
-  faqItems.forEach(item => {
-    const cat = item.category || "Uncategorized";
-    if (!grouped[cat]) grouped[cat] = [];
-    grouped[cat].push(item);
-  });
-  return grouped;
-}
-
 function slugify(text) {
   return text.toString().toLowerCase()
     .replace(/\s+/g, '-')     // Replace spaces with dash
@@ -43,8 +33,6 @@ function groupFaqItemsToCategories(faqItems) {
     })),
   }));
 
-  // console.log("CATEGORIES: ", categories)
-
   return categories;
 }
 
@@ -52,11 +40,7 @@ function groupFaqItemsToCategories(faqItems) {
 export default async function Faqs() {
   const faqs = await fetchFaqs();
 
-  // const groupedFaqs = groupByCategory(faqs);
   const groupedFaqs = groupFaqItemsToCategories(faqs);
-
-  // console.log(groupedFaqs)
-
 
 
   return (

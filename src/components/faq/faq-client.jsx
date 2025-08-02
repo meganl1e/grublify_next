@@ -10,9 +10,6 @@ import FaqQuestion from "@/components/faq/faq-question"
 import FaqContact from "@/components/faq/faq-contact"
 
 export default function FaqClient({ faqs }) {
-  // console.log("FaqClient received faqs:", faqs);
-  // console.log("Type of faqs:", typeof faqs);
-  // console.log("Is faqs an array?", Array.isArray(faqs));
 
   const [searchTerm, setSearchTerm] = useState("")
   const [openQuestions, setOpenQuestions] = useState([])
@@ -24,12 +21,18 @@ export default function FaqClient({ faqs }) {
     )
   }
 
-  // Ensure faqs is an array before filtering
+  // confirms it is an array
   const faqsArray = Array.isArray(faqs) ? faqs : [];
-  
-  // Extract category names for sidebar
-  const categories = faqsArray.map(category => category.title);
-  
+
+  // creates a new array called categories which only contains the title and id
+  const categories = faqsArray.map(category => ({
+    title: category.title,
+    id: category.id
+  }));
+
+  // console.log("CAT: ", categories)
+
+  // filter categories based on search term
   const filteredCategories = faqsArray.filter((category) => {
     if (searchTerm) {
       return category.questions.some(
@@ -41,6 +44,7 @@ export default function FaqClient({ faqs }) {
     return true
   })
 
+  // filter questions based on search term
   const filteredQuestions = (questions) => {
     if (!searchTerm) return questions
     return questions.filter(
@@ -50,13 +54,14 @@ export default function FaqClient({ faqs }) {
     )
   }
 
+  // finds dom element on page with id=categoryId
   const scrollToCategory = (categoryId) => {
     const element = document.getElementById(categoryId);
     if (element) {
       element.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
-  
+
 
   return (
     <>
@@ -85,7 +90,7 @@ export default function FaqClient({ faqs }) {
             categories={categories}
             scrollToCategory={scrollToCategory}
           />
-          
+
 
           {/* FAQ Content */}
           <div className="lg:col-span-3">

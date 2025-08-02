@@ -3,6 +3,9 @@ import { ChevronDown, ChevronUp, Search, User, ShoppingCart, HelpCircle, Play, H
 
 export default function FaqSidebar({ scrollToCategory, categories }) {
 
+  
+  console.log("CAT: ", categories)
+
 
   return (
     <div className="lg:col-span-1">
@@ -20,12 +23,12 @@ export default function FaqSidebar({ scrollToCategory, categories }) {
             // const IconComponent = category.icon
             return (
               <button
-                key={category}
-                onClick={() => scrollToCategory(category)}
+                key={category.id}
+                onClick={() => scrollToCategory(category.id)}
                 className="w-full text-left px-4 py-3 rounded-lg transition-colors flex items-center gap-3 bg-white text-secondary hover:bg-gray-100"
               >
                 {/* <IconComponent className="w-5 h-5" /> */}
-                {category}
+                {category.title}
                 {/* <div className="ml-auto text-sm opacity-70">
                   {category.questions.length}
                 </div> */}
