@@ -6,6 +6,8 @@ import { fetchPolicies } from "@/lib/strapi-client";
 
 export default async function Policies() {
 
+  const policies = await fetchPolicies()
+
 
   return (
     <div className="max-w-xl mx-auto my-8 flex-1">
