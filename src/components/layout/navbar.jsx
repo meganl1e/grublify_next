@@ -38,7 +38,8 @@ export default function Navbar() {
       label: "About",
       children: [
         { href: "/about", label: "Our Story" },
-        { href: "/team", label: "Team" }
+        { href: "/team", label: "Team" },
+        { href: "/faq", label: "FAQ"}
       ]
     },
   ];
