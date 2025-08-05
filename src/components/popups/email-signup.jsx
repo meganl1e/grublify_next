@@ -16,46 +16,9 @@ import about_mission from "../../../public/about_mission.jpg";
 import email_image from "../../../public/email.jpg";
 
 export default function EmailSignup({ open, setOpen }) {
-  // const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  // useEffect(() => {
-  //   // Check if popup has been shown recently
-  //   const popupData = localStorage.getItem('email_popup_data');
-  //   let shouldShowPopup = true;
-
-  //   if (popupData) {
-  //     try {
-  //       const data = JSON.parse(popupData);
-  //       const { lastShown, dismissedCount, subscribed } = data;
-  //       const now = Date.now();
-  //       const daysSinceLastShown = (now - lastShown) / (1000 * 60 * 60 * 24);
-
-  //       // Don't show if:
-  //       // 1. Already subscribed, OR
-  //       // 2. Shown in last 7 days, OR
-  //       // 3. Dismissed more than 3 times
-  //       if (subscribed || daysSinceLastShown < 1 || dismissedCount >= 3) {
-  //         shouldShowPopup = false;
-  //       }
-  //     } catch (error) {
-  //       console.error('Error parsing popup data:', error);
-  //       // If there's an error, reset the data
-  //       localStorage.removeItem('email_popup_data');
-  //     }
-  //   }
-
-  //   if (shouldShowPopup) {
-  //     // Show popup after 8 seconds
-  //     const timer = setTimeout(() => {
-  //       setOpen(true);
-  //     }, 8000);
-
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, []);
 
   useEffect(() => {
     // Check if popup was shown this session
@@ -67,36 +30,21 @@ export default function EmailSignup({ open, setOpen }) {
     }
   
     if (shouldShowPopup) {
-      // Show popup after 8 seconds
+      // Show popup after 5 seconds
       const timer = setTimeout(() => {
         setOpen(true);
         // Mark popup as shown in this session
         sessionStorage.setItem('email_popup_shown', 'true');
-      }, 8000);
+      }, 5000);
   
       return () => clearTimeout(timer);
     }
   }, []);
   
 
+  // closes popup
   const handleClose = () => {
     setOpen(false);
-
-    // // Update popup tracking data
-    // const popupData = localStorage.getItem('email_popup_data');
-    // let data = { lastShown: Date.now(), dismissedCount: 0 };
-
-    // if (popupData) {
-    //   try {
-    //     data = JSON.parse(popupData);
-    //     data.lastShown = Date.now();
-    //     data.dismissedCount += 1;
-    //   } catch (error) {
-    //     console.error('Error parsing popup data:', error);
-    //   }
-    // }
-
-    // localStorage.setItem('email_popup_data', JSON.stringify(data));
 
     // Reset form state
     setEmail('');
@@ -104,6 +52,7 @@ export default function EmailSignup({ open, setOpen }) {
     setIsSuccess(false);
   };
 
+  // goes to klaviyo
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email) return;
@@ -125,12 +74,6 @@ export default function EmailSignup({ open, setOpen }) {
         setIsSuccess(true);
         setIsSubmitting(false);
 
-        // Mark as subscribed (don't show again)
-        localStorage.setItem('email_popup_data', JSON.stringify({
-          lastShown: Date.now(),
-          dismissedCount: 0,
-          subscribed: true
-        }));
       } else {
         throw new Error(data.error || 'Failed to subscribe');
       }
@@ -148,7 +91,7 @@ export default function EmailSignup({ open, setOpen }) {
         handleClose();
       }
     }}>
-      <DialogContent className="p-0 overflow-hidden">
+      <DialogContent className="p-0 overflow-hidden border-6 border-primary">
         {/* Background with gradient */}
         <div className="relative">
 
@@ -174,7 +117,7 @@ export default function EmailSignup({ open, setOpen }) {
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4 sm:hidden">
                     <Mail className="w-8 h-8 text-primary" />
                   </div>
-                  <DialogTitle className="text-2xl font-bold text-primary mb-2">
+                  <DialogTitle className="text-2xl font-bold text-secondary mb-2">
                     GET 40% OFF YOUR FIRST ORDER!
                   </DialogTitle>
                   <DialogDescription className="text-secondary text-base leading-relaxed">
