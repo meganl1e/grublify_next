@@ -10,7 +10,7 @@ export default async function ProductPreview() {
 
   const data = await fetchProductPreview({ handle: "nutrition-pack-essentials" });
   if (!data) return null;
-  console.log(data)
+  // console.log(data)
 
   const images = data.images?.edges?.map(edge => edge.node) || [];
   const coverImage = images[0] || null;

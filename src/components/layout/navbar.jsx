@@ -6,6 +6,12 @@ import logo from "../../../public/grublify_logo_simple.png";
 import CartModal from "../cart/cart-modal";
 import ProfileButton from "../archive/profile/profile-button";
 import DropdownMenu, { DropdownItem } from "../ui/dropdown-menu";
+import HeadlineTicker from "./headline-ticker";
+
+const testMessages = [
+  "Free Shipping Over $30",
+  "40% Off First Order"
+];
 
 
 export default function Navbar() {
@@ -28,7 +34,7 @@ export default function Navbar() {
       label: "Recipes",
       children: [
         { href: "/recipes", label: "All Recipes" },
-        { href: "/recipes/chicken-and-rice", label: "Chicken & Rice"},
+        { href: "/recipes/chicken-and-rice", label: "Chicken & Rice" },
         { href: "/recipes/portion-calculator", label: "Portion Calculator" },
         { href: "/recipes/transition-guide", label: "Transition Guide" }
       ]
@@ -40,7 +46,7 @@ export default function Navbar() {
       children: [
         { href: "/about", label: "Our Story" },
         { href: "/team", label: "Team" },
-        { href: "/faq", label: "FAQ"}
+        { href: "/faq", label: "FAQ" }
       ]
     },
   ];
@@ -57,39 +63,43 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="py-4 px-6 bg-secondary sticky top-0 z-50 border-b border-white/20">
-      <div className="max-w-7xl mx-auto">
+    <div className="sticky top-0 z-50">
+      <HeadlineTicker messages={testMessages} />
+      <nav className="py-4 px-6 bg-secondary border-b border-white/20">
 
-        {/* DESKTOP NAVBAR */}
-        <div className="hidden lg:grid grid-cols-3 items-center w-full">
-          {/* Left: Logo */}
-          <div className="flex justify-start">
-            <Link href="/">
-              <div className="flex items-center space-x-2 cursor-pointer">
-                <img src={logo.src} alt="Grublify Logo" className="h-8 w-auto mr-2" />
-                <span className="text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
-                  Grublify
-                </span>
-              </div>
-            </Link>
-          </div>
+        <div className="max-w-7xl mx-auto">
 
-          {/* Center: Links */}
-          <div className="flex justify-center items-center gap-8">
-            {links.map((link) => {
-              if (link.children) {
-                return (
-                  <DropdownMenu
-                    key={link.href}
-                    trigger={
-                      <Link href={link.href}>
-                        <span
-                          className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer flex items-center gap-1
+
+          {/* DESKTOP NAVBAR */}
+          <div className="hidden lg:grid grid-cols-3 items-center w-full">
+            {/* Left: Logo */}
+            <div className="flex justify-start">
+              <Link href="/">
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <img src={logo.src} alt="Grublify Logo" className="h-8 w-auto mr-2" />
+                  <span className="text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
+                    Grublify
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Center: Links */}
+            <div className="flex justify-center items-center gap-8">
+              {links.map((link) => {
+                if (link.children) {
+                  return (
+                    <DropdownMenu
+                      key={link.href}
+                      trigger={
+                        <Link href={link.href}>
+                          <span
+                            className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer flex items-center gap-1
                     ${pathname === link.href ? "text-primary" : "text-white/90"}`}
-                        >
-                          {link.label}
-                          {/* the dropdown arrow thing is kinda ugly */}
-                          {/* <svg 
+                          >
+                            {link.label}
+                            {/* the dropdown arrow thing is kinda ugly */}
+                            {/* <svg 
                             className="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" 
                             fill="none" 
                             stroke="currentColor" 
@@ -97,134 +107,134 @@ export default function Navbar() {
                           >
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                           </svg> */}
-                        </span>
-                      </Link>
-                    }
-                  >
-                    {(handleItemClick) => 
-                      link.children.map((child) => (
-                        <DropdownItem 
-                          key={child.href} 
-                          href={child.href}
-                          onClick={handleItemClick}
-                        >
-                          {child.label}
-                        </DropdownItem>
-                      ))
-                    }
-                  </DropdownMenu>
-                );
-              }
+                          </span>
+                        </Link>
+                      }
+                    >
+                      {(handleItemClick) =>
+                        link.children.map((child) => (
+                          <DropdownItem
+                            key={child.href}
+                            href={child.href}
+                            onClick={handleItemClick}
+                          >
+                            {child.label}
+                          </DropdownItem>
+                        ))
+                      }
+                    </DropdownMenu>
+                  );
+                }
 
-              return (
-                <Link href={link.href} key={link.href}>
-                  <span
-                    className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer
+                return (
+                  <Link href={link.href} key={link.href}>
+                    <span
+                      className={`px-2 py-2 text-md font-medium transition-colors hover:text-white cursor-pointer
               ${pathname === link.href ? "text-primary" : "text-white/90"}`}
-                  >
-                    {link.label}
-                  </span>
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Right: Profile and Cart */}
-          <div className="flex justify-end items-center gap-6">
-            <ProfileButton />
-            <CartModal />
-          </div>
-        </div>
-
-        {/* MOBILE NAVBAR */}
-        <div className="flex lg:hidden items-center justify-between w-full relative">
-          {/* Left: Hamburger */}
-          <button
-            onClick={handleClick}
-            className="text-white text-3xl flex-shrink-0"
-            aria-label="Open menu"
-          >
-            {open ? "×" : "☰"}
-          </button>
-
-          {/* Center: Logo */}
-          <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center cursor-pointer">
-            <img src={logo.src} alt="Grublify Logo" className="h-6 md:h-8 w-auto mr-2" />
-            <span className="text-2xl md:text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
-              Grublify
-            </span>
-          </Link>
-
-          {/* Right: Profile and Cart */}
-          <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
-            <ProfileButton />
-            <CartModal />
-          </div>
-        </div>
-        
-        {/* MOBILE MENU */}
-        <div
-          className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"}`}
-        >
-          <div className="bg-secondary text-white p-4 space-y-4">
-            {links.map((link) => (
-              <div key={link.href}>
-                {link.children ? (
-                  // Dropdown item
-                  <div>
-                    <button
-                      onClick={() => toggleMobileDropdown(link.href)}
-                      className="flex items-center justify-between w-full px-1 py-2 text-lg font-semibold text-white/90 hover:text-primary transition-colors"
                     >
                       {link.label}
-                      <svg 
-                        className={`w-5 h-5 transition-transform duration-200 ${
-                          mobileExpanded[link.href] ? 'rotate-180' : ''
-                        }`}
-                        fill="none" 
-                        stroke="currentColor" 
-                        viewBox="0 0 24 24"
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Right: Profile and Cart */}
+            <div className="flex justify-end items-center gap-6">
+              <ProfileButton />
+              <CartModal />
+            </div>
+          </div>
+
+          {/* MOBILE NAVBAR */}
+          <div className="flex lg:hidden items-center justify-between w-full relative">
+            {/* Left: Hamburger */}
+            <button
+              onClick={handleClick}
+              className="text-white text-3xl flex-shrink-0"
+              aria-label="Open menu"
+            >
+              {open ? "×" : "☰"}
+            </button>
+
+            {/* Center: Logo */}
+            <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center cursor-pointer">
+              <img src={logo.src} alt="Grublify Logo" className="h-6 md:h-8 w-auto mr-2" />
+              <span className="text-2xl md:text-3xl font-semibold text-primary hover:text-primary/90 transition-colors">
+                Grublify
+              </span>
+            </Link>
+
+            {/* Right: Profile and Cart */}
+            <div className="flex items-center gap-1 md:gap-2 flex-shrink-0">
+              <ProfileButton />
+              <CartModal />
+            </div>
+          </div>
+
+          {/* MOBILE MENU */}
+          <div
+            className={`lg:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-screen" : "max-h-0"}`}
+          >
+            <div className="bg-secondary text-white p-4 space-y-4">
+              {links.map((link) => (
+                <div key={link.href}>
+                  {link.children ? (
+                    // Dropdown item
+                    <div>
+                      <button
+                        onClick={() => toggleMobileDropdown(link.href)}
+                        className="flex items-center justify-between w-full px-1 py-2 text-lg font-semibold text-white/90 hover:text-primary transition-colors"
                       >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    
-                    {/* Dropdown Content */}
-                    <div className={`overflow-hidden transition-all duration-300 ${
-                      mobileExpanded[link.href] ? 'max-h-96' : 'max-h-0'
-                    }`}>
-                      <div className="pl-4 space-y-2">
-                        {link.children.map((child) => (
-                          <Link href={child.href} key={child.href}>
-                            <div
-                              className="px-1 py-2 text-base text-white/70 hover:text-primary transition-colors cursor-pointer"
-                              onClick={() => setOpen(false)}
-                            >
-                              {child.label}
-                            </div>
-                          </Link>
-                        ))}
+                        {link.label}
+                        <svg
+                          className={`w-5 h-5 transition-transform duration-200 ${mobileExpanded[link.href] ? 'rotate-180' : ''
+                            }`}
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      {/* Dropdown Content */}
+                      <div className={`overflow-hidden transition-all duration-300 ${mobileExpanded[link.href] ? 'max-h-96' : 'max-h-0'
+                        }`}>
+                        <div className="pl-4 space-y-2">
+                          {link.children.map((child) => (
+                            <Link href={child.href} key={child.href}>
+                              <div
+                                className="px-1 py-2 text-base text-white/70 hover:text-primary transition-colors cursor-pointer"
+                                onClick={() => setOpen(false)}
+                              >
+                                {child.label}
+                              </div>
+                            </Link>
+                          ))}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ) : (
-                  // Regular link
-                  <Link href={link.href}>
-                    <div
-                      className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${
-                        pathname === link.href ? "text-primary" : "text-white/90"
-                      }`}
-                      onClick={() => setOpen(false)}
-                    >
-                      {link.label}
-                    </div>
-                  </Link>
-                )}
-              </div>
-            ))}
+                  ) : (
+                    // Regular link
+                    <Link href={link.href}>
+                      <div
+                        className={`block px-1 py-2 text-lg font-semibold transition-colors hover:text-primary cursor-pointer ${pathname === link.href ? "text-primary" : "text-white/90"
+                          }`}
+                        onClick={() => setOpen(false)}
+                      >
+                        {link.label}
+                      </div>
+                    </Link>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </nav>
+
+      </nav>
+    </div>
+
   );
 }

@@ -5,6 +5,7 @@ import CallToAction from "@/components/home/call-to-action";
 import NotFound from "./not-found";
 import { fetchHome } from "@/lib/strapi-client";
 
+
 export default async function Home() {
   // throw new Error("Test error to trigger Global Error Boundary");
 
@@ -14,6 +15,7 @@ export default async function Home() {
   return (
     <div>
       <div className="flex flex-col min-h-screen">
+        
         <Hero data={home} />
         <HowItWorks data={home} />
         <ProductPreview />

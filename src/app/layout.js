@@ -6,11 +6,13 @@ import Providers from "./providers";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Inter } from "next/font/google"
 import PopupController from "@/components/popups/popup-controller";
+import HeadlineTicker from "@/components/layout/headline-ticker";
 
-const inter = Inter({
-  subsets: ["latin"], // or ["latin-ext"] if you need more
-  display: "swap",    // optional, for better performance
-});
+// const inter = Inter({
+//   subsets: ["latin"], // or ["latin-ext"] if you need more
+//   display: "swap",    // optional, for better performance
+// });
+
 
 export const metadata = {
   title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
@@ -21,6 +23,12 @@ export const viewport = {
   width: 'device-width',
   initialScale: 1,
 };
+
+const testMessages = [
+  "Free shipping over $30",
+  "20% off sitewide until Friday!",
+  "New app features just launched"
+];
 
 export default function RootLayout({ children }) {
   return (

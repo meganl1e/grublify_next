@@ -51,7 +51,7 @@ const PRODUCT_PREVIEW_QUERY = `
 
 export default async function fetchProductPreview({ handle }) {
 
-  console.log(handle)
+  // console.log(handle)
 
   const data = await shopifyFetch({
     query: PRODUCT_PREVIEW_QUERY,
