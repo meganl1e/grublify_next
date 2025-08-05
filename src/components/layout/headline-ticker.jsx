@@ -20,7 +20,7 @@ export default function HeadlineSlideshow({ messages = [], interval = 5000 }) {
 
   return (
     <div
-      className="w-full bg-primary-dark text-white text-center text-sm md:text-base h-10 flex items-center justify-center px-4 relative overflow-hidden"
+      className="w-full bg-primary-dark text-white text-center text-sm md:text-base h-8 flex items-center justify-center px-4 relative overflow-hidden"
       aria-live="polite"
       aria-atomic="true"
       role="region"
