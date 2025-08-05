@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import { IoMdGift } from "react-icons/io";
+
 
 export default function PopupButton({ onClick }) {
   return (
@@ -8,18 +10,20 @@ export default function PopupButton({ onClick }) {
       aria-label="Open signup popup to get 40% off"
       className="
         fixed bottom-5 right-5 z-50
-        px-5 py-3
-        bg-rose-500 text-white font-semibold
+        px-5 py-3 md:px-6 md:py-4
+        bg-accent text-white font-semibold
         rounded-full
         shadow-lg
         cursor-pointer
         transition-colors duration-300
-        hover:bg-rose-600
-        animate-pulse
-        focus:outline-none focus:ring-4 focus:ring-rose-400
+        animate-bounce [animation-duration:2s]
+        border-2 border-white
       "
     >
-      🎁 Get 40% Off!
+      <div className="flex flex-row items-center gap-2 text-lg md:text-xl">
+        <IoMdGift />
+        <p>Get 40% Off!</p>
+      </div>
     </button>
   );
 }
