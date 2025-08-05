@@ -14,7 +14,7 @@ const inter = Inter({
 
 export const metadata = {
   title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
-  description: "Discover healthy, homemade dog food recipes and nutrition packs at Grublify. Make balanced, simple meals for your dog — easy, nutritious, and vet-approved.",
+  description: "Discover healthy, homemade dog food recipes and nutrition packs at Grublify. Make balanced, simple meals for your dog: easy, nutritious, and vet-approved.",
 };
 
 export const viewport = {

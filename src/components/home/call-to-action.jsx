@@ -11,7 +11,7 @@ export default function CallToAction() {
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white">
             Ready to Transform Your Dog's Meals?
           </h2>
-          <p className="text-xl mb-8 text-white opacity-90">
+          <p className="text-lg md:text-xl mb-8 text-white opacity-90">
             Make every meal fresh, simple, and wholesome with Grublify.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

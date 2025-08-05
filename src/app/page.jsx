@@ -1,7 +1,8 @@
 import Hero from "../components/home/hero";
 import HowItWorks from "../components/home/how-it-works";
-import NotFound from "./not-found";
+import ProductPreview from "@/components/home/product-preview";
 import CallToAction from "@/components/home/call-to-action";
+import NotFound from "./not-found";
 import { fetchHome } from "@/lib/strapi-client";
 
 export default async function Home() {
@@ -15,6 +16,7 @@ export default async function Home() {
       <div className="flex flex-col min-h-screen">
         <Hero data={home} />
         <HowItWorks data={home} />
+        <ProductPreview />
         <CallToAction />
       </div>
     </div>

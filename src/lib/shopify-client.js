@@ -8,7 +8,7 @@ export const client = createStorefrontClient({
   privateStorefrontToken: process.env.PRIVATE_STOREFRONT_API_TOKEN,
 });
 
-export async function shopifyFetch({query, variables = {}}) {
+export async function shopifyFetch({ query, variables = {} }) {
 
   const response = await fetch(client.getStorefrontApiUrl(), {
     method: 'POST',
@@ -27,4 +27,36 @@ export async function shopifyFetch({query, variables = {}}) {
     throw new Error('Shopify API error');
   }
   return json.data;
+}
+
+const PRODUCT_PREVIEW_QUERY = `
+  query ProductByHandle($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      handle
+      title
+      images(first: 5) {
+        edges {
+          node {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+    }
+  }
+  `
+
+export default async function fetchProductPreview({ handle }) {
+
+  console.log(handle)
+
+  const data = await shopifyFetch({
+    query: PRODUCT_PREVIEW_QUERY,
+    variables: { handle },
+  });
+
+  return data.productByHandle;
 }
