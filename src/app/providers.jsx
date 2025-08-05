@@ -27,7 +27,7 @@ export default function Providers({ children }) {
         </CartProvider>
   
       </ShopifyProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 }

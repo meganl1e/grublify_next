@@ -15,66 +15,88 @@ import Image from 'next/image';
 import about_mission from "../../../public/about_mission.jpg";
 import email_image from "../../../public/email.jpg";
 
-export default function EmailSignup() {
-  const [open, setOpen] = useState(false);
+export default function EmailSignup({ open, setOpen }) {
+  // const [open, setOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  // useEffect(() => {
+  //   // Check if popup has been shown recently
+  //   const popupData = localStorage.getItem('email_popup_data');
+  //   let shouldShowPopup = true;
+
+  //   if (popupData) {
+  //     try {
+  //       const data = JSON.parse(popupData);
+  //       const { lastShown, dismissedCount, subscribed } = data;
+  //       const now = Date.now();
+  //       const daysSinceLastShown = (now - lastShown) / (1000 * 60 * 60 * 24);
+
+  //       // Don't show if:
+  //       // 1. Already subscribed, OR
+  //       // 2. Shown in last 7 days, OR
+  //       // 3. Dismissed more than 3 times
+  //       if (subscribed || daysSinceLastShown < 1 || dismissedCount >= 3) {
+  //         shouldShowPopup = false;
+  //       }
+  //     } catch (error) {
+  //       console.error('Error parsing popup data:', error);
+  //       // If there's an error, reset the data
+  //       localStorage.removeItem('email_popup_data');
+  //     }
+  //   }
+
+  //   if (shouldShowPopup) {
+  //     // Show popup after 8 seconds
+  //     const timer = setTimeout(() => {
+  //       setOpen(true);
+  //     }, 8000);
+
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, []);
+
   useEffect(() => {
-    // Check if popup has been shown recently
-    const popupData = localStorage.getItem('email_popup_data');
+    // Check if popup was shown this session
+    const popupShown = sessionStorage.getItem('email_popup_shown');
     let shouldShowPopup = true;
-
-    if (popupData) {
-      try {
-        const data = JSON.parse(popupData);
-        const { lastShown, dismissedCount, subscribed } = data;
-        const now = Date.now();
-        const daysSinceLastShown = (now - lastShown) / (1000 * 60 * 60 * 24);
-
-        // Don't show if:
-        // 1. Already subscribed, OR
-        // 2. Shown in last 7 days, OR
-        // 3. Dismissed more than 3 times
-        if (subscribed || daysSinceLastShown < 7 || dismissedCount >= 3) {
-          shouldShowPopup = false;
-        }
-      } catch (error) {
-        console.error('Error parsing popup data:', error);
-        // If there's an error, reset the data
-        localStorage.removeItem('email_popup_data');
-      }
+  
+    if (popupShown) {
+      shouldShowPopup = false; // Already shown this session, don't show again
     }
-
+  
     if (shouldShowPopup) {
       // Show popup after 8 seconds
       const timer = setTimeout(() => {
         setOpen(true);
+        // Mark popup as shown in this session
+        sessionStorage.setItem('email_popup_shown', 'true');
       }, 8000);
-
+  
       return () => clearTimeout(timer);
     }
   }, []);
+  
 
   const handleClose = () => {
     setOpen(false);
 
-    // Update popup tracking data
-    const popupData = localStorage.getItem('email_popup_data');
-    let data = { lastShown: Date.now(), dismissedCount: 0 };
+    // // Update popup tracking data
+    // const popupData = localStorage.getItem('email_popup_data');
+    // let data = { lastShown: Date.now(), dismissedCount: 0 };
 
-    if (popupData) {
-      try {
-        data = JSON.parse(popupData);
-        data.lastShown = Date.now();
-        data.dismissedCount += 1;
-      } catch (error) {
-        console.error('Error parsing popup data:', error);
-      }
-    }
+    // if (popupData) {
+    //   try {
+    //     data = JSON.parse(popupData);
+    //     data.lastShown = Date.now();
+    //     data.dismissedCount += 1;
+    //   } catch (error) {
+    //     console.error('Error parsing popup data:', error);
+    //   }
+    // }
 
-    localStorage.setItem('email_popup_data', JSON.stringify(data));
+    // localStorage.setItem('email_popup_data', JSON.stringify(data));
 
     // Reset form state
     setEmail('');

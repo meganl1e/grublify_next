@@ -5,7 +5,7 @@ import Footer from "../components/layout/footer.jsx";
 import Providers from "./providers";
 import { SkeletonTheme } from "react-loading-skeleton";
 import { Inter } from "next/font/google"
-import EmailSignup from "../components/popups/email-signup.jsx";
+import PopupController from "@/components/popups/popup-controller";
 
 const inter = Inter({
   subsets: ["latin"], // or ["latin-ext"] if you need more
@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
                 {children}
               </main>
               <Footer />
-              <EmailSignup />
+              <PopupController />
             </div>
           </SkeletonTheme>
         </Providers>
