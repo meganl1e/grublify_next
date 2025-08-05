@@ -13,6 +13,7 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/themes": "^3.2.1",
     "@shopify/hydrogen": "^2025.5.0",
     "@shopify/hydrogen-react": "^2025.5.0",
     "@shopify/storefront-api-client": "^1.0.7",
