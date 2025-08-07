@@ -7,6 +7,7 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { Inter } from "next/font/google"
 import PopupController from "@/components/popups/popup-controller";
 import HeadlineTicker from "@/components/layout/headline-ticker";
+import { Analytics } from '@vercel/analytics/next';
 
 // const inter = Inter({
 //   subsets: ["latin"], // or ["latin-ext"] if you need more
@@ -43,6 +44,7 @@ export default function RootLayout({ children }) {
               <Navbar />
               <main className="flex-1">
                 {children}
+                <Analytics />
               </main>
               <Footer />
               <PopupController />
