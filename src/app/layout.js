@@ -8,6 +8,7 @@ import { Inter } from "next/font/google"
 import PopupController from "@/components/popups/popup-controller";
 import HeadlineTicker from "@/components/layout/headline-ticker";
 import { Analytics } from '@vercel/analytics/next';
+import Script from "next/script";
 
 // const inter = Inter({
 //   subsets: ["latin"], // or ["latin-ext"] if you need more
@@ -34,6 +35,21 @@ const testMessages = [
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=AW-17424660572"
+          strategy="afterInteractive"
+          async
+        />
+        <Script id="google-ads-tag" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'AW-17424660572');
+        `}
+        </Script>
+      </head>
       <body suppressHydrationWarning={true}>
         <Providers>
           <SkeletonTheme
