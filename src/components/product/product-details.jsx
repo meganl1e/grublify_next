@@ -19,7 +19,7 @@ export default function ProductDetails() {
 
 
 
-  console.log("selected variant: ", selectedVariant)
+  // console.log("selected variant: ", selectedVariant)
 
   const compareAtPrice = selectedVariant?.compareAtPrice;
 
