@@ -45,7 +45,7 @@ export default function Portions() {
       <p className="text-sm max-w-md text-gray-600">*The table above has approximate feeding guidelines. As a general rule, feed your Adult Dog  1-2  times per day. Factors such as age, activity level, breed all play a			
 part in the necessary feeding quantities of all dogs. Use the suggested guidelines below, adjust the feeding			
 quantities as necessary to maintain your pet’s ideal body score (BCS). Please consult with your veterinarian or		
-contact us if you have specific questions about how much to feed</p>
+contact hello@grublify.com if you have specific questions about how much to feed.</p>
     </div>
   )
 }
