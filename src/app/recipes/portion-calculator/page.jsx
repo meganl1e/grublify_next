@@ -384,7 +384,7 @@ export default function PortionCalculator() {
                             const recipeKcal = 957;
                             let mealsPerRecipe = recipeKcal / perMealKcal;
                             return (
-                              <span className="text-xl font-semibold text-gray-500">
+                              <span className="text-lg font-semibold text-gray-500">
                                 {mealsPerRecipe > 0 ? mealsPerRecipe.toFixed(1) : '--'} <span className="text-base font-semibold text-gray-500">meal{mealsPerRecipe.toFixed(1) !== '1.0' ? 's' : ''}</span>
                               </span>
                             );
