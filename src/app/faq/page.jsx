@@ -27,9 +27,10 @@ function groupFaqItemsToCategories(faqItems) {
     title: categoryName,
     // icon: iconMap[categoryName] || null,   // or undefined if no icon
     // color: colorMap[categoryName] || null, // or undefined if no color
-    questions: items.map(({ question, answer }) => ({
+    questions: items.map(({ question, answer, answerNew }) => ({
       question,
       answer,
+      answerNew,
     })),
   }));
 

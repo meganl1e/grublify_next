@@ -1,6 +1,17 @@
 "use client"
 
 import { useState } from "react"
+
+// Utility to extract plain text from Strapi blocks
+function blocksToPlainText(blocks) {
+  if (!Array.isArray(blocks)) return "";
+  return blocks.map(block => {
+    if (block.children) {
+      return block.children.map(child => child.text).join("");
+    }
+    return "";
+  }).join(" ");
+}
 import { Input } from "@/components/ui/input"
 import { Search, HelpCircle, Play, Heart, ChefHat, Truck, CreditCard, Package } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card"
@@ -37,9 +48,8 @@ export default function FaqClient({ faqs }) {
     if (searchTerm) {
       return category.questions.some(
         (q) =>
-          q.question.toLowerCase().includes(searchTerm.toLowerCase())
-        // ||
-        //   q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
+          q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          blocksToPlainText(q.answer).toLowerCase().includes(searchTerm.toLowerCase())
       )
     }
     return true
@@ -50,9 +60,8 @@ export default function FaqClient({ faqs }) {
     if (!searchTerm) return questions
     return questions.filter(
       (q) =>
-        q.question.toLowerCase().includes(searchTerm.toLowerCase())
-              // ||
-        //   q.answer.toLowerCase().includes(searchTerm.toLowerCase()),
+        q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        blocksToPlainText(q.answer).toLowerCase().includes(searchTerm.toLowerCase())
     )
   }
 

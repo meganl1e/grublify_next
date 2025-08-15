@@ -13,7 +13,7 @@ const customBlocks = {
     return <HeadingTag className={classes[level] || "text-xl font-bold mt-6 mb-4"}>{children}</HeadingTag>; // Adjusted spacing
   },
   paragraph: ({ children }) => (
-    <p className="text-base leading-relaxed mb-4">{children}</p> // Added margin-bottom for spacing
+    <p className="text-base leading-relaxed">{children}</p> // Added margin-bottom for spacing
   ),
   list: ({ children, format }) =>
     format === "ordered" ? (
