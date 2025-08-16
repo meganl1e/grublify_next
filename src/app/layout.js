@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* <Script
+        <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17424660572"
           strategy="afterInteractive"
           async
@@ -51,9 +51,9 @@ export default function RootLayout({ children }) {
           gtag('js', new Date());
           gtag('config', 'AW-17424660572');
         `}
-        </Script> */}
+        </Script>
       </head>
-      <GoogleTagManager gtmId="GTM-W7GD9KBX" />
+      {/* <GoogleTagManager gtmId="GTM-W7GD9KBX" /> */}
 
       <body suppressHydrationWarning={true}>
 
