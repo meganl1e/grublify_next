@@ -10,6 +10,7 @@ import HeadlineTicker from "@/components/layout/headline-ticker";
 import { Analytics } from '@vercel/analytics/next';
 import Script from "next/script";
 import { GoogleTagManager } from '@next/third-parties/google'
+import TrackPageView from "@/components/page-view";
 
 // const inter = Inter({
 //   subsets: ["latin"], // or ["latin-ext"] if you need more
@@ -55,6 +56,7 @@ export default function RootLayout({ children }) {
       {/* <GoogleTagManager gtmId="GTM-W7GD9KBX" /> */}
 
       <body suppressHydrationWarning={true}>
+        <TrackPageView />
 
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17424660572"
