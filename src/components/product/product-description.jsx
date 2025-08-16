@@ -5,17 +5,20 @@ import { useProduct } from "@shopify/hydrogen-react";
 export default function ProductDescription() {
 
   const { product } = useProduct();
+  console.log(product.descriptionHtml || "no descriptionHtml");
   return (
     <div>
       {/* Description */}
       {product.description && (
-        <div className="prose prose-gray max-w-lg lg:max-w-none mx-auto">
+        <div className="max-w-lg lg:max-w-none mx-auto">
           <h3 className="text-2xl font-semibold mb-2 text-secondary">Description</h3>
-          <div
-            dangerouslySetInnerHTML={{ __html: product.descriptionHtml || product.description}}
-            className="text-gray-600"
+          <section
+            className="prose prose-gray text-secondary"
+            dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
           />
+
           <Portions />
+           {/* <div className="prose"><ul><li>Test</li></ul></div> */}
         </div>
       )}
     </div>

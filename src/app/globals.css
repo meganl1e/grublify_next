@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Tailwind base styles — includes reset and core styles */
+/* @tailwind base; */
+
+/* Tailwind component styles */
+/* @tailwind components; */
+
+/* Tailwind utility classes */
+@tailwind utilities;
+
 /* Define your design tokens with @theme */
 @theme {
   /* Colors */
@@ -42,7 +51,7 @@
 
 /* Tailwind base, components, and utilities */
 /*  imports all of the flex grid block hudden p-4 bg-red-500 things like that */
-@tailwind utilities;
+/* @tailwind utilities; */
 
 /* Global base styles */
 @layer base {
@@ -97,4 +106,20 @@
   .animate-slide-out {
     animation: slide-out 0.7s cubic-bezier(0.4,0,0.2,1);
   }
+}
+
+.prose ul {
+  list-style-type: disc !important;
+  margin-left: 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+.prose ol {
+  list-style-type: decimal !important;
+  margin-left: 1.5rem !important;
+  padding-left: 0 !important;
+}
+
+.prose li {
+  margin-bottom: 0.5rem !important;
 }
