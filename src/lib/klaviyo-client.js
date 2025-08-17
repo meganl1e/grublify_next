@@ -76,3 +76,29 @@ export async function addProfileToList(profileId, listId) {
   const data = JSON.parse(responseText);
   return data?.data || null;
 }
+
+
+// get reviews by product id
+export async function getReviewsByProductId(productId) {
+  const product = `$shopify:::$default:::${productId}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/vnd.api+json',
+      revision: '2025-07-15',
+      Authorization: `Klaviyo-API-Key ${process.env.PRIVATE_KLAVIYO_API_KEY_REVIEWS}`
+    }
+  };
+
+  const url = `https://a.klaviyo.com/api/reviews?filter=equals(item.id,"${product}")`;
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Failed to fetch reviews: ${response.status} - ${errorText}`);
+  }
+
+  // Use response.json() for proper parsing
+  const data = await response.json();
+  return data?.data || null;
+}

@@ -4,8 +4,7 @@ import ProductImages from '@/components/product/product-images';
 import ProductDetails from '@/components/product/product-details';
 import ProductBreadcrumb from '@/components/product/product-breadcrumb';
 
-
-export default function ProductPageClient({ product }) {
+export default function ProductPageClient({ product, reviews = [], averageRating = 0 }) {
 
   return (
     <ProductProvider data={product}>
@@ -13,7 +12,7 @@ export default function ProductPageClient({ product }) {
         <ProductBreadcrumb />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <ProductImages />
-          <ProductDetails />
+          <ProductDetails reviews={reviews} averageRating={averageRating} />
         </div>
       </main>
     </ProductProvider>

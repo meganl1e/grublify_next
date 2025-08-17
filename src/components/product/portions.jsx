@@ -4,7 +4,7 @@ import Link from "next/link";
 export default function Portions() {
   return (
     <div className="flex flex-col max-w-md gap-4 mt-8 h-full">
-      <h1 className="text-2xl text-secondary font-bold">How Long One Nutrition Pack Lasts*</h1>
+      <h1 className="text-2xl text-secondary font-semibold">How Long One Nutrition Pack Lasts*</h1>
       <Button variant="secondary" className="w-auto self-start">
         <Link href="/recipes/portion-calculator">Get My Dog’s Precise Portion</Link>
       </Button>

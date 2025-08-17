@@ -2,6 +2,7 @@ import RecipeList from "../../components/recipes/recipe-list";
 import { fetchRecipes, fetchStrapiImageById } from "@/lib/strapi-client";
 
 export default async function Recipes() {
+
   const recipes = await fetchRecipes();
 
   // later, these will not be hardcoded lolol

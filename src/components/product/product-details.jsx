@@ -1,11 +1,12 @@
 "use client";
 import ProductDescription from "./product-description";
 import ProductVariants from "./product-variants";
+import ProductReviews from "./product-reviews";
 import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
 import { useCartUI } from "../cart/cart-context";
+import { CompactStarRating } from "../ui/star-rating";
 
-export default function ProductDetails() {
-
+export default function ProductDetails({ reviews = [], averageRating = 0 }) {
   const { setIsCartOpen } = useCartUI();
 
   const handleClick = () => {
@@ -16,8 +17,6 @@ export default function ProductDetails() {
     product,
     selectedVariant,
   } = useProduct();
-
-
 
   // console.log("selected variant: ", selectedVariant)
 
@@ -30,18 +29,21 @@ export default function ProductDetails() {
     product.options[0].values[0] === "Default Title" &&
     product.variants.edges.length === 1;
 
-
-
   return (
     <div className="flex flex-col space-y-6 items-center lg:items-start ">
 
       {/* Title, Price, Variants, and Button grouped as a "buy box" */}
       <div className="space-y-4 mb-4">
         <h1 className="text-3xl font-bold text-secondary mb-2">{product.title}</h1>
+        
+        {/* Star Rating - only show if we have a rating */}
+        {averageRating > 0 && (
+          <CompactStarRating rating={averageRating} />
+        )}
+        
         {/* <span className="inline-block bg-amber-100 text-amber-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-amber-200">
           Coming Soon!
         </span> */}
-
 
         <div className="flex items-center space-x-4">
           <ProductPrice
@@ -77,10 +79,14 @@ export default function ProductDetails() {
         </AddToCartButton>
       </div>
 
-
       {/* Description */}
       <div className="px-6 lg:px-0">
         <ProductDescription />
+      </div>
+
+      {/* Reviews */}
+      <div className="px-6 lg:px-0">
+        <ProductReviews reviews={reviews} averageRating={averageRating} />
       </div>
 
       {/* Tags */}
