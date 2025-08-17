@@ -5,7 +5,7 @@ import { useProduct } from "@shopify/hydrogen-react";
 export default function ProductDescription() {
 
   const { product } = useProduct();
-  console.log(product.descriptionHtml || "no descriptionHtml");
+  // console.log(product.descriptionHtml || "no descriptionHtml");
   return (
     <div>
       {/* Description */}

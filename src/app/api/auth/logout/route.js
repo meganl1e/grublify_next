@@ -15,7 +15,7 @@ export async function GET(request) {
   // const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
   // const absoluteRedirectUrl = `${baseUrl}${returnTo.startsWith('/') ? returnTo : '/' + returnTo}`;
   // const postLogoutRedirectUri = encodeURIComponent(absoluteRedirectUrl);
-  console.log("link to redirect", redirectUrl);
+  // console.log("link to redirect", redirectUrl);
 
   // Clear cookies
   await cookieStore.delete('customer_token');
