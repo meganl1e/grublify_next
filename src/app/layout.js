@@ -39,20 +39,52 @@ const testMessages = [
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <head>
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=AW-17424660572"
-          strategy="afterInteractive"
-        />
-        <Script id="google-ads-tag" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'AW-17424660572');
-          `}
-        </Script>
-      </head>
+             <head>
+         <Script
+           src="https://www.googletagmanager.com/gtag/js?id=AW-17424660572"
+           strategy="afterInteractive"
+         />
+         <Script id="google-ads-tag" strategy="afterInteractive">
+           {`
+             window.dataLayer = window.dataLayer || [];
+             function gtag(){dataLayer.push(arguments);}
+             gtag('js', new Date());
+             gtag('config', 'AW-17424660572');
+           `}
+         </Script>
+         
+         {/* Microsoft Advertising UET Tag */}
+         <Script id="microsoft-uet-tag" strategy="afterInteractive">
+           {`
+             (function(w,d,t,r,u)
+             {
+               var f,n,i;
+               w[u]=w[u]||[],f=function()
+               {
+                 var o={ti:"187208323", enableAutoSpaTracking: true};
+                 o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")
+               },
+               n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function()
+               {
+                 var s=this.readyState;
+                 s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)
+               },
+               i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)
+             })
+             (window,document,"script","//bat.bing.com/bat.js","uetq");
+           `}
+         </Script>
+         
+         {/* Microsoft UET Consent Mode - Default Denied */}
+         <Script id="microsoft-uet-consent" strategy="afterInteractive">
+           {`
+             window.uetq=window.uetq||[];
+             window.uetq.push('consent', 'default', {
+               'ad_storage': 'denied'
+             });
+           `}
+         </Script>
+       </head>
       {/* <GoogleTagManager gtmId="GTM-W7GD9KBX" /> */}
 
       <body suppressHydrationWarning={true}>
