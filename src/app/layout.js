@@ -21,6 +21,55 @@ import TrackPageView from "@/components/page-view";
 export const metadata = {
   title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
   description: "Discover healthy, homemade dog food recipes and nutrition packs at Grublify. Make balanced, simple meals for your dog: easy, nutritious, and vet-approved.",
+  keywords: "homemade dog food, dog food recipes, dog nutrition, pet health, healthy dog food, vet-approved dog food",
+  authors: [{ name: "Grublify Team" }],
+  creator: "Grublify",
+  publisher: "Grublify",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://grublify.com"),
+  alternates: {
+    canonical: "https://grublify.com",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://grublify.com",
+    title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
+    description: "Discover healthy, homemade dog food recipes and nutrition packs at Grublify. Make balanced, simple meals for your dog: easy, nutritious, and vet-approved.",
+    siteName: "Grublify",
+    images: [
+      {
+        url: "/grublify_logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Grublify - Homemade Dog Food Recipes & Nutrition Packs",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Grublify | Homemade Dog Food Recipes & Nutrition Packs",
+    description: "Discover healthy, homemade dog food recipes and nutrition packs at Grublify.",
+    images: ["/grublify_logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code", // Add your Google Search Console verification code
+  },
 };
 
 export const viewport = {

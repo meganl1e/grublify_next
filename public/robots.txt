@@ -1,1 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap
 Sitemap: https://grublify.com/sitemap.xml
+
+# Disallow admin areas (if any)
+Disallow: /_profile/
+Disallow: /api/
+
+# Allow important content
+Allow: /blogs/
+Allow: /products/
+Allow: /recipes/
+Allow: /about/
+Allow: /faq/
+
+# Crawl delay (optional - be respectful to servers)
+Crawl-delay: 1
