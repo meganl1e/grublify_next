@@ -126,7 +126,7 @@ async function BlogPage({ params }) {
             <Link href={`/blogs/${blog.slug}`} className="font-semibold hover:underline">{blog.title}</Link>
           </div>
           <img
-            src={blog.coverImage.formats.large.url}
+            src={blog?.coverImage?.formats?.large?.url || blog?.coverImage?.formats?.medium?.url || blog?.coverImage?.formats?.small?.url}
             alt={blog.title}
             className="w-full max-w-3xl rounded-lg mb-4 object-cover max-h-96"
           />
