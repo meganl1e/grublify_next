@@ -1,9 +1,7 @@
-import BlogListItem from "../../components/blogs/blog-list-item";
 import NotFound from "../not-found";
-import { fetchBlogs } from "@/lib/strapi-client";
+import { fetchBlogs, fetchBlogCategories } from "@/lib/strapi-client";
 import Script from "next/script";
-import BlogFilters from "../../components/blogs/blog-filters";
-import FeaturedBlog from "../../components/blogs/featured-blog";
+import BlogsClient from "../../components/blogs/blogs-client";
 
 // Add metadata for SEO
 export const metadata = {
@@ -37,131 +35,89 @@ export const metadata = {
 };
 
 export default async function Blogs() {
-  const blogs = await fetchBlogs();
-  
-  if (!blogs) return <NotFound />;
-
-  // Get featured blog (most recent)
-  const featuredBlog = blogs[0];
-  const recentBlogs = blogs.slice(1, 7);
-  const remainingBlogs = blogs.slice(7);
-
-  // Extract unique categories
-  const categories = [...new Set(blogs.flatMap(blog => 
-    blog.categories.map(cat => cat.name)
-  ))];
-
-  // Generate structured data for blog listing
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Grublify Blog",
-    "description": "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify. Learn how to make healthy, balanced meals for your furry friend.",
-    "url": "https://grublify.com/blogs",
-    "publisher": {
-      "@type": "Organization",
-      "name": "Grublify",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://grublify.com/grublify_logo.png"
-      }
-    },
-    "mainEntity": {
-      "@type": "ItemList",
-      "numberOfItems": blogs.length,
-      "itemListElement": blogs.map((blog, index) => ({
-        "@type": "ListItem",
-        "position": index + 1,
-        "item": {
-          "@type": "BlogPosting",
-          "headline": blog.title,
-          "description": blog.excerpt || blog.summary || "",
-          "url": `https://grublify.com/blogs/${blog.slug}`,
-          "datePublished": blog.publishedDate,
-          "author": {
-            "@type": "Person",
-            "name": blog.author?.name || "Grublify Team"
-          }
-        }
-      }))
-    }
-  };
-
-  return (
-    <>
-      <Script
-        id="blog-listing-structured-data"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-      />
-      <div className="flex-1">
-        {/* Hero Section */}
-        <section className="relative py-20 px-6 bg-secondary text-center flex items-center justify-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold text-white mb-4">Welcome to Our Blog!</h1>
-            <p className="text-lg text-primary/80 font-semibold">
-              Discover the latest updates, tips, and stories from our team.
+  try {
+    // console.log('Fetching blogs...');
+    const blogs = await fetchBlogs();
+    const blogCategories = await fetchBlogCategories();
+    // console.log(blogCategories)
+    // console.log('Blogs fetched:', blogs);
+    
+    if (!blogs || blogs.length === 0) {
+      console.log('No blogs found or blogs array is empty');
+      return (
+        <div className="flex-1 flex items-center justify-center py-20">
+          <div className="text-center">
+            <div className="text-gray-400 text-6xl mb-4">📝</div>
+            <h1 className="text-3xl font-bold text-secondary mb-4">No Blog Posts Yet</h1>
+            <p className="text-gray-600 mb-8">
+              We haven't published any blog posts yet. Check back soon!
             </p>
           </div>
-        </section>
+        </div>
+      );
+    }
 
-        {/* Search and Filter Section */}
-        <BlogFilters categories={categories} totalPosts={blogs.length} />
+    // Generate structured data for blog listing
+    const structuredData = {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Grublify Blog",
+      "description": "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify. Learn how to make healthy, balanced meals for your furry friend.",
+      "url": "https://grublify.com/blogs",
+      "publisher": {
+        "@type": "Organization",
+        "name": "Grublify",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://grublify.com/grublify_logo.png"
+        }
+      },
+      "mainEntity": {
+        "@type": "ItemList",
+        "numberOfItems": blogs.length,
+        "itemListElement": blogs.map((blog, index) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "item": {
+            "@type": "BlogPosting",
+            "headline": blog.title,
+            "description": blog.excerpt || blog.summary || "",
+            "url": `https://grublify.com/blogs/${blog.slug}`,
+            "datePublished": blog.publishedDate,
+            "author": {
+              "@type": "Person",
+              "name": blog.author?.name || "Grublify Team"
+            }
+          }
+        }))
+      }
+    };
 
-        {/* Featured Blog Post - Smaller and more compact */}
-        {featuredBlog && (
-          <section className="py-8 px-6">
-            <div className="max-w-6xl mx-auto">
-              <h2 className="text-2xl font-bold text-secondary mb-6">
-                Featured Post
-              </h2>
-              <FeaturedBlog blog={featuredBlog} />
-            </div>
-          </section>
-        )}
-
-        {/* Recent Posts - Main content area */}
-        <section className="py-8 px-6">
-          <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-secondary">
-                Recent Posts
-              </h2>
-              <div className="text-sm text-gray-500">
-                {recentBlogs.length} posts
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {recentBlogs.map((blog) => (
-                <BlogListItem key={blog.id} blog={blog} />
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* All Posts - If there are more */}
-        {remainingBlogs.length > 0 && (
-          <section className="py-8 px-6 bg-gray-50">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-secondary">
-                  All Posts
-                </h2>
-                <div className="text-sm text-gray-500">
-                  {remainingBlogs.length} more posts
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {remainingBlogs.map((blog) => (
-                  <BlogListItem key={blog.id} blog={blog} />
-                ))}
-              </div>
-            </div>
-          </section>
-        )}
+    return (
+      <>
+        <Script
+          id="blog-listing-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+        <BlogsClient initialBlogs={blogs} blogCategories={blogCategories}/>
+      </>
+    );
+  } catch (error) {
+    console.error('Error in Blogs page:', error);
+    return (
+      <div className="flex-1 flex items-center justify-center py-20">
+        <div className="text-center">
+          <div className="text-red-400 text-6xl mb-4">⚠️</div>
+          <h1 className="text-3xl font-bold text-secondary mb-4">Error Loading Blogs</h1>
+          <p className="text-gray-600 mb-8">
+            Something went wrong while loading the blog posts. Please try again later.
+          </p>
+          <p className="text-sm text-gray-500">
+            Error: {error.message}
+          </p>
+        </div>
       </div>
-    </>
-  );
+    );
+  }
 }

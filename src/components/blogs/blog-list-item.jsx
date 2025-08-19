@@ -5,14 +5,16 @@ const BlogListItem = ({ blog }) => {
   const fallbackImage = "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"; // fallback image URL
   
   return (
-    <Link href={`/blogs/${blog.slug}`} className="flex-1 h-full">
-      <article className="bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden h-full border border-gray-100 hover:border-gray-200">
+    <Link href={`/blogs/${blog.slug}`} className="flex-1 h-full group">
+      <article className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-100 hover:border-primary/20 hover:scale-[1.02]">
         <div className="p-4 flex flex-col gap-4 h-full">
-          <img
-            src={blog.coverImage?.formats?.medium?.url || blog.coverImage?.formats?.small?.url || fallbackImage}
-            alt={blog.title}
-            className="w-full h-40 object-cover rounded-md"
-          />
+          <div className="relative overflow-hidden rounded-md">
+            <img
+              src={blog.coverImage?.formats?.medium?.url || blog.coverImage?.formats?.small?.url || fallbackImage}
+              alt={blog.title}
+              className="w-full h-40 object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
+            />
+          </div>
           <div className="flex flex-col gap-1 flex-grow">
             <div className="flex flex-wrap gap-2 mb-2">
               {blog.categories.map((category, index) => (

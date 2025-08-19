@@ -4,28 +4,28 @@ import { Calendar, User, ArrowRight } from "lucide-react";
 
 const FeaturedBlog = ({ blog }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md border border-gray-100 overflow-hidden">
-      <div className="grid md:grid-cols-3 gap-0">
-        <div className="relative h-32 md:h-48">
+    <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-xl transition-all duration-300">
+      <div className="grid lg:grid-cols-2 gap-0">
+        <div className="relative h-64 lg:h-80">
           <Image
-            src={blog.coverImage.formats.medium.url}
+            src={blog.coverImage?.formats?.medium?.url || blog.coverImage?.formats?.small?.url || "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"}
             alt={blog.title}
             fill
             className="object-cover h-full"
-            sizes="(max-width: 768px) 100vw, 33vw"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
-          <div className="absolute top-3 left-3">
-            <span className="bg-primary text-white px-2 py-1 rounded-full text-xs font-semibold">
+          <div className="absolute top-4 left-4">
+            <span className="bg-primary text-white px-3 py-1.5 rounded-full text-sm font-semibold shadow-lg">
               Featured
             </span>
           </div>
         </div>
         
-        {/* Content - More compact */}
-        <div className="md:col-span-2 p-6 flex flex-col justify-center">
-          <div className="flex items-center gap-4 mb-3 text-xs text-gray-500">
-            <div className="flex items-center gap-1">
-              <Calendar className="w-3 h-3" />
+        {/* Content - Bigger and more prominent */}
+        <div className="p-8 flex flex-col justify-center">
+          <div className="flex items-center gap-6 mb-4 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
               <time dateTime={blog.publishedDate}>
                 {new Date(blog.publishedDate).toLocaleDateString("en-US", {
                   month: "short",
@@ -34,43 +34,43 @@ const FeaturedBlog = ({ blog }) => {
                 })}
               </time>
             </div>
-            <div className="flex items-center gap-1">
-              <User className="w-3 h-3" />
-              <span>{blog.author?.name || "Grublify Team"}</span>
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              <span className="font-medium">{blog.author?.name || "Grublify Team"}</span>
             </div>
           </div>
           
           {/* Categories */}
-          <div className="flex flex-wrap gap-1 mb-3">
-            {blog.categories.slice(0, 2).map((category) => (
+          <div className="flex flex-wrap gap-2 mb-4">
+            {blog.categories?.slice(0, 3).map((category) => (
               <span
-                key={category.id}
-                className="inline-block bg-primary/10 text-primary font-medium px-2 py-1 rounded text-xs"
+                key={category.id || category.name}
+                className="inline-block bg-primary/10 text-primary font-medium px-3 py-1.5 rounded-lg text-sm"
               >
                 {category.name}
               </span>
             ))}
           </div>
 
-          {/* Title - Smaller */}
-          <h3 className="text-xl font-bold text-secondary mb-3 leading-tight">
+          {/* Title - Bigger and more prominent */}
+          <h3 className="text-2xl lg:text-3xl font-bold text-secondary mb-4 leading-tight">
             {blog.title}
           </h3>
           
-          {/* Excerpt - Shorter */}
+          {/* Excerpt - Longer and more engaging */}
           {blog.excerpt && (
-            <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-2">
+            <p className="text-gray-600 text-base mb-6 leading-relaxed line-clamp-3">
               {blog.excerpt}
             </p>
           )}
 
-          {/* Read More Button - Smaller */}
+          {/* Read More Button - Bigger and more prominent */}
           <Link
             href={`/blogs/${blog.slug}`}
-            className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors group self-start"
+            className="inline-flex items-center gap-3 bg-primary text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-primary/90 transition-all duration-200 group self-start hover:shadow-lg"
           >
-            Read More
-            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+            Read Full Article
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>

@@ -14,12 +14,26 @@ export async function fetchHome() {
 
 // fetch all blogs
 export async function fetchBlogs() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  return data?.data || null;
+  try {
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate`;
+    
+    const res = await fetch(url, { cache: 'no-store' });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('fetchBlogs: API error response:', errorText);
+      throw new Error(`Failed to fetch blogs: ${res.status} - ${errorText}`);
+    }
+    
+    const data = await res.json();
+    
+    const blogs = data?.data || null;
+    
+    return blogs;
+  } catch (error) {
+    console.error('fetchBlogs: Error occurred:', error);
+    throw error;
+  }
 }
 
 // fetch one blog by slug
@@ -30,6 +44,37 @@ export async function fetchBlogBySlug(slug) {
   );
   const data = await res.json();
   return data?.data?.[0] || null;
+}
+
+// fetch all blog categories
+export async function fetchBlogCategories() {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?fields=name&fields=slug&sort=name:asc`,
+      { cache: 'no-store' }
+    );
+    
+    if (!res.ok) {
+      throw new Error(`Failed to fetch categories: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    // console.log("categories", data)
+    return data?.data || [];
+  } catch (error) {
+    console.error('Error fetching blog categories:', error);
+    return [];
+  }
+}
+
+// fetch blogs by categories
+export async function fetchBlogsByCategory(categorySlug) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[categories][slug][$eq]=${categorySlug}&fields=slug&fields=title&fields=publishedDate&populate=coverImage&populate=categories`,
+    { cache: 'no-store' }
+  );
+  const data = await res.json();
+  return data?.data || null;
 }
 
 // fetch faqs
