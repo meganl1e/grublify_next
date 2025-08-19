@@ -1,11 +1,13 @@
 import Link from "next/link";
 
 const BlogListItem = ({ blog }) => {
+
+  const fallbackImage = "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"; // fallback image URL
   return (
     <Link href={`/blogs/${blog.slug}`} className="flex-1 h-full">
       <div className="p-4 border rounded-lg shadow-sm flex flex-col gap-4 bg-white h-full">
         <img
-          src={blog.coverImage.formats.medium.url}
+          src={blog.coverImage?.formats?.medium?.url || blog.coverImage?.formats?.small?.url ||fallbackImage }
           alt={blog.title}
           className="w-full h-40 object-cover rounded-md"
         />
