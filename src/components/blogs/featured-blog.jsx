@@ -67,6 +67,7 @@ const FeaturedBlog = ({ blog }) => {
           {/* Read More Button - Bigger and more prominent */}
           <Link
             href={`/blogs/${blog.slug}`}
+            onClick={() => window.scrollTo(0, 0)}
             className="inline-flex items-center gap-3 bg-primary text-white px-6 py-3 rounded-lg text-base font-semibold hover:bg-primary/90 transition-all duration-200 group self-start hover:shadow-lg"
           >
             Read Full Article

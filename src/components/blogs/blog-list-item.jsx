@@ -5,7 +5,7 @@ const BlogListItem = ({ blog }) => {
   const fallbackImage = "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"; // fallback image URL
   
   return (
-    <Link href={`/blogs/${blog.slug}`} className="flex-1 h-full group">
+    <Link href={`/blogs/${blog.slug}`} onClick={() => window.scrollTo(0, 0)} className="flex-1 h-full group">
       <article className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-100 hover:border-primary/20 hover:scale-[1.02]">
         <div className="p-4 flex flex-col gap-4 h-full">
           <div className="relative overflow-hidden rounded-md">
@@ -38,11 +38,11 @@ const BlogListItem = ({ blog }) => {
             </h3>
 
             {/* Excerpt */}
-            {blog.excerpt && (
+            {/* {blog.excerpt && (
               <p className="text-gray-600 text-sm mb-3 leading-relaxed flex-grow line-clamp-2">
                 {blog.excerpt}
               </p>
-            )}
+            )} */}
 
             {/* Meta Information */}
             <div className="mt-auto pt-3 border-t border-gray-100">
