@@ -1,6 +1,7 @@
 import about_hero from "../../../public/about_hero.jpg";
 import about_mission from "../../../public/about_mission.jpg";
 import about_family from "../../../public/about_family.png";
+import CallToAction from "@/components/home/call-to-action";
 
 export default function About() {
   return (
@@ -111,7 +112,7 @@ export default function About() {
       </section>
 
       {/* Join the Waitlist Section */}
-      <section className="py-12 px-4 bg-secondary/90 text-white">
+      {/* <section className="py-12 px-4 bg-secondary/90 text-white">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">Join the Waitlist</h2>
           <p className="text-lg md:text-xl mb-6">
@@ -124,7 +125,9 @@ export default function About() {
             Join the Waitlist
           </a>
         </div>
-      </section>
+      </section> */}
+
+      <CallToAction />
     </div>
   );
 }
