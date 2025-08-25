@@ -5,12 +5,21 @@ import ProductReviews from "./product-reviews";
 import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
 import { useCartUI } from "../cart/cart-context";
 import { CompactStarRating } from "../ui/star-rating";
+import { useRef } from "react";
 
 export default function ProductDetails({ reviews = [], averageRating = 0 }) {
   const { setIsCartOpen } = useCartUI();
+  const reviewsRef = useRef(null);
 
   const handleClick = () => {
     setIsCartOpen(true);
+  };
+
+  const handleStarClick = () => {
+    if (reviewsRef.current) {
+      const top = reviewsRef.current.getBoundingClientRect().top + window.scrollY - 125;
+      window.scrollTo({ top, behavior: "smooth" });
+    }
   };
 
   const {
@@ -35,12 +44,18 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
       {/* Title, Price, Variants, and Button grouped as a "buy box" */}
       <div className="space-y-4 mb-4">
         <h1 className="text-3xl font-bold text-secondary mb-2">{product.title}</h1>
-        
         {/* Star Rating - only show if we have a rating */}
         {averageRating > 0 && (
-          <CompactStarRating rating={averageRating} />
+          <button
+            type="button"
+            onClick={handleStarClick}
+            className="focus:outline-none cursor-pointer"
+            aria-label="Scroll to reviews"
+            style={{ background: "none", border: "none", padding: 0, margin: 0 }}
+          >
+            <CompactStarRating rating={averageRating} />
+          </button>
         )}
-        
         {/* <span className="inline-block bg-amber-100 text-amber-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-amber-200">
           Coming Soon!
         </span> */}
@@ -74,7 +89,6 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
               : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
             }`}
         >
-
           Add to Cart
         </AddToCartButton>
       </div>
@@ -85,7 +99,7 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
       </div>
 
       {/* Reviews */}
-      <div className="px-6 lg:px-0">
+      <div className="px-6 lg:px-0" ref={reviewsRef}>
         <ProductReviews reviews={reviews} averageRating={averageRating} />
       </div>
 

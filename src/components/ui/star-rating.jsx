@@ -36,7 +36,7 @@ export function CompactStarRating({ rating, maxRating = 5, className = "" }) {
         {halfStar && '☆'}
         {'☆'.repeat(emptyStars)}
       </div>
-      <span className="text-sm text-gray-600">({rating.toFixed(1)})</span>
+      <span className="text-sm text-gray-600 hover:underline">({rating.toFixed(1)})</span>
     </div>
   );
 }
