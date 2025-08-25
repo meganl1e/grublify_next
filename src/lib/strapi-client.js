@@ -15,7 +15,7 @@ export async function fetchHome() {
 // fetch all blogs
 export async function fetchBlogs() {
   try {
-    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate`;
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc`;
     
     const res = await fetch(url, { cache: 'no-store' });
     
