@@ -27,8 +27,6 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
     selectedVariant,
   } = useProduct();
 
-  // console.log("selected variant: ", selectedVariant)
-
   const compareAtPrice = selectedVariant?.compareAtPrice;
 
   const hasOnlyDefaultVariant =
@@ -37,6 +35,11 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
     product.options[0].values.length === 1 &&
     product.options[0].values[0] === "Default Title" &&
     product.variants.edges.length === 1;
+
+  const publishedReviews = reviews.filter(
+    (review) => review.attributes.status?.value === 'published'
+  );
+  const count = publishedReviews.length;
 
   return (
     <div className="flex flex-col space-y-6 items-center lg:items-start ">
@@ -53,7 +56,7 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
             aria-label="Scroll to reviews"
             style={{ background: "none", border: "none", padding: 0, margin: 0 }}
           >
-            <CompactStarRating rating={averageRating} />
+            <CompactStarRating rating={averageRating} count={count} />
           </button>
         )}
         {/* <span className="inline-block bg-amber-100 text-amber-700 text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wide border border-amber-200">
@@ -85,8 +88,8 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
           accessibleAddingToCartLabel="Adding item to your cart"
           disabled={!selectedVariant.availableForSale}
           className={`w-full mb-4 max-w-sm mx-auto py-3 px-6 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${!selectedVariant.availableForSale
-              ? "bg-gray-300 text-gray-500 cursor-not-allowed"
-              : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
             }`}
         >
           Add to Cart

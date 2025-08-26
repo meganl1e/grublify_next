@@ -29,6 +29,7 @@ export default function ProductReviews({ reviews = [], averageRating = 0 }) {
     (review) => review.attributes.status?.value === 'published'
   );
 
+
   if (publishedReviews.length === 0) {
     return (
       <div className="text-center py-8">

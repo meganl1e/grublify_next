@@ -24,19 +24,20 @@ export default function StarRating({
 }
 
 // Compact version for headers
-export function CompactStarRating({ rating, maxRating = 5, className = "" }) {
+export function CompactStarRating({ rating, maxRating = 5, className = "", count }) {
   const fullStars = Math.floor(rating);
   const halfStar = rating - fullStars >= 0.5;
   const emptyStars = maxRating - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className={`flex items-center space-x-2 ${className}`}>
+    <div className={`flex items-center gap-2 ${className}`}>
+      <span className="text-sm text-secondary hover:underline">{rating.toFixed(1)}</span>
       <div className="text-primary text-2xl">
         {'★'.repeat(fullStars)}
         {halfStar && '☆'}
         {'☆'.repeat(emptyStars)}
       </div>
-      <span className="text-sm text-gray-600 hover:underline">({rating.toFixed(1)})</span>
+      <span className="text-sm text-gray-600 hover:underline"> ({count} reviews)</span>
     </div>
   );
 }
