@@ -22,12 +22,12 @@ export default function Navbar() {
   // put in strapi later i am lazy
   const links = [
     {
-      href: "/products",
+      href: "/products/nutrition-pack-essentials",
       label: "Shop",
-      children: [
-        { href: "/products/", label: "All Products" },
-        { href: "/products/nutrition-pack-essentials", label: "Nutrition Packs" }
-      ]
+      // children: [
+      //   { href: "/products/", label: "All Products" },
+      //   { href: "/products/nutrition-pack-essentials", label: "Nutrition Packs" }
+      // ]
     },
     {
       href: "/recipes",
