@@ -13,13 +13,13 @@ const customBlocks = {
     return <HeadingTag className={classes[level] || "text-xl font-bold mt-6 mb-4"}>{children}</HeadingTag>; // Adjusted spacing
   },
   paragraph: ({ children }) => (
-    <p className="text-base leading-relaxed">{children}</p> // Added margin-bottom for spacing
+    <p className="leading-relaxed text-lg">{children}</p> // Added margin-bottom for spacing
   ),
   list: ({ children, format }) =>
     format === "ordered" ? (
-      <ol className="list-decimal ml-6">{children}</ol>
+      <ol className="list-decimal ml-6 text-lg ">{children}</ol>
     ) : (
-      <ul className="list-disc ml-6">{children}</ul>
+      <ul className="list-disc ml-6 text-lg" >{children}</ul>
     ),
   // Add more overrides as needed (quote, code, image, etc.)
 };

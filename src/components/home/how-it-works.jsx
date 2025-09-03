@@ -31,7 +31,7 @@ export default function HowItWorks({ data, loading }) {
       <div className="md:max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 mb-10">
           <h2 className="md:text-5xl text-3xl font-bold text-center text-secondary">
-            {data.howItWorksTitle || "How It Works"}
+            {data.howItWorksTitle || "Cook Your Dog's Perfect Meal"}
           </h2>
           <p className="text-foreground text-lg md:text-xl px-4">
             {data.howItWorksSubtitle || "Making nutritionally complete homemade dog food has never been easier"}

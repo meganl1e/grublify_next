@@ -27,10 +27,10 @@ export default function FaqQuestion({ questions, category, openQuestions, toggle
               {isOpen && (
                 <div className="px-6 pb-6">
                   <div className="border-t pt-4">
-                    <p className="text-secondary leading-relaxed">
+
                       <StrapiBlocksRenderer content={faq.answer} />
                       {/* {faq.answerNew} */}
-                    </p>
+    
                   </div>
                 </div>
               )}
