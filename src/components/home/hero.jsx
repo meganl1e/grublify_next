@@ -15,7 +15,7 @@ export default function Hero({ data, loading }) {
 
   return (
     <div className="flex-1">
-      <section className="relative bg-gradient-to-br from-white via-blue-50/30 to-primary/5 py-16 lg:py-24 overflow-hidden">
+      <section className="relative bg-slate-50 py-8 md:py-16 lg:py-20 overflow-hidden">
         {/* Decorative background elements */}
         {/* <div className="absolute inset-0">
           <div className="absolute top-20 left-10 w-32 h-32 bg-primary/50 rounded-full blur-3xl"></div>

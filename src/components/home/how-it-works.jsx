@@ -11,7 +11,7 @@ export default function HowItWorks({ data, loading }) {
 
   // Show loading state
   if (loading) {
-    return <section className="bg-primary-light py-16 min-h-screen"></section>;
+    return <section className="bg-white py-16 min-h-screen"></section>;
   }
 
   // Guard: If there's an error or no data after loading
@@ -27,7 +27,7 @@ export default function HowItWorks({ data, loading }) {
   }
 
   return (
-    <section className="bg-primary-light py-16">
+    <section className="bg-slate-50 py-8 md:py-16">
       <div className="md:max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 mb-10">
           <h2 className="md:text-5xl text-3xl font-bold text-center text-secondary">
@@ -50,7 +50,7 @@ export default function HowItWorks({ data, loading }) {
             return (
               <Card 
                 key={step.id || idx} 
-                className="bg-white rounded-2xl shadow-0 border-0 max-w-md p-8 flex flex-col items-center text-center hover:scale-105 transition-transform duration-300" 
+                className="bg-white rounded-2xl shadow-md border-0 max-w-md p-8 flex flex-col items-center text-center hover:scale-105 transition-transform duration-300 " 
               >
                 <CardTitle className="bg-primary rounded-xl w-16 h-16 flex items-center justify-center">
                   {Icon ? <Icon className="h-8 w-8 text-white" /> : <span>?</span>}
@@ -70,7 +70,6 @@ export default function HowItWorks({ data, loading }) {
     </section>
   );
 }
-
 
 
 

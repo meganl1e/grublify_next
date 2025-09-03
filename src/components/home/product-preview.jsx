@@ -16,7 +16,7 @@ export default async function ProductPreview() {
   const coverImage = images[0] || null;
 
   return (
-    <section className="py-16 bg-slate-50">
+    <section className="py-8 md:py-16 bg-slate-50">
       <div className="max-w-7xl mx-auto px-8">
         <div className="text-center mb-10">
           <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-4">Nutrition You Can Count On. No Guesswork.</h2>
@@ -55,14 +55,18 @@ export default async function ProductPreview() {
                   <LuDollarSign className="w-6 h-6 text-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-semibold text-secondary mb-2">As Low as $0.20/Day*</h3>
+                  <h3 className="text-xl font-semibold text-secondary mb-2">As Low as $0.13/Day*</h3>
                   <p className="text-gray-600">Feed your dog real nutrition without the hefty price tag. Because every dog deserve balanced meals that are healthy and delicious.</p>
                 </div>
               </div>
             </div>
 
-            <Button size="lg" className="text-lg">
-              <Link href={`/products/${data.handle}`}>
+            <Button
+              variant="secondary"
+              size="lg"
+              className="cursor-pointer group relative w-full md:w-auto text-lg px-10 py-6 bg-gradient-to-r from-secondary to-secondary/90 text-white font-semibold border-2 border-secondary rounded-2xl hover:from-secondary/90 hover:to-secondary transition-all duration-300 ease-out shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1"
+            >
+              <Link href={`/products/nutrition-pack-essentials`}>
 
                 Shop Nutrition Packs
               </Link>
