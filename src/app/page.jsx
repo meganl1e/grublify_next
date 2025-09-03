@@ -7,7 +7,6 @@ import { fetchHome } from "@/lib/strapi-client";
 
 
 export default async function Home() {
-  // throw new Error("Test error to trigger Global Error Boundary");
 
   const home = await fetchHome();
   if (!home) return <NotFound />;
