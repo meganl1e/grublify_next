@@ -77,20 +77,34 @@ export default function FaqClient({ faqs }) {
   return (
     <>
       {/* Interactive Search Section */}
-      <section className="bg-secondary text-white p-12">
+      <section className="bg-white py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-white" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
               <Input
                 type="text"
-                placeholder="Search..."
+                placeholder="Search FAQS..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className=" pl-12 pr-4 py-4 text-lg rounded-full border-0 !text-gray-200 !placeholder-gray-200"
+                className="pl-12 pr-4 py-4 text-lg rounded-xl border-2 border-gray-200 bg-white text-gray-900 placeholder-gray-500 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all duration-200 shadow-sm hover:shadow-md focus:shadow-lg"
               />
             </div>
+            
+            {/* Search results count */}
+            {searchTerm && (
+              <div className="mt-4 text-sm text-gray-600">
+                {filteredCategories.length === 0 ? (
+                  <span>No results found for "{searchTerm}"</span>
+                ) : (
+                  <span>
+                    {filteredCategories.reduce((total, cat) => total + filteredQuestions(cat.questions).length, 0)} 
+                    {filteredCategories.reduce((total, cat) => total + filteredQuestions(cat.questions).length, 0) === 1 ? ' result' : ' results'} found for "{searchTerm}"
+                  </span>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -33,11 +33,11 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-primary mb-2">QUICK LINKS</h3>
           <ul className="text-sm text-primary space-y-1">
             <li><Link href="/" className="hover:underline">Home</Link></li>
-            <li><Link href="/about" className="hover:underline">About</Link></li>
-            <li><Link href="/team" className="hover:underline">Team</Link></li>
             <li><Link href="/blogs" className="hover:underline">Blogs</Link></li>
             <li><Link href="/recipes" className="hover:underline">Recipes</Link></li>
-            <li><Link href="/waitlist" className="hover:underline">Waitlist</Link></li>
+            <li><Link href="/about" className="hover:underline">About</Link></li>
+            <li><Link href="/team" className="hover:underline">Team</Link></li>
+            <li><Link href="/faqs" className="hover:underline">FAQ</Link></li>
           </ul>
         </div>
         {/* Shop Section */}
@@ -45,10 +45,26 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-primary mb-2">SHOP</h3>
           <ul className="text-sm text-primary space-y-1">
             <li>
+              <Link href="/products" className="hover:underline">
+                All Products
+              </Link>
+            </li>
+            <li>
               <Link href="/products/nutrition-pack-essentials" className="hover:underline">
                 Nutrition Packs
               </Link>
             </li>
+
+          </ul>
+        </div>
+        {/* Quick Links */}
+        <div className="min-w-[180px] flex-1">
+          <h3 className="text-lg font-semibold text-primary mb-2">RECIPES & TOOLS</h3>
+          <ul className="text-sm text-primary space-y-1">
+            <li><Link href="/recipes" className="hover:underline">All Recipes</Link></li>
+            <li><Link href="/recipes/chicken-and-rice" className="hover:underline">Chicken & Rice</Link></li>
+            <li><Link href="/recipes/portion-calculator" className="hover:underline">Portion Calculator</Link></li>
+            <li><Link href="/recipes/transition-guide" className="hover:underline">Transition Guide</Link></li>
           </ul>
         </div>
         {/* Policies Section */}

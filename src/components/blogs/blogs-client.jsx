@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import BlogListItem from "./blog-list-item";
 import BlogFilters from "./blog-filters";
 import FeaturedBlog from "./featured-blog";
+import PageHeader from "../ui/page-header";
 import { ArrowRight, Loader2 } from "lucide-react";
 
 const BlogsClient = ({ initialBlogs, blogCategories }) => {
@@ -76,14 +77,15 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
     return (
       <div className="flex-1">
         {/* Hero Section */}
-        <section className="relative py-20 px-6 bg-secondary text-center flex items-center justify-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-4xl font-bold text-white mb-4">Welcome to Our Blog!</h1>
-            <p className="text-lg text-primary/80 font-semibold">
-              Discover the latest updates, tips, and stories from our team.
-            </p>
-          </div>
-        </section>
+        <PageHeader
+          title={
+            <>
+              Welcome to Our <span className="text-primary-dark">Blog</span>!
+            </>
+          }
+          subtitle="Discover the latest updates, tips, and stories from our team."
+          variant="default"
+        />
 
         {/* Search and Filter Section */}
         <BlogFilters categories={blogCategories} totalPosts={blogs.length} />
@@ -113,7 +115,7 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
                 {displayRecentBlogs.length} posts
               </div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
               {displayRecentBlogs.map((blog) => (
                 <BlogListItem key={blog.id} blog={blog} />
@@ -134,7 +136,7 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
                   Showing {Math.max(0, visibleCount - 7)} of {blogs.length - 7} more posts
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
                 {remainingBlogs.map((blog) => (
                   <BlogListItem key={blog.id} blog={blog} />
@@ -174,8 +176,8 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
       <div className="flex-1 flex items-center justify-center py-20">
         <div className="text-center">
           <p className="text-red-600 mb-4">Something went wrong loading the blog.</p>
-          <button 
-            onClick={() => window.location.reload()} 
+          <button
+            onClick={() => window.location.reload()}
             className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/90"
           >
             Try Again

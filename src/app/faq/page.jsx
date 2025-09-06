@@ -1,5 +1,6 @@
 import FaqClient from "@/components/faq/faq-client";
 import FaqContact from "@/components/faq/faq-contact";
+import PageHeader from "@/components/ui/page-header";
 import { fetchFaqs } from "@/lib/strapi-client";
 
 function slugify(text) {
@@ -46,18 +47,15 @@ export default async function Faqs() {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="bg-secondary text-white pt-12">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl lg:text-6xl font-bold leading-tight pb-4">
-              Frequently Asked <span className="text-primary">Questions</span>
-            </h1>
-            <p className="text-xl text-gray-200 leading-relaxed">
-              Everything you need to know about making fresh, homemade dog food with Grublify
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHeader
+        title={
+          <>
+            Frequently Asked <span className="text-primary-dark">Questions</span>
+          </>
+        }
+        subtitle="Everything you need to know about making fresh, homemade dog food with Grublify"
+        variant="default"
+      />
 
       <FaqClient faqs={groupedFaqs} />
       {/* <FaqContact /> */}

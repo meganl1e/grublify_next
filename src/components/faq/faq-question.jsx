@@ -29,7 +29,6 @@ export default function FaqQuestion({ questions, category, openQuestions, toggle
                   <div className="border-t pt-4">
 
                       <StrapiBlocksRenderer content={faq.answer} />
-                      {/* {faq.answerNew} */}
     
                   </div>
                 </div>
