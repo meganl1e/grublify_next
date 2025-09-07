@@ -1,9 +1,37 @@
 import Link from "next/link";
 import { Calendar, User, ArrowRight } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import CategoryTag from "../ui/category-tag";
 
 const BlogListItem = ({ blog }) => {
   const fallbackImage = "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"; // fallback image URL
-  
+  const [visibleCategories, setVisibleCategories] = useState(blog.categories);
+  const [showMoreIndicator, setShowMoreIndicator] = useState(false);
+  const containerRef = useRef(null);
+  const categoriesRef = useRef(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (!containerRef.current || !categoriesRef.current) return;
+
+      // Simple approach: if more than 2 categories, show only 2 and add "+X more"
+      if (blog.categories && blog.categories.length > 2) {
+        setVisibleCategories(blog.categories.slice(0, 2));
+        setShowMoreIndicator(true);
+      } else {
+        setVisibleCategories(blog.categories || []);
+        setShowMoreIndicator(false);
+      }
+    };
+
+    // Check overflow after component mounts
+    setTimeout(checkOverflow, 100);
+    
+    // Recheck on window resize
+    window.addEventListener('resize', checkOverflow);
+    return () => window.removeEventListener('resize', checkOverflow);
+  }, [blog.categories]);
+
   return (
     <Link href={`/blogs/${blog.slug}`}  className="flex-1 h-full group">
       <article className="bg-white rounded-lg shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-100 hover:border-primary/20 hover:scale-[1.02]">
@@ -15,22 +43,26 @@ const BlogListItem = ({ blog }) => {
               className="w-full h-40 object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
             />
           </div>
-          <div className="flex flex-col gap-1 flex-grow">
-            <div className="flex flex-wrap gap-2 mb-2">
-              {blog.categories.map((category, index) => (
-                <span
-                  key={index}
-                  className="inline-block bg-primary/10 text-primary font-medium px-2 py-1 rounded text-xs"
-                >
-                  {category.name}
-                </span>
-              ))}
-              {blog.categories.length > 2 && (
-                <span className="inline-block bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
-                  +{blog.categories.length - 2}
-                </span>
-              )}
-            </div>
+            <div className="flex flex-col gap-1 flex-grow">
+              <div ref={containerRef} className="h-8 overflow-hidden">
+                <div ref={categoriesRef} className="flex flex-wrap gap-2 mb-2">
+                  {visibleCategories.map((category, index) => (
+                    <CategoryTag
+                      key={index}
+                      name={category.name}
+                      variant="default"
+                      size="sm"
+                    />
+                  ))}
+                {showMoreIndicator && (
+                  <CategoryTag
+                    name={`+${blog.categories.length - visibleCategories.length} more`}
+                    variant="more"
+                    size="sm"
+                  />
+                )}
+                </div>
+              </div>
 
             {/* Title */}
             <h3 className="text-lg font-semibold text-secondary mb-2 group-hover:text-primary transition-colors leading-tight line-clamp-2">
