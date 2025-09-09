@@ -15,12 +15,12 @@ export default function Hero({ data, loading }) {
 
   return (
     <div className="flex-1">
-      <section className="relative bg-slate-50 py-12 md:py-20 lg:py-24 overflow-hidden">
+      <section className="relative bg-primary-light py-16 md:py-20 overflow-hidden">
         {/* Decorative background elements */}
         {/* <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-primary/50 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-secondary/30 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-primary/50 rounded-full blur-2xl"></div>
+          <div className="absolute top-20 right-20 w-64 h-64 bg-blue-200 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-48 h-48 bg-purple-200 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/3 w-32 h-32 bg-indigo-200 rounded-full blur-2xl"></div>
         </div> */}
         
         <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -117,7 +117,7 @@ export default function Hero({ data, loading }) {
               </div>
               
               {/* trust indicators */}
-              <div className="flex items-center gap-6 pt-2 text-sm text-secondary/70">
+              {/* <div className="flex items-center gap-6 pt-2 text-sm text-secondary/70">
                 <div className="flex items-center gap-2">
                   <svg className="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -136,7 +136,7 @@ export default function Hero({ data, loading }) {
                   </svg>
                   <span>30-Day Guarantee</span>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* enhanced hero image */}

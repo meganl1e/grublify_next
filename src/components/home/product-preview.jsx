@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import fetchProductPreview from "@/lib/shopify-client";
 
-
 export default async function ProductPreview() {
 
   const data = await fetchProductPreview({ handle: "nutrition-pack-essentials" });
@@ -16,11 +15,11 @@ export default async function ProductPreview() {
   const coverImage = images[0] || null;
 
   return (
-    <section className="py-12 md:py-20 bg-slate-50">
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 md:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-4">Nutrition You Can Count On. No Guesswork.</h2>
-          <p className="text-lg md:text-xl text-gray-600">Expert-formulated packs and simple feeding guides for every dog. Nutritional quality you can trust, made affordable for all.</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-4">Nutrition You Can Count On</h2>
+          <p className="text-lg md:text-xl text-gray-600">Expert-formulated packs and simple feeding guides for every dog.</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center">
@@ -32,8 +31,8 @@ export default async function ProductPreview() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-secondary mb-2">Premium Nutrition Packs</h3>
-                  <p className="text-gray-600">
-                    Essential vitamins, minerals, and supplements formulated by pet nutritionists, which meet AAFCO pet food standards.
+                  <p className="text-base text-gray-600">
+                    Essential vitamins and minerals that meet AAFCO standards.
                   </p>
                 </div>
               </div>
@@ -44,8 +43,8 @@ export default async function ProductPreview() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-secondary mb-2">Easy Recipes</h3>
-                  <p className="text-gray-600">
-                    Step-by-step guides using fresh, whole ingredients you can find at any grocery store.
+                  <p className="text-base text-gray-600">
+                    Step-by-step guides with fresh ingredients from any grocery store.
                   </p>
                 </div>
               </div>
@@ -56,12 +55,12 @@ export default async function ProductPreview() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-secondary mb-2">As Low as $0.13/Day*</h3>
-                  <p className="text-gray-600">Feed your dog real nutrition without the hefty price tag. Because every dog deserve balanced meals that are healthy and delicious.</p>
+                  <p className="text-base text-gray-600">Affordable nutrition that every dog deserves.</p>
                 </div>
               </div>
             </div>
 
-            <Button
+            {/* <Button
               variant="secondary"
               size="lg"
               className="cursor-pointer group relative w-full md:w-auto text-lg px-10 py-6 bg-gradient-to-r from-secondary to-secondary/90 text-white font-semibold border-2 border-secondary rounded-2xl hover:from-secondary/90 hover:to-secondary transition-all duration-300 ease-out shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1"
@@ -70,11 +69,11 @@ export default async function ProductPreview() {
 
                 Shop Nutrition Packs
               </Link>
-            </Button>
+            </Button> */}
           </div>
 
           <div className="relative">
-            <div className="bg-primary rounded-2xl p-6 max-w-md w-full mx-auto">
+            {/* <div className="bg-primary rounded-2xl p-6 max-w-md w-full mx-auto"> */}
               <Image
                 src={coverImage.url}
                 alt="Grublify nutrition packs and ingredients"
@@ -83,13 +82,32 @@ export default async function ProductPreview() {
                 className="rounded-xl object-cover w-full"
                 sizes="(max-width: 768px) 90vw, 50vw"
               />
-            </div>
+            {/* </div> */}
             <div className="max-w-md  mx-auto mt-2">
               <p className="text-xs text-gray-500 ">
                 *Cost based on a small dog with 10-pack and first order discount. Actual daily cost varies by dog and product selection.
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Enhanced CTA */}
+        <div className="text-center mt-8">
+          <Link href="/products/nutrition-pack-essentials">
+            <Button 
+              variant="secondary" 
+              size="lg"
+              className="cursor-pointer group relative text-lg px-10 py-6 bg-gradient-to-r from-secondary to-secondary/90 text-white font-semibold border-2 border-secondary rounded-2xl hover:from-secondary/90 hover:to-secondary transition-all duration-300 ease-out shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Shop Nutrition Packs
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

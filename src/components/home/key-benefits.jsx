@@ -1,5 +1,8 @@
 "use client";
 import React from "react";
+import { Card, CardContent } from "../ui/card";
+import { Button } from "../ui/button";
+import Link from "next/link";
 import { 
   Heart, 
   Shield, 
@@ -14,39 +17,23 @@ import {
 const benefits = [
   {
     icon: Shield,
-    title: "AAFCO Certified Nutrition",
-    description: "Every recipe meets or exceeds AAFCO standards for complete and balanced nutrition",
-    highlight: "No guesswork"
+    title: "Meets AAFCO Standards",
+    description: "Complete and balanced nutrition that meets veterinary standards"
   },
   {
     icon: Heart,
-    title: "Veterinarian Approved",
-    description: "Formulated by certified pet nutritionists and trusted by veterinarians nationwide",
-    highlight: "Expert-backed"
+    title: "Pet Nutritionist Formulated",
+    description: "Crafted by certified pet nutritionists for optimal health"
   },
   {
     icon: Clock,
     title: "Ready in 15 Minutes",
-    description: "Simple recipes with fresh ingredients you can find at any grocery store",
-    highlight: "Quick & easy"
-  },
-  {
-    icon: DollarSign,
-    title: "Save Up to 50%",
-    description: "Cost-effective compared to premium kibble while providing superior nutrition",
-    highlight: "Budget-friendly"
+    description: "Simple recipes with fresh ingredients from any grocery store"
   },
   {
     icon: CheckCircle,
     title: "30-Day Guarantee",
-    description: "Try risk-free with our money-back guarantee if your dog doesn't love it",
-    highlight: "Risk-free"
-  },
-  {
-    icon: Leaf,
-    title: "All Natural Ingredients",
-    description: "No artificial preservatives, colors, or fillers - just wholesome, real food",
-    highlight: "Pure & natural"
+    description: "Try risk-free with our money-back guarantee"
   }
 ];
 
@@ -54,45 +41,40 @@ function BenefitCard({ benefit, index }) {
   const Icon = benefit.icon;
   
   return (
-    <div className="group relative bg-white rounded-2xl p-8 border border-gray-200 hover:border-primary/30 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+    <div className="group relative bg-gradient-to-br from-white to-green-50/50 rounded-2xl p-8 border border-green-200 hover:border-green-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
       {/* Icon */}
-      <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-        <Icon className="w-8 h-8 text-primary" />
+      <div className="w-16 h-16 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl flex items-center justify-center mb-6 group-hover:from-primary/20 group-hover:to-accent/20 transition-all duration-300 shadow-md">
+        <Icon className="w-8 h-8 text-primary group-hover:text-accent transition-colors duration-300" />
       </div>
       
       {/* Content */}
       <div className="space-y-3">
-        <div className="flex items-center gap-2">
-          <h3 className="text-xl font-semibold text-secondary">
-            {benefit.title}
-          </h3>
-          <span className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
-            {benefit.highlight}
-          </span>
-        </div>
+        <h3 className="text-xl font-semibold text-secondary group-hover:text-primary transition-colors duration-300">
+          {benefit.title}
+        </h3>
         
-        <p className="text-gray-600 leading-relaxed">
+        <p className="text-secondary/80 leading-relaxed">
           {benefit.description}
         </p>
       </div>
       
       {/* Decorative element */}
-      <div className="absolute top-4 right-4 w-2 h-2 bg-primary/20 rounded-full group-hover:bg-primary/40 transition-colors duration-300"></div>
+      <div className="absolute top-4 right-4 w-2 h-2 bg-primary/30 rounded-full group-hover:bg-accent/50 transition-colors duration-300"></div>
     </div>
   );
 }
 
 export default function KeyBenefits() {
   return (
-    <section className="py-16 md:py-20 bg-slate-50">
+    <section className="py-16 md:py-20 bg-primary">
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-secondary mb-6">
-            Why Choose Grublify?
+          <h2 className="text-3xl md:text-5xl font-bold text-slate-800 mb-6">
+            Your Dog Deserves Better
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
-            We make homemade dog food simple, safe, and affordable. Here's what sets us apart from the competition.
+          <p className="text-lg md:text-xl text-slate-700 max-w-3xl mx-auto">
+            Nutritionist-formulated recipes and complete nutrition packs. Fresh, healthy, and made with love.
           </p>
         </div>
 
@@ -103,32 +85,23 @@ export default function KeyBenefits() {
           ))}
         </div>
 
-        {/* Bottom CTA */}
-        <div className="bg-white rounded-2xl p-8 md:p-12 text-center border border-gray-200">
-          <div className="max-w-3xl mx-auto">
-            <h3 className="text-2xl md:text-3xl font-bold text-secondary mb-4">
-              Ready to Give Your Dog the Nutrition They Deserve?
-            </h3>
-            <p className="text-lg text-gray-600 mb-8">
-              Join thousands of pet parents who've made the switch to healthier, homemade meals.
-            </p>
-            
-            {/* Trust indicators */}
-            <div className="flex flex-wrap justify-center items-center gap-8 mb-8">
-              <div className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-secondary">10,000+ Happy Dogs</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Award className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-secondary">AAFCO Certified</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle className="w-5 h-5 text-primary" />
-                <span className="text-sm font-medium text-secondary">30-Day Guarantee</span>
-              </div>
-            </div>
-          </div>
+        {/* Enhanced CTA */}
+        <div className="text-center mt-12">
+          <Link href="/products/nutrition-pack-essentials">
+            <Button 
+              variant="secondary" 
+              size="lg"
+              className="cursor-pointer group relative text-lg px-10 py-6 bg-gradient-to-r from-secondary to-secondary/90 text-white font-semibold border-2 border-secondary rounded-2xl hover:from-secondary/90 hover:to-secondary transition-all duration-300 ease-out shadow-lg hover:shadow-xl transform hover:scale-105 hover:-translate-y-1"
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Shop Now
+                <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

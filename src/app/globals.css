@@ -1,6 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* Hide scrollbar for webkit browsers */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
 /* Tailwind base styles — includes reset and core styles */
 /* @tailwind base; */
 
@@ -108,6 +117,44 @@
   }
   .animate-slide-out {
     animation: slide-out 0.7s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(168, 53%, 62%, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(168, 53%, 62%, 0.6);
+    }
+  }
+  .animate-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out;
   }
 
   /* Line clamp utilities for text truncation */
