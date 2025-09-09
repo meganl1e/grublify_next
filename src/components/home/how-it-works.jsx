@@ -27,7 +27,7 @@ export default function HowItWorks({ data, loading }) {
   }
 
   return (
-    <section className="bg-slate-50 py-8 md:py-16">
+    <section className="bg-white py-12 md:py-20">
       <div className="md:max-w-5xl mx-auto px-4">
         <div className="flex flex-col items-center justify-between gap-4 mb-10">
           <h2 className="md:text-5xl text-3xl font-bold text-center text-secondary">
