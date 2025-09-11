@@ -70,7 +70,7 @@ export default function Footer() {
         {/* Policies Section */}
         <div className="min-w-[180px] flex-1">
           <h3 className="text-lg font-semibold text-primary mb-2">
-            <Link href="policies" className="hover:underline">POLICIES</Link>
+            <Link href="/policies" className="hover:underline">POLICIES</Link>
           </h3>
           <ul className="text-sm text-primary space-y-1">
             <li><Link href="/policies/disclaimer" className="hover:underline">Disclaimer</Link></li>
