@@ -74,6 +74,30 @@ export default function FaqClient({ faqs }) {
   };
 
 
+  // Handle case when there are no FAQs at all
+  if (faqsArray.length === 0) {
+    return (
+      <div className="min-h-screen bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-12">
+          <div className="max-w-2xl mx-auto text-center">
+            <Card className="p-8">
+              <CardContent>
+                <HelpCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">No FAQs Available</h3>
+                <p className="text-gray-600 mb-4">
+                  We're currently updating our FAQ section. Please check back later or contact our support team if you have any questions.
+                </p>
+                <div className="text-sm text-gray-500">
+                  If you need immediate assistance, please reach out to hello@grublify.com.
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       {/* Interactive Search Section */}

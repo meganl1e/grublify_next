@@ -9,7 +9,7 @@ export default function FaqSidebar({ scrollToCategory, categories }) {
 
   return (
     <div className="lg:col-span-1">
-      <div className="sticky top-8">
+      <div className="sticky top-30">
         <h3 className="text-xl font-bold text-gray-800 mb-6">Categories</h3>
         <div className="space-y-2">
           <button

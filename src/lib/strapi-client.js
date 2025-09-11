@@ -79,13 +79,24 @@ export async function fetchBlogsByCategory(categorySlug) {
 
 // fetch faqs
 export async function fetchFaqs() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs`,
-    { cache: 'no-store' }
-  );
-  const data = await res.json();
-  // console.log(data);
-  return data?.data || null;
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs`,
+      { cache: 'no-store' }
+    );
+    
+    if (!res.ok) {
+      console.error('Failed to fetch FAQs:', res.status, res.statusText);
+      return [];
+    }
+    
+    const data = await res.json();
+    // console.log(data);
+    return data?.data || [];
+  } catch (error) {
+    console.error('Error fetching FAQs:', error);
+    return [];
+  }
 }
 
 // fetch all recipes
