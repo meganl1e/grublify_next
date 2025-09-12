@@ -38,6 +38,7 @@ export default function Footer() {
             <li><Link href="/about" className="hover:underline">About</Link></li>
             <li><Link href="/team" className="hover:underline">Team</Link></li>
             <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
+            <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
           </ul>
         </div>
         {/* Shop Section */}

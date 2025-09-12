@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { submitContact } from '@/lib/strapi-client';
 
 export async function POST(request) {
   try {
@@ -24,15 +23,43 @@ export async function POST(request) {
 
     // Submit to Strapi
     try {
-      const strapiResponse = await submitContact({
+      console.log('Submitting contact form to Strapi:', {
+        strapiUrl: process.env.NEXT_PUBLIC_STRAPI_URL,
         name,
         email,
-        subject,
-        message
+        subject: subject || 'General Inquiry'
       });
 
-      console.log('Contact form submitted to Strapi:', {
-        id: strapiResponse?.id,
+      // Inline the submitContact function to avoid import issues
+      const strapiResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contacts`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            data: {
+              name,
+              email,
+              subject: subject || 'General Inquiry',
+              message,
+              status: 'new',
+              submittedAt: new Date().toISOString()
+            }
+          })
+        }
+      );
+
+      if (!strapiResponse.ok) {
+        const errorData = await strapiResponse.json().catch(() => ({}));
+        throw new Error(`Failed to submit contact: ${strapiResponse.status} - ${errorData.message || 'Unknown error'}`);
+      }
+
+      const strapiData = await strapiResponse.json();
+
+      console.log('Contact form submitted to Strapi successfully:', {
+        id: strapiData?.data?.id,
         name,
         email,
         subject: subject || 'General Inquiry',
@@ -43,7 +70,7 @@ export async function POST(request) {
         { 
           success: true, 
           message: 'Thank you for contacting us! We\'ll get back to you within 24 hours.',
-          contactId: strapiResponse?.id
+          contactId: strapiData?.data?.id
         },
         { status: 200 }
       );

@@ -205,3 +205,40 @@ export async function fetchTeam() {
     return null;
   }
 }
+
+// submit contact form to Strapi
+export async function submitContact(contactData) {
+  try {
+    // console.log('Attempting to submit contact form to:', `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contacts`);
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/contacts`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          data: {
+            name: contactData.name,
+            email: contactData.email,
+            subject: contactData.subject || 'General Inquiry',
+            message: contactData.message,
+            status: 'new',
+            submittedAt: new Date().toISOString()
+          }
+        })
+      }
+    );
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+      throw new Error(`Failed to submit contact: ${res.status} - ${errorData.message || 'Unknown error'}`);
+    }
+
+    const data = await res.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error('Error submitting contact:', error);
+    throw error;
+  }
+}
