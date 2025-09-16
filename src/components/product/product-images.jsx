@@ -26,28 +26,30 @@ export default function ProductImages() {
     <div className="flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-10">
       {/* Thumbnail Images - Left Side */}
       {images.length > 1 && (
-        <div className="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 order-2 lg:order-1 mt-4 lg:mt-0">
-          {images.map((image, index) => (
-            <button
-              key={`thumbnail-${index}`}
-              onClick={() => setSelectedIndex(index)}
-              aria-label={`View image ${index + 1}`}
-              className={`relative aspect-square rounded-md overflow-hidden transition-all duration-200 ${
-                selectedIndex === index
-                  ? 'ring-2 ring-primary ring-offset-1'
-                  : 'hover:opacity-75 hover:scale-105'
-              } w-12 sm:w-14 md:w-16 lg:w-14`}
-            >
-              <Image
-                src={image.url}
-                alt={image.altText || `Product image ${index + 1}`}
-                fill
-                className="object-contain cursor-pointer"
-                sizes="(max-width: 768px) 10vw, 8vw"
-                loading="lazy"
-              />
-            </button>
-          ))}
+        <div className="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 order-2 lg:order-1 mt-4 lg:mt-0 overflow-x-auto lg:overflow-x-visible scrollbar-hide max-w-full lg:max-w-none p-1 lg:p-0">
+          <div className="flex lg:flex-col space-x-2 lg:space-x-0 lg:space-y-2 lg:min-w-0">
+            {images.map((image, index) => (
+              <button
+                key={`thumbnail-${index}`}
+                onClick={() => setSelectedIndex(index)}
+                aria-label={`View image ${index + 1}`}
+                className={`relative aspect-square rounded-md overflow-hidden transition-all duration-200 flex-shrink-0 ${
+                  selectedIndex === index
+                    ? 'ring-2 ring-primary ring-offset-1'
+                    : 'hover:opacity-75 hover:scale-105'
+                } w-12 sm:w-14 md:w-16 lg:w-14`}
+              >
+                <Image
+                  src={image.url}
+                  alt={image.altText || `Product image ${index + 1}`}
+                  fill
+                  className="object-contain cursor-pointer"
+                  sizes="(max-width: 768px) 10vw, 8vw"
+                  loading="lazy"
+                />
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
