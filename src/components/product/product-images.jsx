@@ -56,7 +56,7 @@ export default function ProductImages() {
       {/* Main Product Image */}
       <div className="flex flex-col items-center space-y-4 order-1 lg:order-2">
         {images.length > 0 ? (
-          <div className="relative group aspect-square w-[80vw] sm:w-96 md:w-[28rem] lg:w-[32rem]">
+          <div className="relative group aspect-square w-[90vw] sm:w-96 md:w-[28rem] lg:w-[32rem]">
             <Image
               src={coverImage.url}
               alt={coverImage.altText || "Alt text not defined"}
