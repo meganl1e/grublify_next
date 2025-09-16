@@ -2,7 +2,7 @@
 import ProductDescription from "./product-description";
 import ProductVariants from "./product-variants";
 import ProductReviews from "./product-reviews";
-import { ProductPrice, AddToCartButton, useProduct, useCart } from "@shopify/hydrogen-react";
+import { ProductPrice, AddToCartButton, useProduct } from "@shopify/hydrogen-react";
 import { useCartUI } from "../cart/cart-context";
 import { CompactStarRating } from "../ui/star-rating";
 import { useRef } from "react";

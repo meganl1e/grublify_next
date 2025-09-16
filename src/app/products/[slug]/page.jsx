@@ -27,7 +27,7 @@ const PRODUCT_QUERY = `
       description
       descriptionHtml
       tags
-      images(first: 5) {
+      images(first: 10) {
         edges {
           node {
             url

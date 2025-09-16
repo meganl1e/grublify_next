@@ -10,7 +10,7 @@ export default function ProductPageClient({ product, reviews = [], averageRating
     <ProductProvider data={product}>
       <main className="container mx-auto px-4 py-8 max-w-7xl">
         <ProductBreadcrumb />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8">
           <ProductImages />
           <ProductDetails reviews={reviews} averageRating={averageRating} />
         </div>
