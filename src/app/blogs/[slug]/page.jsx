@@ -123,6 +123,7 @@ async function BlogPage({ params }) {
           <div className="text-secondary text-sm mb-4 flex flex-row gap-1">
             <Link href='/blogs' className="hover:underline">Blogs</Link> 
             <p>/</p>
+
             <Link href={`/blogs/${blog.slug}`} className="font-semibold hover:underline">{blog.title}</Link>
           </div>
           <img

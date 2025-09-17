@@ -104,7 +104,7 @@ export async function fetchBlogCategories() {
 // fetch blogs by categories
 export async function fetchBlogsByCategory(categorySlug) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[categories][slug][$eq]=${categorySlug}&fields=slug&fields=title&fields=publishedDate&populate=coverImage&populate=categories`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[categories][slug][$eq]=${categorySlug}&fields=slug&fields=title&fields=excerpt&fields=publishedDate&populate=coverImage&populate=categories`,
     { cache: 'no-store' }
   );
   const data = await res.json();

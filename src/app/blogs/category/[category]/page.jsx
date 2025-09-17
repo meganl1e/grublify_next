@@ -1,8 +1,10 @@
 import BlogListItem from "../../../../components/blogs/blog-list-item";
+import CategoryDropdown from "../../../../components/blogs/category-dropdown";
 import NotFound from "../../../not-found";
-import { fetchBlogsByCategory } from "@/lib/strapi-client";
+import { fetchBlogsByCategory, fetchBlogCategories } from "@/lib/strapi-client";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export async function generateMetadata({ params }) {
   const { category } = await params;
@@ -31,7 +33,10 @@ function slugToTitle(slug) {
 export default async function CategoryPage({ params }) {
   const { category } = await params;
   // console.log(category)
-  const categoryBlogs = await fetchBlogsByCategory(category);
+  const [categoryBlogs, blogCategories] = await Promise.all([
+    fetchBlogsByCategory(category),
+    fetchBlogCategories()
+  ]);
   // console.log(categoryBlogs);
   
   if (!categoryBlogs || categoryBlogs.length === 0) {
@@ -45,42 +50,56 @@ export default async function CategoryPage({ params }) {
           <p className="text-gray-600 mb-8">
             We couldn't find any blog posts in this category yet.
           </p>
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to All Blogs
-          </Link>
+          <Button asChild variant="secondary">
+              <Link href="/blogs">
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Blog Posts
+              </Link>
+            </Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="flex-1 px-6 py-10">
-      <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb */}
-        <div className="flex items-center gap-2 mb-8 text-sm text-gray-600">
-          <Link href="/blogs" className="hover:text-primary transition-colors">
-            Blogs
-          </Link>
-          <span>/</span>
-          <span className="text-primary font-semibold capitalize">{slugToTitle(category)}</span>
-        </div>
+    <div className="flex-1">
+      {/* Category Dropdown */}
+     
+      
+      <div className="px-6 py-10">
+        <div className="max-w-7xl mx-auto">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 mb-8 text-sm text-gray-600">
+            <Link href="/blogs" className="hover:text-primary transition-colors">
+              Blogs
+            </Link>
+            <span>/</span>
+            <span className="font-semibold hover:underline">{slugToTitle(category)}</span>
+          </div>
 
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-secondary mb-4 capitalize">
-            {slugToTitle(category)} Posts
-          </h1>
-          <p className="text-gray-600 text-lg">
-            {categoryBlogs.length} {categoryBlogs.length === 1 ? 'post' : 'posts'} found
-          </p>
+        <div className="mb-12">
+          <div className="mb-6 flex items-center justify-between">
+            <Button asChild variant="secondary">
+              <Link href="/blogs">
+                <ArrowLeft className="w-4 h-4" />
+                Back to All Blog Posts
+              </Link>
+            </Button>
+            <CategoryDropdown categories={blogCategories} currentCategory={category} />
+          </div>
+          <div className="text-center">
+            <h1 className="text-4xl font-bold text-secondary mb-4 capitalize">
+              {slugToTitle(category)} Posts
+            </h1>
+            <p className="text-gray-600 text-lg">
+              {categoryBlogs.length} {categoryBlogs.length === 1 ? 'post' : 'posts'} found
+            </p>
+          </div>
         </div>
 
         {/* Blog Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categoryBlogs.map((blog) => (
             <BlogListItem key={blog.id} blog={blog} />
           ))}
@@ -88,13 +107,13 @@ export default async function CategoryPage({ params }) {
 
         {/* Back to All Blogs */}
         <div className="text-center mt-12">
-          <Link
-            href="/blogs"
-            className="inline-flex items-center gap-2 text-primary hover:text-primary/80 font-semibold transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            View All Blog Posts
-          </Link>
+          <Button asChild variant="secondary">
+            <Link href="/blogs">
+              <ArrowLeft className="w-4 h-4" />
+              Back to All Blog Posts
+            </Link>
+          </Button>
+        </div>
         </div>
       </div>
     </div>
