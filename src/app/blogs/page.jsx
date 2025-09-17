@@ -37,7 +37,7 @@ export const metadata = {
 export default async function Blogs() {
   try {
     // console.log('Fetching initial blogs...');
-    const blogData = await fetchBlogs(1, 6); // Only fetch first 6 blogs
+    const blogData = await fetchBlogs(1, 9); // Only fetch first 9 blogs
     const blogCategories = await fetchBlogCategories();
     
     // Safely destructure with fallbacks

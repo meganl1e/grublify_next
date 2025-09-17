@@ -13,7 +13,7 @@ export async function fetchHome() {
 
 
 // fetch blogs with pagination
-export async function fetchBlogs(page = 1, pageSize = 6) {
+export async function fetchBlogs(page = 1, pageSize = 9) {
   try {
     const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=excerpt&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     

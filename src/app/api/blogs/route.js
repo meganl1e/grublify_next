@@ -4,7 +4,7 @@ export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page')) || 1;
-    const pageSize = parseInt(searchParams.get('pageSize')) || 6;
+    const pageSize = parseInt(searchParams.get('pageSize')) || 9;
     
     const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=excerpt&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     

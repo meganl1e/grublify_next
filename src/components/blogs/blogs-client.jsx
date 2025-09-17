@@ -20,7 +20,7 @@ const BlogsClient = ({ initialBlogs, blogCategories, totalBlogs, initialPaginati
 
   // Calculate optimal batch size for 2-column layout
   const getOptimalBatchSize = useCallback(() => {
-    return 6; // Always 2 columns, batches of 6 for even rows
+    return 9; // Always 2 columns, batches of 9 for even rows
   }, []);
 
   // Ensure we're on the client side and initialize blogs
@@ -42,7 +42,7 @@ const BlogsClient = ({ initialBlogs, blogCategories, totalBlogs, initialPaginati
     
     try {
       const nextPage = currentPage + 1;
-      const response = await fetch(`/api/blogs?page=${nextPage}&pageSize=6`);
+      const response = await fetch(`/api/blogs?page=${nextPage}&pageSize=9`);
       
       if (!response.ok) {
         throw new Error('Failed to fetch more blogs');
