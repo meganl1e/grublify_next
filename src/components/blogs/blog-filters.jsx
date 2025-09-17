@@ -15,10 +15,6 @@ const BlogFilters = ({ categories, totalPosts, onSearch, initialSearchQuery = ""
           {/* Category Filter */}
           <BlogCategoryFilter categories={categories} />
 
-          {/* Results Count */}
-          <div className="text-sm text-gray-600 font-medium bg-gray-100 px-4 py-2 rounded-lg">
-            {totalPosts} {totalPosts === 1 ? 'post' : 'posts'}
-          </div>
         </div>
       </div>
     </section>

@@ -19,8 +19,12 @@ export default function BlogsLoading() {
   return (
     <div className="flex-1"> {/* Hero Section */}
         <PageHeader
-          title="Welcome to Our Blog!"
-          subtitle="Discover the latest updates, tips, and stories from our team."
+          title={
+            <>
+              The <span className="text-primary-dark">Grublify</span> Pawspective
+            </>
+          }
+          subtitle="Expert tips and insights for dog parents"
           variant="default"
         />
       {/* Loading Section */}
