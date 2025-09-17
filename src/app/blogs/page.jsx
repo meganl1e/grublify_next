@@ -36,11 +36,17 @@ export const metadata = {
 
 export default async function Blogs() {
   try {
-    // console.log('Fetching blogs...');
-    const blogs = await fetchBlogs();
+    // console.log('Fetching initial blogs...');
+    const blogData = await fetchBlogs(1, 6); // Only fetch first 6 blogs
     const blogCategories = await fetchBlogCategories();
+    
+    // Safely destructure with fallbacks
+    const blogs = blogData?.blogs || [];
+    const pagination = blogData?.pagination || null;
+    const total = blogData?.total || 0;
+    
     // console.log(blogCategories)
-    // console.log('Blogs fetched:', blogs);
+    // console.log('Initial blogs fetched:', blogs);
     
     if (!blogs || blogs.length === 0) {
       console.log('No blogs found or blogs array is empty');
@@ -74,7 +80,7 @@ export default async function Blogs() {
       },
       "mainEntity": {
         "@type": "ItemList",
-        "numberOfItems": blogs.length,
+        "numberOfItems": total,
         "itemListElement": blogs.map((blog, index) => ({
           "@type": "ListItem",
           "position": index + 1,
@@ -85,8 +91,8 @@ export default async function Blogs() {
             "url": `https://grublify.com/blogs/${blog.slug}`,
             "datePublished": blog.publishedDate,
             "author": {
-              "@type": "Person",
-              "name": blog.author?.name || "Grublify Team"
+              "@type": "Organization",
+              "name": "Grublify Team"
             }
           }
         }))
@@ -100,11 +106,25 @@ export default async function Blogs() {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <BlogsClient initialBlogs={blogs} blogCategories={blogCategories}/>
+        <BlogsClient 
+          initialBlogs={blogs} 
+          blogCategories={blogCategories}
+          totalBlogs={total}
+          initialPagination={pagination}
+        />
       </>
     );
   } catch (error) {
     console.error('Error in Blogs page:', error);
+    
+    // Try to get blog categories even if blogs fail
+    let blogCategories = [];
+    try {
+      blogCategories = await fetchBlogCategories();
+    } catch (catError) {
+      console.error('Error fetching categories:', catError);
+    }
+    
     return (
       <div className="flex-1 flex items-center justify-center py-20">
         <div className="text-center">
@@ -116,6 +136,12 @@ export default async function Blogs() {
           <p className="text-sm text-gray-500">
             Error: {error.message}
           </p>
+          <BlogsClient 
+            initialBlogs={[]} 
+            blogCategories={blogCategories}
+            totalBlogs={0}
+            initialPagination={null}
+          />
         </div>
       </div>
     );

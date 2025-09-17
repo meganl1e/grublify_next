@@ -47,7 +47,7 @@ const BlogListItem = ({ blog }) => {
           </div>
           
           {/* Content */}
-          <div className="p-6 flex flex-col gap-4 flex-grow">
+          <div className="p-6 flex flex-col gap-2 flex-grow">
             {/* Categories */}
             <div ref={containerRef} className="overflow-hidden">
               <div ref={categoriesRef} className="flex flex-wrap gap-2">
@@ -87,7 +87,7 @@ const BlogListItem = ({ blog }) => {
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   <span className="font-medium">
-                    {blog.author?.name || "Grublify Team"}
+                    Grublify Team
                   </span>
                 </div>
                 <div className="flex items-center gap-2">

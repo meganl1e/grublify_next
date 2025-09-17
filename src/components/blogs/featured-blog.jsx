@@ -8,7 +8,7 @@ const FeaturedBlog = ({ blog }) => {
     <Link href={`/blogs/${blog.slug}`} className="group">
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-300 group-hover:-translate-y-1">
         <div className="grid lg:grid-cols-2 gap-0 min-h-64 lg:min-h-80">
-          <div className="relative overflow-hidden">
+          <div className="relative overflow-hidden h-64 lg:h-auto">
             <Image
               src={blog.coverImage?.formats?.medium?.url || blog.coverImage?.formats?.small?.url || "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png"}
               alt={blog.title}
@@ -40,7 +40,7 @@ const FeaturedBlog = ({ blog }) => {
               </div>
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4" />
-                <span className="font-medium">{blog.author?.name || "Grublify Team"}</span>
+                <span className="font-medium">Grublify Team</span>
               </div>
             </div>
 

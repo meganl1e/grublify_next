@@ -12,10 +12,10 @@ export async function fetchHome() {
 }
 
 
-// fetch all blogs
-export async function fetchBlogs() {
+// fetch blogs with pagination
+export async function fetchBlogs(page = 1, pageSize = 6) {
   try {
-    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[pageSize]=100`;
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=excerpt&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     
     const res = await fetch(url, { cache: 'no-store' });
     
@@ -27,11 +27,39 @@ export async function fetchBlogs() {
     
     const data = await res.json();
     
-    const blogs = data?.data || null;
+    // Ensure we always return the expected structure
+    const result = {
+      blogs: data?.data || [],
+      pagination: data?.meta?.pagination || null,
+      total: data?.meta?.pagination?.total || 0
+    };
     
-    return blogs;
+    // console.log('fetchBlogs result:', result);
+    return result;
   } catch (error) {
     console.error('fetchBlogs: Error occurred:', error);
+    throw error;
+  }
+}
+
+// fetch all blogs (for backward compatibility)
+export async function fetchAllBlogs() {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=excerpt&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[pageSize]=100`;
+    
+    const res = await fetch(url, { cache: 'no-store' });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('fetchAllBlogs: API error response:', errorText);
+      throw new Error(`Failed to fetch blogs: ${res.status} - ${errorText}`);
+    }
+    
+    const data = await res.json();
+    
+    return data?.data || [];
+  } catch (error) {
+    console.error('fetchAllBlogs: Error occurred:', error);
     throw error;
   }
 }

@@ -7,12 +7,14 @@ import FeaturedBlog from "./featured-blog";
 import PageHeader from "../ui/page-header";
 import { Loader2 } from "lucide-react";
 
-const BlogsClient = ({ initialBlogs, blogCategories }) => {
+const BlogsClient = ({ initialBlogs, blogCategories, totalBlogs, initialPagination }) => {
   const [blogs, setBlogs] = useState([]);
   const [visibleBlogs, setVisibleBlogs] = useState([]);
   const [isClient, setIsClient] = useState(false);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const observerRef = useRef(null);
   const loadingRef = useRef(null);
 
@@ -26,30 +28,58 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
     setIsClient(true);
     if (initialBlogs && initialBlogs.length > 0) {
       setBlogs(initialBlogs);
-      // Start with optimal batch size for even grid
-      const initialBatchSize = getOptimalBatchSize();
-      setVisibleBlogs(initialBlogs.slice(0, initialBatchSize));
-      setHasMore(initialBlogs.length > initialBatchSize);
+      setVisibleBlogs(initialBlogs);
+      setTotal(totalBlogs || initialBlogs.length);
+      setHasMore(initialBlogs.length < (totalBlogs || initialBlogs.length));
     }
-  }, [initialBlogs, getOptimalBatchSize]);
+  }, [initialBlogs, totalBlogs]);
 
   // Load more blogs function
-  const loadMoreBlogs = useCallback(() => {
+  const loadMoreBlogs = useCallback(async () => {
     if (loading || !hasMore) return;
     
     setLoading(true);
     
-    // Simulate API delay
-    setTimeout(() => {
-      const currentCount = visibleBlogs.length;
-      const batchSize = getOptimalBatchSize();
-      const nextBatch = blogs.slice(currentCount, currentCount + batchSize);
+    try {
+      const nextPage = currentPage + 1;
+      const response = await fetch(`/api/blogs?page=${nextPage}&pageSize=6`);
       
-      setVisibleBlogs(prev => [...prev, ...nextBatch]);
-      setHasMore(currentCount + batchSize < blogs.length);
+      if (!response.ok) {
+        throw new Error('Failed to fetch more blogs');
+      }
+      
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      const newBlogs = data.blogs || [];
+      const total = data.total || 0;
+      
+      // If no new blogs returned, we've reached the end
+      if (newBlogs.length === 0) {
+        setHasMore(false);
+        return;
+      }
+      
+      setBlogs(prev => [...prev, ...newBlogs]);
+      setVisibleBlogs(prev => [...prev, ...newBlogs]);
+      setCurrentPage(nextPage);
+      setTotal(total);
+      
+      // Check if we've loaded all available blogs
+      const newTotalVisible = visibleBlogs.length + newBlogs.length;
+      setHasMore(newTotalVisible < total);
+      
+    } catch (error) {
+      console.error('Error loading more blogs:', error);
+      // On error, stop trying to load more
+      setHasMore(false);
+    } finally {
       setLoading(false);
-    }, 500);
-  }, [loading, hasMore, visibleBlogs.length, blogs, getOptimalBatchSize]);
+    }
+  }, [loading, hasMore, currentPage, visibleBlogs.length]);
 
   // Intersection Observer for infinite scroll
   useEffect(() => {
@@ -139,7 +169,7 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
                 All Posts
               </h2>
               <div className="text-sm text-gray-500">
-                Showing {visibleBlogs.length} of {blogs.length} posts
+                Showing {visibleBlogs.length} of {total} posts
               </div>
             </div>
 
@@ -166,10 +196,16 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
             )}
 
             {/* End of posts indicator */}
-            {!hasMore && blogs.length > 0 && (
-              <div className="text-center py-8">
-                <div className="text-gray-400 text-sm">
-                  You've reached the end! No more posts to load.
+            {!hasMore && visibleBlogs.length > 0 && (
+              <div className="flex justify-center items-center py-8">
+                <div className="text-center">
+                  <div className="text-gray-400 text-4xl mb-2">🎉</div>
+                  <div className="text-secondary text-lg font-medium">
+                    You've seen all {total} posts!
+                  </div>
+                  <div className="text-muted-foreground text-md mt-1">
+                    Check back later for new content
+                  </div>
                 </div>
               </div>
             )}
