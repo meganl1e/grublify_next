@@ -111,6 +111,49 @@ export async function fetchBlogsByCategory(categorySlug) {
   return data?.data || null;
 }
 
+// search blogs by query
+export async function searchBlogs(query, page = 1, pageSize = 9) {
+  try {
+    if (!query || query.trim().length === 0) {
+      return {
+        blogs: [],
+        pagination: null,
+        total: 0,
+        query: ''
+      };
+    }
+
+    const encodedQuery = encodeURIComponent(query.trim());
+    const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?` +
+      `filters[$or][0][title][$containsi]=${encodedQuery}&` +
+      `filters[$or][1][excerpt][$containsi]=${encodedQuery}&` +
+      `fields=slug&fields=title&fields=excerpt&fields=publishedDate&` +
+      `populate=coverImage&populate=categories&` +
+      `sort=publishedDate:desc&` +
+      `pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
+    
+    const res = await fetch(url, { cache: 'no-store' });
+    
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('searchBlogs: API error response:', errorText);
+      throw new Error(`Failed to search blogs: ${res.status} - ${errorText}`);
+    }
+    
+    const data = await res.json();
+    
+    return {
+      blogs: data?.data || [],
+      pagination: data?.meta?.pagination || null,
+      total: data?.meta?.pagination?.total || 0,
+      query: query.trim()
+    };
+  } catch (error) {
+    console.error('searchBlogs: Error occurred:', error);
+    throw error;
+  }
+}
+
 // fetch faqs
 export async function fetchFaqs() {
   try {

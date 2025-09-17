@@ -137,10 +137,10 @@ const BlogsClient = ({ initialBlogs, blogCategories, totalBlogs, initialPaginati
         <PageHeader
           title={
             <>
-              Welcome to Our <span className="text-primary-dark">Blog</span>!
+              The <span className="text-primary-dark">Grublify</span> Pawspective
             </>
           }
-          subtitle="Discover the latest updates, tips, and stories from our team."
+          subtitle="Expert tips and insights for dog parents"
           variant="default"
         />
 

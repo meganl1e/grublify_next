@@ -1,5 +1,6 @@
 import BlogListItem from "../../../../components/blogs/blog-list-item";
 import CategoryDropdown from "../../../../components/blogs/category-dropdown";
+import BlogSearchBar from "../../../../components/blogs/blog-search-bar";
 import NotFound from "../../../not-found";
 import { fetchBlogsByCategory, fetchBlogCategories } from "@/lib/strapi-client";
 import Link from "next/link";
@@ -86,7 +87,10 @@ export default async function CategoryPage({ params }) {
                 Back to All Blog Posts
               </Link>
             </Button>
-            <CategoryDropdown categories={blogCategories} currentCategory={category} />
+            <div className="flex items-center gap-4">
+              <BlogSearchBar />
+              <CategoryDropdown categories={blogCategories} currentCategory={category} />
+            </div>
           </div>
           <div className="text-center">
             <h1 className="text-4xl font-bold text-secondary mb-4 capitalize">
