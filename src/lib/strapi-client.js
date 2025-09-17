@@ -2,7 +2,10 @@
 export async function fetchHome() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
-    { cache: 'no-store' }
+    { 
+      cache: 'force-cache',
+      next: { revalidate: 3600 } // Revalidate every hour
+    }
   );
   if (!res.ok) {
     throw new Error('Failed to fetch homepage data');
@@ -79,7 +82,10 @@ export async function fetchBlogCategories() {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/categories?fields=name&fields=slug&sort=name:asc`,
-      { cache: 'no-store' }
+      { 
+        cache: 'force-cache',
+        next: { revalidate: 3600 } // Revalidate every hour
+      }
     );
     
     if (!res.ok) {
@@ -110,7 +116,10 @@ export async function fetchFaqs() {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/faqs`,
-      { cache: 'no-store' }
+      { 
+        cache: 'force-cache',
+        next: { revalidate: 3600 } // Revalidate every hour
+      }
     );
     
     if (!res.ok) {
@@ -161,7 +170,10 @@ export async function fetchRecipeBySlug(slug) {
 export async function fetchPolicies() {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/policies?fields=title&fields=slug`,
-    { cache: 'no-store' }
+    { 
+      cache: 'force-cache',
+      next: { revalidate: 3600 } // Revalidate every hour
+    }
   );
   const data = await res.json();
   return data?.data || null;
@@ -219,7 +231,10 @@ export async function fetchTeam() {
     const query = '?populate[teamMembers][populate]=profilePicture';
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/team${query}`,
-      { cache: 'no-store' }
+      { 
+        cache: 'force-cache',
+        next: { revalidate: 3600 } // Revalidate every hour
+      }
     );
 
     if (!res.ok) {
