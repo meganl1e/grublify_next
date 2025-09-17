@@ -11,6 +11,11 @@ const BlogListItem = ({ blog }) => {
   const containerRef = useRef(null);
   const categoriesRef = useRef(null);
 
+  const handleClick = () => {
+    // Scroll to top when clicking on a blog item
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     const checkOverflow = () => {
       if (!containerRef.current || !categoriesRef.current) return;
@@ -34,7 +39,7 @@ const BlogListItem = ({ blog }) => {
   }, [blog.categories]);
 
   return (
-    <Link href={`/blogs/${blog.slug}`} className="group">
+    <Link href={`/blogs/${blog.slug}`} className="group" onClick={handleClick}>
       <article className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden h-full hover:shadow-lg hover:border-gray-200 transition-all duration-300 group-hover:-translate-y-1">
         <div className="flex flex-col h-full">
           {/* Image */}
