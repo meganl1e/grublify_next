@@ -16,10 +16,10 @@ const CategoryTag = ({
       case "outline":
         return "bg-transparent border-2 border-gray-300 text-gray-600 hover:bg-gray-100 hover:border-gray-400";
       case "more":
-        return "bg-gray-100 border border-gray-400 text-gray-600";
+        return "bg-gray-100 border border-gray-300 text-gray-600";
       case "default":
       default:
-        return "bg-primary/20 text-primary-dark border border-primary";
+        return "bg-emerald-50 text-emerald-700 border border-emerald-200";
     }
   };
 
@@ -36,7 +36,7 @@ const CategoryTag = ({
     }
   };
 
-  const baseClasses = "inline-block font-medium rounded-md whitespace-nowrap transition-all duration-200";
+  const baseClasses = "inline-block font-medium rounded-full whitespace-nowrap transition-all duration-200";
   const variantClasses = getVariantClasses();
   const sizeClasses = getSizeClasses();
   const clickableClasses = onClick ? "cursor-pointer hover:scale-105" : "";

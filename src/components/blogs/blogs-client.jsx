@@ -1,27 +1,79 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import BlogListItem from "./blog-list-item";
 import BlogFilters from "./blog-filters";
 import FeaturedBlog from "./featured-blog";
 import PageHeader from "../ui/page-header";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
 const BlogsClient = ({ initialBlogs, blogCategories }) => {
   const [blogs, setBlogs] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(13);
-  const [loadingMore, setLoadingMore] = useState(false);
+  const [visibleBlogs, setVisibleBlogs] = useState([]);
   const [isClient, setIsClient] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const observerRef = useRef(null);
+  const loadingRef = useRef(null);
 
-  // console.log("blogCategories", blogCategories)
+  // Calculate optimal batch size for 2-column layout
+  const getOptimalBatchSize = useCallback(() => {
+    return 6; // Always 2 columns, batches of 6 for even rows
+  }, []);
 
-  // Ensure we're on the client side
+  // Ensure we're on the client side and initialize blogs
   useEffect(() => {
     setIsClient(true);
     if (initialBlogs && initialBlogs.length > 0) {
       setBlogs(initialBlogs);
+      // Start with optimal batch size for even grid
+      const initialBatchSize = getOptimalBatchSize();
+      setVisibleBlogs(initialBlogs.slice(0, initialBatchSize));
+      setHasMore(initialBlogs.length > initialBatchSize);
     }
-  }, [initialBlogs]);
+  }, [initialBlogs, getOptimalBatchSize]);
+
+  // Load more blogs function
+  const loadMoreBlogs = useCallback(() => {
+    if (loading || !hasMore) return;
+    
+    setLoading(true);
+    
+    // Simulate API delay
+    setTimeout(() => {
+      const currentCount = visibleBlogs.length;
+      const batchSize = getOptimalBatchSize();
+      const nextBatch = blogs.slice(currentCount, currentCount + batchSize);
+      
+      setVisibleBlogs(prev => [...prev, ...nextBatch]);
+      setHasMore(currentCount + batchSize < blogs.length);
+      setLoading(false);
+    }, 500);
+  }, [loading, hasMore, visibleBlogs.length, blogs, getOptimalBatchSize]);
+
+  // Intersection Observer for infinite scroll
+  useEffect(() => {
+    if (!isClient) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !loading) {
+          loadMoreBlogs();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
+    }
+
+    return () => {
+      if (loadingRef.current) {
+        observer.unobserve(loadingRef.current);
+      }
+    };
+  }, [isClient, hasMore, loading, loadMoreBlogs]);
 
   // Don't render until we're on the client
   if (!isClient) {
@@ -47,31 +99,6 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
 
   // Get featured blog (most recent)
   const featuredBlog = blogs[0];
-  const recentBlogs = blogs.slice(1, 7);
-  const remainingBlogs = blogs.slice(7, visibleCount);
-
-  // Extract unique categories
-
-  // const categories = [...new Set(blogs.flatMap(blog => 
-  //   blog.categories?.map(cat => cat.name) || []
-  // ))];
-
-  // Handle loading more posts
-  const loadMore = () => {
-    setLoadingMore(true);
-    // Simulate loading delay (remove this in production)
-    setTimeout(() => {
-      setVisibleCount(prev => Math.min(prev + 6, blogs.length));
-      setLoadingMore(false);
-    }, 500);
-  };
-
-  // Check if there are more posts to load
-  const hasMorePosts = visibleCount < blogs.length;
-
-  // Show all posts in Recent Posts if we have 6 or fewer total
-  const shouldShowAllInRecent = blogs.length <= 7;
-  const displayRecentBlogs = shouldShowAllInRecent ? blogs.slice(1) : recentBlogs;
 
   try {
     return (
@@ -90,7 +117,7 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
         {/* Search and Filter Section */}
         <BlogFilters categories={blogCategories} totalPosts={blogs.length} />
 
-        {/* Featured Blog Post  */}
+        {/* Featured Blog Post */}
         {featuredBlog && (
           <section className="py-12 px-6 bg-gradient-to-br from-gray-50 to-white">
             <div className="max-w-6xl mx-auto">
@@ -104,70 +131,50 @@ const BlogsClient = ({ initialBlogs, blogCategories }) => {
           </section>
         )}
 
-        {/* Recent Posts - Main content area */}
+        {/* All Blog Posts */}
         <section className="py-12 px-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-3xl font-bold text-secondary">
-                {shouldShowAllInRecent ? 'All Posts' : 'Recent Posts'}
+                All Posts
               </h2>
               <div className="text-sm text-gray-500">
-                {displayRecentBlogs.length} posts
+                Showing {visibleBlogs.length} of {blogs.length} posts
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-              {displayRecentBlogs.map((blog) => (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {visibleBlogs.map((blog) => (
                 <BlogListItem key={blog.id} blog={blog} />
               ))}
             </div>
+
+            {/* Loading indicator for infinite scroll */}
+            {hasMore && (
+              <div ref={loadingRef} className="flex justify-center items-center py-8">
+                {loading ? (
+                  <div className="flex items-center gap-2 text-gray-600">
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Loading more posts...</span>
+                  </div>
+                ) : (
+                  <div className="text-gray-400 text-sm">
+                    Scroll down to load more posts
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* End of posts indicator */}
+            {!hasMore && blogs.length > 0 && (
+              <div className="text-center py-8">
+                <div className="text-gray-400 text-sm">
+                  You've reached the end! No more posts to load.
+                </div>
+              </div>
+            )}
           </div>
         </section>
-
-        {/* All Posts - Load more functionality */}
-        {blogs.length > 7 && (
-          <section className="py-12 px-6 bg-gray-50">
-            <div className="max-w-7xl mx-auto">
-              <div className="flex items-center justify-between mb-8">
-                <h2 className="text-3xl font-bold text-secondary">
-                  All Posts
-                </h2>
-                <div className="text-sm text-gray-500">
-                  Showing {Math.max(0, visibleCount - 7)} of {blogs.length - 7} more posts
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
-                {remainingBlogs.map((blog) => (
-                  <BlogListItem key={blog.id} blog={blog} />
-                ))}
-              </div>
-
-              {/* Load More Button */}
-              {hasMorePosts && (
-                <div className="text-center">
-                  <button
-                    onClick={loadMore}
-                    disabled={loadingMore}
-                    className="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {loadingMore ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Loading...
-                      </>
-                    ) : (
-                      <>
-                        Load More Posts
-                        <ArrowRight className="w-4 h-4" />
-                      </>
-                    )}
-                  </button>
-                </div>
-              )}
-            </div>
-          </section>
-        )}
       </div>
     );
   } catch (error) {
