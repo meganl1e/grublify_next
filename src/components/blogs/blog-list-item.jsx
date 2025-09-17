@@ -70,7 +70,7 @@ const BlogListItem = ({ blog }) => {
             </div>
 
             {/* Title */}
-            <h3 className="text-xl font-bold text-secondary group-hover:text-primary transition-colors leading-tight line-clamp-2">
+            <h3 className="text-xl font-bold text-secondary group-hover:text-primary transition-colors leading-tight line-clamp-3">
               {blog.title}
             </h3>
 
@@ -83,7 +83,7 @@ const BlogListItem = ({ blog }) => {
 
             {/* Meta Information */}
             <div className="mt-auto pt-2">
-              <div className="flex items-center gap-4 text-sm text-gray-500">
+              <div className="flex items-center justify-between text-sm text-gray-500">
                 <div className="flex items-center gap-2">
                   <User className="w-4 h-4" />
                   <span className="font-medium">
@@ -96,6 +96,7 @@ const BlogListItem = ({ blog }) => {
                     {new Date(blog.publishedDate).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
+                      year: "numeric",
                     })}
                   </time>
                 </div>
