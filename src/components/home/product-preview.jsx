@@ -72,18 +72,18 @@ export default async function ProductPreview() {
             </Button> */}
           </div>
 
-          <div className="relative">
-            {/* <div className="bg-primary rounded-2xl p-6 max-w-md w-full mx-auto"> */}
+           <div className="flex flex-col justify-center items-center">
+            <div className="max-w-sm w-full">
               <Image
                 src={coverImage.url}
                 alt="Grublify nutrition packs and ingredients"
-                width={coverImage.width}
-                height={coverImage.height}
-                className="rounded-xl object-cover w-full"
-                sizes="(max-width: 768px) 90vw, 50vw"
+                width={400}
+                height={400}
+                className="rounded-xl object-cover w-full h-auto"
+                sizes="(max-width: 768px) 80vw, 400px"
               />
-            {/* </div> */}
-            <div className="max-w-md  mx-auto mt-2">
+            </div>
+            <div className="max-w-sm  mx-auto mt-2">
               <p className="text-xs text-gray-500 ">
                 *Cost based on a small dog with 10-pack and first order discount. Actual daily cost varies by dog and product selection.
               </p>

@@ -44,7 +44,7 @@ export default function ProductImages() {
                   alt={image.altText || `Product image ${index + 1}`}
                   fill
                   className="object-contain cursor-pointer"
-                  sizes="(max-width: 768px) 10vw, 8vw"
+                  sizes="(max-width: 640px) 12vw, (max-width: 1024px) 8vw, 6vw"
                   loading="lazy"
                 />
               </button>
@@ -62,8 +62,8 @@ export default function ProductImages() {
               alt={coverImage.altText || "Alt text not defined"}
               fill
               className="object-contain rounded-sm"
-              priority
-              sizes="(max-width: 768px) 90vw, 50vw"
+              priority={false}
+              sizes="(max-width: 640px) 90vw, (max-width: 1024px) 60vw, 50vw"
             />
             {/* Left Arrow */}
             <button 

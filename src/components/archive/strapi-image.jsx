@@ -1,41 +1,52 @@
 "use client"
-import React, { useState } from "react";
+import React from "react";
+import Image from "next/image";
 
-const StrapiImage = ({ image, className = "", sizes = "100vw", alt, width, height }) => {
+const StrapiImage = ({ image, className = "", sizes = "100vw", alt, width, height, priority = false }) => {
   if (!image) return null;
 
   const { url, alternativeText, formats } = image;
-  const [imgLoading, setImgLoading] = useState(true);
 
   const getUrl = (imgUrl) =>
     imgUrl?.startsWith("http") ? imgUrl : `${import.meta.env.VITE_STRAPI_URL}${imgUrl}`;
 
-  const srcSet = [
-    formats?.small?.url && `${getUrl(formats.small.url)} 500w`,
-    formats?.medium?.url && `${getUrl(formats.medium.url)} 750w`,
-    formats?.large?.url && `${getUrl(formats.large.url)} 1000w`,
-    url && `${getUrl(url)} 1800w`,
-  ].filter(Boolean).join(", ");
-
   const altText = alt || alternativeText || "";
+  
+  // Use the best available format, preferring medium for better optimization
   const src =
     (formats?.medium && getUrl(formats.medium.url)) ||
     (formats?.small && getUrl(formats.small.url)) ||
     (url && getUrl(url));
 
+  // If width and height are provided, use them; otherwise use fill
+  if (width && height) {
+    return (
+      <Image
+        src={src}
+        alt={altText}
+        width={width}
+        height={height}
+        className={className}
+        sizes={sizes}
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+      />
+    );
+  }
+
   return (
-    <img
-      src={src}
-      srcSet={srcSet}
-      sizes={sizes}
-      alt={altText}
-      className={className}
-      width={width}
-      height={height}
-      loading="eager" // or "lazy" if you want
-      style={{ display: "block", width: "100%", height: "auto" }}
-      onLoad={() => setImgLoading(false)}
-    />
+    <div className="relative" style={{ width: "100%", height: "auto" }}>
+      <Image
+        src={src}
+        alt={altText}
+        fill
+        className={className}
+        sizes={sizes}
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        style={{ objectFit: "contain" }}
+      />
+    </div>
   );
 };
 
