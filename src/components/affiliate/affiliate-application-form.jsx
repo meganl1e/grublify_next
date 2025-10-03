@@ -59,12 +59,29 @@ export default function AffiliateApplicationForm() {
       return;
     }
 
-    // Simulate API call delay
-    setTimeout(() => {
-      setShowSuccess(true);
-      e.target.reset(); // Clear form
+    // Make API call:
+    try {
+      const response = await fetch('/api/affiliate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setShowSuccess(true);
+        e.target.reset(); // Clear form
+      } else {
+        setErrors({ submit: result.error || 'Failed to submit application' });
+      }
+    } catch (error) {
+      setErrors({ submit: 'Failed to submit application. Please try again.' });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -86,9 +103,8 @@ export default function AffiliateApplicationForm() {
                   id="name"
                   name="name"
                   required
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${errors.name ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="Your full name"
                 />
                 {errors.name && (
@@ -102,9 +118,8 @@ export default function AffiliateApplicationForm() {
                   id="email"
                   name="email"
                   required
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
-                  }`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent ${errors.email ? 'border-red-500' : 'border-gray-300'
+                    }`}
                   placeholder="your@email.com"
                 />
                 {errors.email && (
@@ -204,13 +219,17 @@ export default function AffiliateApplicationForm() {
               hello@grublify.com
             </a>
           </p>
-          
+
           {showSuccess && (
-              <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-700 font-semibold">🎉 Application submitted successfully!</p>
-                <p className="text-green-600 text-sm mt-1">We'll get back to you within 24 hours!</p>
-              </div>
-            )}
+            <div className="text-center p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-green-700 font-semibold">🎉 Application submitted successfully!</p>
+              <p className="text-green-600 text-sm mt-1">We'll get back to you within 24 hours!</p>
+            </div>
+          )}
+
+          {errors.submit && (
+            <p className="text-red-500 text-sm mt-2 text-center">{errors.submit}</p>
+          )}
         </div>
       </div>
 

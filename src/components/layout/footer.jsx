@@ -27,10 +27,16 @@ export default function Footer() {
             <img src={logo.src} alt="Grublify Logo" className="h-8 w-auto mr-2" />
             <span className="text-2xl font-semibold text-primary">Grublify</span>
           </a>
+          <div className="flex flex-col text-sm text-primary space-y-1">
+            <a href="mailto:hello@grublify.com" className="hover:text-primary transition-colors">
+              hello@grublify.com
+            </a>
+            <span>Based in San Francisco, CA</span>
+          </div>
         </div>
         {/* Quick Links */}
         <div className="min-w-[180px] flex-1">
-          <h3 className="text-lg font-semibold text-primary mb-2">QUICK LINKS</h3>
+          <h3 className="text-lg font-semibold text-primary mb-2">EXPLORE</h3>
           <ul className="text-sm text-primary space-y-1">
             <li><Link href="/" className="hover:underline">Home</Link></li>
             <li><Link href="/blogs" className="hover:underline">Blogs</Link></li>
@@ -38,7 +44,6 @@ export default function Footer() {
             <li><Link href="/about" className="hover:underline">About</Link></li>
             <li><Link href="/team" className="hover:underline">Team</Link></li>
             <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
-            <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
           </ul>
         </div>
         {/* Shop Section */}
@@ -58,7 +63,7 @@ export default function Footer() {
 
           </ul>
         </div>
-        {/* Quick Links */}
+        {/* RECIPES & TOOLS */}
         <div className="min-w-[180px] flex-1">
           <h3 className="text-lg font-semibold text-primary mb-2">RECIPES & TOOLS</h3>
           <ul className="text-sm text-primary space-y-1">
@@ -71,15 +76,18 @@ export default function Footer() {
         {/* Policies Section */}
         <div className="min-w-[180px] flex-1">
           <h3 className="text-lg font-semibold text-primary mb-2">
-            <Link href="/policies" className="hover:underline">POLICIES</Link>
+            <Link href="/policies" className="hover:underline">OTHER</Link>
           </h3>
           <ul className="text-sm text-primary space-y-1">
-            <li><Link href="/policies/disclaimer" className="hover:underline">Disclaimer</Link></li>
-            <li><Link href="/policies/privacy" className="hover:underline">Privacy Policy</Link></li>
-            <li><Link href="/policies/return-and-refund-policy" className="hover:underline">Return and Refund Policy</Link></li>
+            <li><Link href="/referral-program" className="hover:underline">Refer Your Friends</Link></li>
+            <li><Link href="/affiliate-program" className="hover:underline">Affiliate Program</Link></li>
+            <li><Link href="/policies/disclaimer" className="hover:underline">Policies</Link></li>
+            <li><Link href="/contact" className="hover:underline">Contact Us</Link></li>
+            {/* <li><Link href="/policies/privacy" className="hover:underline">Privacy Policy</Link></li> */}
+            {/* <li><Link href="/policies/return-and-refund-policy" className="hover:underline">Return and Refund Policy</Link></li> */}
             {/* <li><Link href="/policies/anti-diversion" className="hover:underline">Anti Diversion</Link></li> */}
             {/* <li><Link href="/policies/data-sale-opt-out" className="hover:underline">Data Sale Opt Out</Link></li> */}
-            <li><Link href="/policies/terms-of-service" className="hover:underline">Terms of Service</Link></li>
+            {/* <li><Link href="/policies/terms-of-service" className="hover:underline">Terms of Service</Link></li> */}
           </ul>
         </div>
       </div>
