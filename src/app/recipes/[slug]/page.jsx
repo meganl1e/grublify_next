@@ -104,7 +104,7 @@ async function Recipe({ params }) {
           />
 
           {/* Recipe Card */}
-          <RecipeCard recipe={recipe} />
+          <RecipeCard recipe={recipe}  />
             
 
           {/* Detailed Instructions */}

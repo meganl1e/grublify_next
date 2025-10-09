@@ -7,13 +7,112 @@ const RecipeCard = ({ recipe }) => {
   const [selectedMethod, setSelectedMethod] = useState(0)
   const [unit, setUnit] = useState("metric")
 
+  const handlePrint = () => {
+    // Create a new window for printing
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print Recipe - ${recipe.name}</title>
+          <style>
+            body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.4; }
+            .header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid #ccc; padding-bottom: 10px; }
+            .title { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+            .subtitle { font-size: 12px; color: #666; }
+            .recipe-info { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; padding: 10px; background: #f5f5f5; margin-bottom: 20px; font-size: 12px; }
+            .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+            .ingredients ul { list-style: disc; margin: 0; padding-left: 20px; }
+            .ingredients li { margin-bottom: 5px; font-size: 12px; }
+            .instructions ol { list-style: decimal; margin: 0; padding-left: 20px; }
+            .instructions li { margin-bottom: 8px; font-size: 12px; }
+            .section-title { font-size: 16px; font-weight: bold; margin-bottom: 10px; }
+            .image { text-align: center; margin: 10px 0; }
+            .image img { max-width: 150px; height: auto; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <div class="title">${recipe.name}</div>
+            <div class="subtitle">Grublify Recipe • ${new Date().toLocaleDateString()}</div>
+          </div>
+          
+          <div class="image">
+            <img src="${recipe.coverImage.formats.medium.url}" alt="${recipe.name}" />
+          </div>
+          
+          <div class="recipe-info">
+            <div><strong>Prep:</strong> ${recipe.cookingMethods[selectedMethod].prepTime}</div>
+            <div><strong>Cook:</strong> ${recipe.cookingMethods[selectedMethod].cookTime}</div>
+            <div><strong>Total:</strong> ${recipe.cookingMethods[selectedMethod].totalTime}</div>
+            <div><strong>Method:</strong> ${recipe.cookingMethods[selectedMethod].methodType}</div>
+          </div>
+          
+          <div class="two-column">
+            <div class="ingredients">
+              <div class="section-title">Ingredients</div>
+              <ul>
+                ${recipe.ingredients.map(ingredient => `
+                  <li><strong>${ingredient.metric?.amount} ${ingredient.metric?.unit} 
+                    ${ingredient.imperial?.amount && ingredient.imperial?.unit ? 
+                      `(${ingredient.imperial.amount} ${ingredient.imperial.unit})` : ''}
+                  </strong> ${ingredient.name}
+                  ${ingredient.notes ? ` - ${ingredient.notes}` : ''}</li>
+                `).join('')}
+              </ul>
+            </div>
+            
+            <div>
+              ${recipe.consumptionAndStorage ? `
+                <div class="section-title">Storage & Consumption</div>
+                <p style="font-size: 12px; margin: 0 0 15px 0;">${recipe.consumptionAndStorage}</p>
+              ` : ''}
+              
+              ${recipe.nutritionalInfo ? `
+                <div class="section-title">Nutritional Info</div>
+                <p style="font-size: 12px; margin: 0;">${recipe.nutritionalInfo}</p>
+              ` : ''}
+            </div>
+          </div>
+          
+          <div class="instructions">
+            <div class="section-title">Instructions</div>
+            <ol>
+              ${recipe.cookingMethods[selectedMethod].instructions.map(step => `
+                <li>${step.text.map(paragraph => 
+                  paragraph.children.map(child => child.text).join('')
+                ).join(' ')}</li>
+              `).join('')}
+            </ol>
+          </div>
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
+    printWindow.focus();
+    
+    // Wait for content to load then print
+    setTimeout(() => {
+      printWindow.print();
+      printWindow.close();
+    }, 500);
+  };
+
   return (
     <div className="bg-primary/40 min-h-screen p-6 rounded-lg">
 
       <div className="max-w-4xl p-6 bg-white rounded-lg overflow-hidden">
 
-        {/* Title */}
-        <h1 className="text-3xl font-bold text-secondary">{recipe.name}</h1>
+        {/* Title and Print Button */}
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold text-secondary">{recipe.name}</h1>
+          <Button 
+            onClick={handlePrint}
+            className="bg-secondary  text-white print:hidden"
+          >
+            🖨️ Print Recipe
+          </Button>
+        </div>
 
         {/* Recipe Information */}
         <div className="mb-6">
@@ -145,9 +244,8 @@ const RecipeCard = ({ recipe }) => {
           <p className="text-secondary mb-2">{recipe.nutritionalInfo ?? "Not available"}</p>
         </section>
 
-
-
       </div>
+
     </div>
   );
 };
