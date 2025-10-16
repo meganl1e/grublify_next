@@ -8,7 +8,9 @@ export async function GET(request) {
     
     const url = `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?fields=slug&fields=title&fields=excerpt&populate=coverImage&populate=categories&fields=publishedDate&sort=publishedDate:desc&pagination[page]=${page}&pagination[pageSize]=${pageSize}`;
     
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { 
+      next: { revalidate: 300 } // Cache for 5 minutes
+    });
     
     if (!res.ok) {
       const errorText = await res.text();
@@ -25,6 +27,10 @@ export async function GET(request) {
       blogs: data?.data || [],
       pagination: data?.meta?.pagination || null,
       total: data?.meta?.pagination?.total || 0
+    }, {
+      headers: {
+        'Cache-Control': 'public, max-age=300' // Cache in browser for 5 minutes
+      }
     });
     
   } catch (error) {
