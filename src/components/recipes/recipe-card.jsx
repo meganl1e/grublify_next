@@ -53,8 +53,8 @@ const RecipeCard = ({ recipe }) => {
               <ul>
                 ${recipe.ingredients.map(ingredient => `
                   <li><strong>${ingredient.metric?.amount} ${ingredient.metric?.unit} 
-                    ${ingredient.imperial?.amount && ingredient.imperial?.unit ? 
-                      `(${ingredient.imperial.amount} ${ingredient.imperial.unit})` : ''}
+                    ${ingredient.imperial?.amount && ingredient.imperial?.unit ?
+        `(${ingredient.imperial.amount} ${ingredient.imperial.unit})` : ''}
                   </strong> ${ingredient.name}
                   ${ingredient.notes ? ` - ${ingredient.notes}` : ''}</li>
                 `).join('')}
@@ -78,19 +78,19 @@ const RecipeCard = ({ recipe }) => {
             <div class="section-title">Instructions</div>
             <ol>
               ${recipe.cookingMethods[selectedMethod].instructions.map(step => `
-                <li>${step.text.map(paragraph => 
-                  paragraph.children.map(child => child.text).join('')
-                ).join(' ')}</li>
+                <li>${step.text.map(paragraph =>
+          paragraph.children.map(child => child.text).join('')
+        ).join(' ')}</li>
               `).join('')}
             </ol>
           </div>
         </body>
       </html>
     `);
-    
+
     printWindow.document.close();
     printWindow.focus();
-    
+
     // Wait for content to load then print
     setTimeout(() => {
       printWindow.print();
@@ -106,7 +106,7 @@ const RecipeCard = ({ recipe }) => {
         {/* Title and Print Button */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-secondary">{recipe.name}</h1>
-          <Button 
+          <Button
             onClick={handlePrint}
             className="bg-secondary  text-white print:hidden"
           >
@@ -140,20 +140,27 @@ const RecipeCard = ({ recipe }) => {
             {/* Servings */}
             <div>
               <p className="font-semibold">Servings:</p>
-              <Button 
-                variant="default"
-                size="sm"
-              >
-                <Link
-                  aria-label="Open portion calculator in a new tab"
-                  href="/recipes/portion-calculator"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Portion Calculator
-                </Link>
+              {recipe.servings ? (
+                <p>{recipe.servings}</p>
+              ) : (
 
-              </Button>
+                <Button
+                  variant="default"
+                  size="sm"
+                >
+                  <Link
+                    aria-label="Open portion calculator in a new tab"
+                    href="/recipes/portion-calculator"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Portion Calculator
+                  </Link>
+
+                </Button>
+
+              )}
+
 
             </div>
           </div>
