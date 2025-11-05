@@ -1,5 +1,6 @@
 "use client";
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import Link from 'next/link';
 
 const customBlocks = {
   heading: ({ children, level }) => {
@@ -21,6 +22,30 @@ const customBlocks = {
     ) : (
       <ul className="list-disc ml-6 text-lg" >{children}</ul>
     ),
+  link: ({ children, url }) => {
+    // Check if it's an internal link (starts with /) or external
+    const isInternal = url?.startsWith('/');
+    
+    if (isInternal) {
+      return (
+        <Link href={url} className="text-secondary underline hover:text-primary transition-colors">
+          {children}
+        </Link>
+      );
+    }
+    
+    // External link
+    return (
+      <a 
+        href={url} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="text-secondary underline hover:text-primary transition-colors"
+      >
+        {children}
+      </a>
+    );
+  },
   // Add more overrides as needed (quote, code, image, etc.)
 };
 

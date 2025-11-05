@@ -1,7 +1,48 @@
-
+import Link from 'next/link';
 
 const RecipeDetailedInstructions = ({ data }) => {
 
+  // Helper function to render a child node (handles text, bold, links, etc.)
+  const renderChild = (child, cIdx) => {
+    // Handle links
+    if (child.type === 'link' || child.url) {
+      const url = child.url || child.href;
+      const isInternal = url?.startsWith('/');
+      
+      if (isInternal) {
+        return (
+          <Link 
+            key={cIdx} 
+            href={url} 
+            className="text-secondary underline hover:text-primary transition-colors"
+          >
+            {child.children ? child.children.map((linkChild, lIdx) => renderChild(linkChild, lIdx)) : child.text}
+          </Link>
+        );
+      }
+      
+      // External link
+      return (
+        <a 
+          key={cIdx}
+          href={url} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-secondary underline hover:text-primary transition-colors"
+        >
+          {child.children ? child.children.map((linkChild, lIdx) => renderChild(linkChild, lIdx)) : child.text}
+        </a>
+      );
+    }
+    
+    // Handle bold text
+    if (child.bold) {
+      return <strong key={cIdx}>{child.text}</strong>;
+    }
+    
+    // Regular text
+    return <span key={cIdx}>{child.text}</span>;
+  };
 
   return (
     <div className="">
@@ -19,13 +60,7 @@ const RecipeDetailedInstructions = ({ data }) => {
               {/* text of step */}
               {step.text.map((p, pIndex) => (
                 <p key={pIndex} className="text-secondary mb-2">
-                  {p.children.map((child, cIdx) =>
-                    child.bold ? (
-                      <strong key={cIdx}>{child.text}</strong>
-                    ) : (
-                      <span key={cIdx}>{child.text}</span>
-                    )
-                  )}
+                  {p.children.map((child, cIdx) => renderChild(child, cIdx))}
                 </p>
               ))}
               <div className="">
