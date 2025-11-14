@@ -99,7 +99,7 @@ const RecipeCard = ({ recipe }) => {
   };
 
   return (
-    <div className="bg-primary/40 min-h-screen p-6 rounded-lg">
+    <div className="bg-primary/40 p-6 rounded-lg">
 
       <div className="max-w-4xl p-6 bg-white rounded-lg overflow-hidden">
 
