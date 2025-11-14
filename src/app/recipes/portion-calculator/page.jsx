@@ -329,7 +329,7 @@ export default function PortionCalculator() {
                         </div>
                         <div className="flex items-center justify-between">
                           <span className="flex items-center gap-2 text-secondary font-medium">
-                            <MdOutlineRamenDining className="text-lg text-primary" /> Calories per Meal
+                            <MdOutlineRamenDining className="text-lg text-primary" /> Per Meal ({result.meals} meals/day)
                           </span>
                           <span className="text-xl font-bold text-primary-dark">{result.perMeal} <span className="text-base font-semibold text-gray-500">kcal</span></span>
                         </div>
@@ -346,15 +346,15 @@ export default function PortionCalculator() {
                       {/* Portion Section */}
                       <h4 className="text-xl font-bold text-primary-dark mb-2 text-left">Chicken & Rice Portion</h4>
                       <div className="flex flex-col gap-1">
-                        <div className="flex items-center justify-between">
+                        {/* <div className="flex items-center justify-between">
                           <span className="flex items-center gap-2 text-secondary font-medium">
                             <FaUtensils className="text-lg text-primary" /> Meals/Day
                           </span>
                           <span className="text-xl font-semibold text-gray-500">{result.meals} <span className="text-base font-semibold text-gray-500">{result.meals > 1 ? 'meals' : 'meal'}</span></span>
-                        </div>
+                        </div> */}
                         <div className="flex items-center justify-between">
                           <span className="flex items-center gap-2 text-secondary font-medium">
-                            <FaBalanceScale className="text-lg text-primary" /> Meal Size
+                            <MdOutlineRamenDining className="text-lg text-primary" /> Per Meal ({result.meals} meals/day)
                           </span>
                           {(() => {
                             // 1 recipe = 957 kcal = 2.69 lbs = 1219g, 1 cup = 250g
