@@ -1,15 +1,18 @@
 "use client";
 import ProductDescription from "./product-description";
 import ProductVariants from "./product-variants";
+import ProductSubscription from "./product-subscription";
 import ProductReviews from "./product-reviews";
 import { ProductPrice, AddToCartButton, useProduct } from "@shopify/hydrogen-react";
 import { useCartUI } from "../cart/cart-context";
 import { CompactStarRating } from "../ui/star-rating";
-import { useRef } from "react";
+import { useRef, useState, useMemo } from "react";
 
 export default function ProductDetails({ reviews = [], averageRating = 0 }) {
   const { setIsCartOpen } = useCartUI();
   const reviewsRef = useRef(null);
+  const [selectedSellingPlanId, setSelectedSellingPlanId] = useState(null);
+  const [selectedSellingPlan, setSelectedSellingPlan] = useState(null);
 
   const handleClick = () => {
     setIsCartOpen(true);
@@ -26,8 +29,58 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
     product,
     selectedVariant,
   } = useProduct();
+  
+  // Check if subscription is required
+  const requiresSellingPlan = product?.requiresSellingPlan;
+  const hasSellingPlans = product?.sellingPlanGroups?.edges?.length > 0;
 
   const compareAtPrice = selectedVariant?.compareAtPrice;
+  const regularPrice = parseFloat(selectedVariant?.price?.amount || 0);
+  const currencyCode = selectedVariant?.price?.currencyCode || 'USD';
+  
+  // Calculate subscription price from variant's sellingPlanAllocations
+  // Using useMemo to recalculate when selectedSellingPlanId or selectedVariant changes
+  const subscriptionPrice = useMemo(() => {
+    if (!selectedSellingPlanId || !selectedVariant) return null;
+    
+    // Get selling plan allocations from the selected variant
+    const allocations = selectedVariant?.sellingPlanAllocations?.edges || [];
+    
+    // Find the allocation that matches the selected selling plan
+    const allocation = allocations.find(alloc => 
+      alloc.node.sellingPlan.id === selectedSellingPlanId
+    );
+    
+    if (!allocation) return null;
+    
+    const priceAdjustments = allocation.node.priceAdjustments || [];
+    if (priceAdjustments.length === 0) return null;
+    
+    // Get the first price adjustment (usually the main price)
+    const adjustment = priceAdjustments[0];
+    
+    // Priority: price > perDeliveryPrice > unitPrice
+    if (adjustment.price) {
+      return {
+        amount: parseFloat(adjustment.price.amount),
+        currencyCode: adjustment.price.currencyCode
+      };
+    } else if (adjustment.perDeliveryPrice) {
+      return {
+        amount: parseFloat(adjustment.perDeliveryPrice.amount),
+        currencyCode: adjustment.perDeliveryPrice.currencyCode
+      };
+    } else if (adjustment.unitPrice) {
+      return {
+        amount: parseFloat(adjustment.unitPrice.amount),
+        currencyCode: adjustment.unitPrice.currencyCode
+      };
+    }
+    
+    return null;
+  }, [selectedSellingPlanId, selectedVariant]);
+  
+  const showSubscriptionPrice = selectedSellingPlanId && subscriptionPrice;
 
   const hasOnlyDefaultVariant =
     product.options.length === 1 &&
@@ -64,35 +117,57 @@ export default function ProductDetails({ reviews = [], averageRating = 0 }) {
         </span> */}
 
         <div className="flex items-center space-x-4">
-          <ProductPrice
-            data={product}
-            variantId={selectedVariant.id}
-            className="text-2xl font-bold text-secondary"
-          />
-          {compareAtPrice && (
-            <ProductPrice
-              data={product}
-              priceType="compareAt"
-              variantId={selectedVariant.id}
-              className="text-xl text-gray-500 line-through"
-            />
+          {showSubscriptionPrice ? (
+            <>
+              <span className="text-xl text-gray-500 line-through">
+                ${regularPrice.toFixed(2)} {currencyCode}
+              </span>
+              <span className="text-2xl font-bold text-secondary">
+                ${subscriptionPrice.amount.toFixed(2)} {subscriptionPrice.currencyCode}
+              </span>
+            </>
+          ) : (
+            <>
+              <ProductPrice
+                data={product}
+                variantId={selectedVariant.id}
+                className="text-2xl font-bold text-secondary"
+              />
+              {compareAtPrice && (
+                <ProductPrice
+                  data={product}
+                  priceType="compareAt"
+                  variantId={selectedVariant.id}
+                  className="text-xl text-gray-500 line-through"
+                />
+              )}
+            </>
           )}
         </div>
         {!hasOnlyDefaultVariant &&
           <ProductVariants />
         }
+        {hasSellingPlans && (
+          <ProductSubscription 
+            onSellingPlanChange={setSelectedSellingPlanId}
+            onSelectedPlanChange={setSelectedSellingPlan}
+          />
+        )}
         <AddToCartButton
           onClick={handleClick}
           variantId={selectedVariant.id}
           quantity={1}
+          sellingPlanId={selectedSellingPlanId || undefined}
           accessibleAddingToCartLabel="Adding item to your cart"
-          disabled={!selectedVariant.availableForSale}
-          className={`w-full mb-4 max-w-sm mx-auto py-3 px-6 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${!selectedVariant.availableForSale
+          disabled={!selectedVariant.availableForSale || (requiresSellingPlan && !selectedSellingPlanId)}
+          className={`w-full mb-4 max-w-sm mx-auto py-3 px-6 font-semibold rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${!selectedVariant.availableForSale || (requiresSellingPlan && !selectedSellingPlanId)
             ? "bg-gray-300 text-gray-500 cursor-not-allowed"
             : "bg-primary text-white hover:bg-primary/80 cursor-pointer"
             }`}
         >
-          Add to Cart
+          {requiresSellingPlan && !selectedSellingPlanId 
+            ? "Select a Subscription Plan" 
+            : "Add to Cart"}
         </AddToCartButton>
       </div>
 

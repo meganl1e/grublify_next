@@ -62,6 +62,108 @@ export default async function fetchProductPreview({ handle }) {
 
 }
 
+// const PRODUCT_BY_HANDLE_QUERY = `
+//   query ProductByHandle($handle: String!) {
+//     productByHandle(handle: $handle) {
+//       id
+//       title
+//       handle
+//       description
+//       descriptionHtml
+//       tags
+//       images(first: 10) {
+//         edges {
+//           node {
+//             url
+//             altText
+//             width
+//             height
+//           }
+//         }
+//       }
+//           # Subscription-related fields
+//       requiresSellingPlan
+//       sellingPlanGroups(first: 5) {
+//         edges {
+//           node {
+//             name
+//             options {
+//               name
+//               values
+//             }
+//             sellingPlans(first: 10) {
+//               edges {
+//                 node {
+//                   id
+//                   name
+//                   description
+//                   recurringDeliveries
+//                   options {
+//                     name
+//                     value
+//                   }
+//                 sellingPlanAllocations(first: 10) {
+//                   edges {
+//                     node {
+//                       priceAdjustments {
+//                         price {
+//                           amount
+//                           currencyCode
+//                         }
+//                         compareAtPrice {
+//                           amount
+//                           currencyCode
+//                         }
+//                         perDeliveryPrice {
+//                           amount
+//                           currencyCode
+//                         }
+//                         unitPrice {
+//                           amount
+//                           currencyCode
+//                         }
+//                       }
+//                       sellingPlan {
+//                         id
+//                         name
+//                       }
+//                     }
+//                   }
+//                 }
+//               }
+//             }
+//           }
+//         }
+//       }
+//       variants(first: 10) {
+//         edges {
+//           node {
+//             id
+//             title
+//             price {
+//               amount
+//               currencyCode
+//             }
+//             compareAtPrice {
+//               amount
+//               currencyCode
+//             }
+//             availableForSale
+//             selectedOptions {
+//               name
+//               value
+//             }
+//           }
+//         }
+//       }
+//       options {
+//         name
+//         values
+//       }
+//     }
+//   }
+// `
+
 const PRODUCT_BY_HANDLE_QUERY = `
   query ProductByHandle($handle: String!) {
     productByHandle(handle: $handle) {
@@ -81,7 +183,8 @@ const PRODUCT_BY_HANDLE_QUERY = `
           }
         }
       }
-          # Subscription-related fields
+
+      # Subscription-related fields
       requiresSellingPlan
       sellingPlanGroups(first: 5) {
         edges {
@@ -108,6 +211,7 @@ const PRODUCT_BY_HANDLE_QUERY = `
           }
         }
       }
+
       variants(first: 10) {
         edges {
           node {
@@ -126,16 +230,47 @@ const PRODUCT_BY_HANDLE_QUERY = `
               name
               value
             }
+
+            # Subscription pricing per variant+plan
+            sellingPlanAllocations(first: 10) {
+              edges {
+                node {
+                  priceAdjustments {
+                    price {
+                      amount
+                      currencyCode
+                    }
+                    compareAtPrice {
+                      amount
+                      currencyCode
+                    }
+                    perDeliveryPrice {
+                      amount
+                      currencyCode
+                    }
+                    unitPrice {
+                      amount
+                      currencyCode
+                    }
+                  }
+                  sellingPlan {
+                    id
+                    name
+                  }
+                }
+              }
+            }
           }
         }
       }
+
       options {
         name
         values
       }
     }
   }
-`
+  `;
 
 export async function fetchProductByHandle({ handle }) {
   const data = await shopifyFetch({
