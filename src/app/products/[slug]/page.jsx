@@ -1,70 +1,7 @@
-import { shopifyFetch } from '../../../lib/shopify-client';
+import { fetchProductByHandle } from '../../../lib/shopify-client';
 import { notFound } from 'next/navigation';
 import ProductPageClient from '@/components/product/product-page-client';
 import { getReviewsByProductId } from '@/lib/klaviyo-client';
-
-// query to fetch id from handle (slug)
-const ID_QUERY = `
-    {
-      products(first: 100) {
-        edges {
-          node {
-            id
-            handle
-          }
-        }
-      }
-    }
-  `;
-
-//query to fetch product details by id
-const PRODUCT_QUERY = `
-  query getProduct($id: ID!) {
-    product(id: $id) {
-      id
-      title
-      handle
-      description
-      descriptionHtml
-      tags
-      images(first: 10) {
-        edges {
-          node {
-            url
-            altText
-            width
-            height
-          }
-        }
-      }
-      variants(first: 10) {
-        edges {
-          node {
-            id
-            title
-            price {
-              amount
-              currencyCode
-            }
-            compareAtPrice {
-              amount
-              currencyCode
-            }
-            availableForSale
-            selectedOptions {
-              name
-              value
-            }
-          }
-        }
-      }
-      options {
-        name
-        values
-      }
-    }
-  }
-`;
 
 // Helper function to calculate average rating
 function calculateAverageRating(reviews) {
@@ -79,28 +16,10 @@ function calculateAverageRating(reviews) {
 }
 
 export default async function ProductPage({ params }) {
-
-  // fetch id from handle (slug)
   const { slug } = await params;
-  const allProductsData = await shopifyFetch({ query: ID_QUERY });
-  const product = allProductsData.products.edges.find(
-    edge => edge.node.handle === slug
-  );
-  const productId = product?.node?.id;
 
-  // if no product id, return not found
-  if (!productId) {
-    notFound();
-  }
-
-  // fetch product details by id
   try {
-    const data = await shopifyFetch({
-      query: PRODUCT_QUERY,
-      variables: { id: productId }
-    });
-
-    const product = data?.product;
+    const product = await fetchProductByHandle({ handle: slug });
 
     if (!product) {
       notFound();

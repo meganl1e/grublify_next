@@ -59,4 +59,91 @@ export default async function fetchProductPreview({ handle }) {
   });
 
   return data.productByHandle;
+
+}
+
+const PRODUCT_BY_HANDLE_QUERY = `
+  query ProductByHandle($handle: String!) {
+    productByHandle(handle: $handle) {
+      id
+      title
+      handle
+      description
+      descriptionHtml
+      tags
+      images(first: 10) {
+        edges {
+          node {
+            url
+            altText
+            width
+            height
+          }
+        }
+      }
+          # Subscription-related fields
+      requiresSellingPlan
+      sellingPlanGroups(first: 5) {
+        edges {
+          node {
+            name
+            options {
+              name
+              values
+            }
+            sellingPlans(first: 10) {
+              edges {
+                node {
+                  id
+                  name
+                  description
+                  recurringDeliveries
+                  options {
+                    name
+                    value
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      variants(first: 10) {
+        edges {
+          node {
+            id
+            title
+            price {
+              amount
+              currencyCode
+            }
+            compareAtPrice {
+              amount
+              currencyCode
+            }
+            availableForSale
+            selectedOptions {
+              name
+              value
+            }
+          }
+        }
+      }
+      options {
+        name
+        values
+      }
+    }
+  }
+`
+
+export async function fetchProductByHandle({ handle }) {
+  const data = await shopifyFetch({
+    query: PRODUCT_BY_HANDLE_QUERY,
+    variables: { handle },
+  });
+
+  // console.log(data.productByHandle);
+
+  return data.productByHandle;
 }
