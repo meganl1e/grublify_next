@@ -30,11 +30,13 @@ export default function TryGrublifyPage() {
           <iframe
             src="https://docs.google.com/forms/d/e/1FAIpQLScE_OEBaaykd1xLxHkDLEDfDdRXtFGwsxNJlnBpG14jL1yqNg/viewform?embedded=true"
             width="100%"
-            height="1000"
+            height="2600"
             frameBorder="0"
             marginHeight="0"
             marginWidth="0"
-            className="w-full"
+            scrolling="no"
+            className="w-full min-h-[2600px] md:min-h-[1941px]"
+            style={{ border: 0 }}
             title="Try Grublify Form"
           >
             Loading...
