@@ -9,38 +9,15 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Mail, Gift, Sparkles } from 'lucide-react';
 import Image from 'next/image';
-import about_mission from "../../../public/about_mission.jpg";
 import email_image from "../../../public/email.jpg";
 
 export default function EmailSignup({ open, setOpen }) {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-
-  useEffect(() => {
-    // Check if popup was shown this session
-    const popupShown = sessionStorage.getItem('email_popup_shown');
-    let shouldShowPopup = true;
-  
-    if (popupShown) {
-      shouldShowPopup = false; // Already shown this session, don't show again
-    }
-  
-    if (shouldShowPopup) {
-      // Show popup after 5 seconds
-      const timer = setTimeout(() => {
-        setOpen(true);
-        // Mark popup as shown in this session
-        sessionStorage.setItem('email_popup_shown', 'true');
-      }, 5000);
-  
-      return () => clearTimeout(timer);
-    }
-  }, []);
-  
 
   // closes popup
   const handleClose = () => {
