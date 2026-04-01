@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 
 const RecipeCard = ({ recipe }) => {
   const [selectedMethod, setSelectedMethod] = useState(0)
-  const [unit, setUnit] = useState("metric")
+  const [unit, setUnit] = useState("imperial")
 
   const handlePrint = () => {
     // Create a new window for printing
