@@ -34,7 +34,8 @@ export default function Navbar() {
       label: "Recipes",
       children: [
         { href: "/recipes", label: "All Recipes" },
-        { href: "/recipes/chicken-and-rice", label: "Chicken & Rice" },
+        { href: "/recipes/chicken-and-rice", label: "Chicken Recipe" },
+        { href: "/recipes/turkey-and-rice", label: "Turkey Recipe" },
         { href: "/recipes/portion-calculator", label: "Portion Calculator" },
         { href: "/recipes/transition-guide", label: "Transition Guide" }
       ]
