@@ -81,8 +81,12 @@ export async function addProfileToList(profileId, listId) {
 // get reviews by product id
 export async function getReviewsByProductId(productId) {
   const product = `$shopify:::$default:::${productId}`;
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
   const options = {
     method: 'GET',
+    signal: controller.signal,
     headers: {
       accept: 'application/vnd.api+json',
       revision: '2025-07-15',
@@ -91,7 +95,12 @@ export async function getReviewsByProductId(productId) {
   };
 
   const url = `https://a.klaviyo.com/api/reviews?filter=equals(item.id,"${product}")`;
-  const response = await fetch(url, options);
+  let response;
+  try {
+    response = await fetch(url, options);
+  } finally {
+    clearTimeout(timeout);
+  }
 
   if (!response.ok) {
     const errorText = await response.text();

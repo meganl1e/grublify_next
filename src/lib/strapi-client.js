@@ -2,14 +2,15 @@
 export async function fetchHome() {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=*&populate[heroImage]=true`,
       { 
-        cache: 'force-cache',
+        cache: 'no-store',
         next: { revalidate: 3600 }
       }
     );
     if (!res.ok) {
-      console.error('Failed to fetch homepage data:', res.status, res.statusText);
+      const errorText = await res.text();
+      console.error('Failed to fetch homepage data:', res.status, res.statusText, errorText);
       return null;
     }
     const data = await res.json();
@@ -199,12 +200,10 @@ export async function fetchRecipes() {
 export async function fetchRecipeBySlug(slug) {
 
   const query = `?filters[slug][$eq]=${slug}` +
-  `&populate[ingredients][populate]=true` + // all ingredients
-  `&populate[ingredients][populate]=imperial` + // imperial measurements for each ingredient
-  `&populate[ingredients][populate]=metric` + // metric measurements for each ingredient
-  `&populate[cookingMethods][populate]=instructions` + // recipe card cooking methods
-  `&populate[detailedInstructions][populate]=images` + // detailed instruction images
-  `&populate[coverImage][populate]=true` // cover image for some reason idk
+  `&populate[ingredients][populate]=*` +
+  `&populate[cookingMethods][populate]=*` +
+  `&populate[detailedInstructions][populate]=*` +
+  `&populate[coverImage]=true`
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/recipes${query}`,
@@ -277,7 +276,7 @@ export async function fetchAllStrapiImages() {
 // fetch team info
 export async function fetchTeam() {
   try {
-    const query = '?populate[teamMembers][populate]=profilePicture';
+    const query = '?populate[teamMembers][populate]=*';
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/team${query}`,
       { 

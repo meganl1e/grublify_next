@@ -28,7 +28,7 @@ function calculateAverageRating(reviews) {
 export default async function Home() {
 
   const home = await fetchHome();
-  if (!home) return <NotFound />;
+  // if (!home) return <NotFound />;
 
   // Fetch reviews server-side (same as product page)
   let reviews = [];
