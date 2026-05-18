@@ -5,34 +5,41 @@ import NotFound from "@/app/not-found";
 import { fetchBlogBySlug } from "@/lib/strapi-client";
 import Script from "next/script";
 
-// 2. Dynamic metadata for SEO/social sharing
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const blog = await fetchBlogBySlug(slug);
   if (!blog) return {};
 
-  const title = blog.title;
-  const description = blog.excerpt || blog.summary || "";
-  const image = blog.coverImage?.formats?.large?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${blog.coverImage.formats.large.url}`
-    : "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png";
+  const seo = blog.seo || {};
+
+  const title = seo.metaTitle || blog.title;
+  const description = seo.metaDescription || blog.excerpt || blog.summary || "";
   const categories = blog.categories?.map(cat => cat.name) || [];
+  const keywords = seo.keywords || [...categories, "dog food", "pet nutrition", "homemade dog food", "dog health"].join(", ");
+  const canonicalUrl = seo.canonicalUrl || `https://grublify.com/blogs/${blog.slug}`;
+  const preventIndexing = seo.preventIndexing ?? false;
   const publishedDate = blog.publishedDate;
   const author = blog.author?.name || "Grublify Team";
+
+  const shareImageUrl = seo.shareImage?.url
+    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${seo.shareImage.url}`
+    : blog.coverImage?.formats?.large?.url
+      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${blog.coverImage.formats.large.url}`
+      : "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png";
 
   return {
     title: `${title} | Grublify Blog`,
     description,
-    keywords: [...categories, "dog food", "pet nutrition", "homemade dog food", "dog health"].join(", "),
+    keywords,
     authors: [{ name: author }],
     openGraph: {
       title: `${title} | Grublify Blog`,
       description,
-      url: `https://grublify.com/blogs/${blog.slug}`,
+      url: canonicalUrl,
       siteName: "Grublify",
       images: [
         {
-          url: image,
+          url: shareImageUrl,
           width: 1200,
           height: 630,
           alt: title,
@@ -47,22 +54,24 @@ export async function generateMetadata({ params }) {
       card: "summary_large_image",
       title: `${title} | Grublify Blog`,
       description,
-      images: [image],
+      images: [shareImageUrl],
     },
     alternates: {
-      canonical: `https://grublify.com/blogs/${blog.slug}`,
+      canonical: canonicalUrl,
     },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
-      },
-    },
+    robots: preventIndexing
+      ? { index: false, follow: false }
+      : {
+          index: true,
+          follow: true,
+          googleBot: {
+            index: true,
+            follow: true,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
+          },
+        },
   };
 }
 
@@ -136,7 +145,7 @@ async function BlogPage({ params }) {
 
             {/* categories */}
             <div className="flex flex-wrap gap-3 md:gap-4 mb-4"> {/* Increased gap and margin-bottom */}
-              {blog.categories.map(category => (
+              {(blog.categories ?? []).map(category => (
                 <span
                   key={category.id}
                   className="inline-block bg-primary/10 text-primary font-bold border-2 border-primary shadow-md text-sm px-2 md:px-3 py-1 rounded-full"

@@ -70,7 +70,7 @@ export async function fetchAllBlogs() {
 // fetch one blog by slug
 export async function fetchBlogBySlug(slug) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate=coverImage&populate=categories`,
+    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/blogs?filters[slug][$eq]=${slug}&populate[coverImage]=true&populate[categories]=true&populate[seo][populate][shareImage]=true`,
     { cache: 'no-store' }
   );
   const data = await res.json();
