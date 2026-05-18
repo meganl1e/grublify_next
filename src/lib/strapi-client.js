@@ -1,17 +1,23 @@
 // fetch data for homepage
 export async function fetchHome() {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
-    { 
-      cache: 'force-cache',
-      next: { revalidate: 3600 } // Revalidate every hour
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_STRAPI_URL}/api/homepage?populate[howItWorksSteps][populate]=image&populate=heroImage`,
+      { 
+        cache: 'force-cache',
+        next: { revalidate: 3600 }
+      }
+    );
+    if (!res.ok) {
+      console.error('Failed to fetch homepage data:', res.status, res.statusText);
+      return null;
     }
-  );
-  if (!res.ok) {
-    throw new Error('Failed to fetch homepage data');
+    const data = await res.json();
+    return data?.data || null;
+  } catch (error) {
+    console.error('Error fetching homepage data:', error);
+    return null;
   }
-  const data = await res.json();
-  return data?.data || null;
 }
 
 

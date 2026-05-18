@@ -1,7 +1,6 @@
 import { Suspense } from 'react';
 import { searchBlogs, fetchBlogCategories } from '@/lib/strapi-client';
 import SearchResultsClient from '@/components/blogs/search-results-client';
-import { Metadata } from 'next';
 
 export async function generateMetadata({ searchParams }) {
   const query = searchParams?.q || '';
