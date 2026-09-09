@@ -1,38 +1,53 @@
 import NotFound from "../not-found";
-import { fetchBlogs, fetchBlogCategories } from "@/lib/strapi-client";
+import { fetchBlogs, fetchBlogCategories, getShareImageUrl } from "@/lib/strapi-client";
 import Script from "next/script";
 import BlogsClient from "../../components/blogs/blogs-client";
 
-// Add metadata for SEO
-export const metadata = {
-  title: "Blog | Grublify - Dog Food Recipes & Nutrition Tips",
-  description: "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify. Learn how to make healthy, balanced meals for your furry friend.",
-  keywords: "dog food recipes, homemade dog food, dog nutrition, pet health, dog food tips",
-  openGraph: {
+export async function generateMetadata() {
+  let shareImageUrl = getShareImageUrl();
+
+  try {
+    const blogData = await fetchBlogs(1, 9);
+    const featured = blogData?.blogs?.[0];
+    shareImageUrl = getShareImageUrl(
+      featured?.coverImage?.formats?.large?.url,
+      featured?.coverImage?.formats?.medium?.url,
+      featured?.coverImage?.url
+    );
+  } catch (error) {
+    console.error("Error generating blogs metadata:", error);
+  }
+
+  return {
     title: "Blog | Grublify - Dog Food Recipes & Nutrition Tips",
     description: "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify. Learn how to make healthy, balanced meals for your furry friend.",
-    url: "https://grublify.com/blogs",
-    siteName: "Grublify",
-    images: [
-      {
-        url: "https://grublify.com/og-image-blog.png",
-        width: 1200,
-        height: 630,
-        alt: "Grublify Blog - Dog Food Recipes & Nutrition Tips",
-      },
-    ],
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Blog | Grublify - Dog Food Recipes & Nutrition Tips",
-    description: "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify.",
-    images: ["https://grublify.com/og-image-blog.png"],
-  },
-  alternates: {
-    canonical: "https://grublify.com/blogs",
-  },
-};
+    keywords: "dog food recipes, homemade dog food, dog nutrition, pet health, dog food tips",
+    openGraph: {
+      title: "Blog | Grublify - Dog Food Recipes & Nutrition Tips",
+      description: "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify. Learn how to make healthy, balanced meals for your furry friend.",
+      url: "https://grublify.com/blogs",
+      siteName: "Grublify",
+      images: [
+        {
+          url: shareImageUrl,
+          width: 1200,
+          height: 630,
+          alt: "Grublify Blog - Dog Food Recipes & Nutrition Tips",
+        },
+      ],
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Blog | Grublify - Dog Food Recipes & Nutrition Tips",
+      description: "Discover expert tips, homemade dog food recipes, and nutrition advice from Grublify.",
+      images: [shareImageUrl],
+    },
+    alternates: {
+      canonical: "https://grublify.com/blogs",
+    },
+  };
+}
 
 export default async function Blogs() {
   try {

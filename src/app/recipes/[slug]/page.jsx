@@ -3,7 +3,7 @@ import RecipeCard from "../../../components/recipes/recipe-card.jsx";
 import RecipeDetailedInstructions from "../../../components/recipes/recipe-detailed-instructions.jsx";
 import "react-loading-skeleton/dist/skeleton.css";
 import NotFound from "@/app/not-found.jsx";
-import { fetchRecipeBySlug } from "@/lib/strapi-client.js";
+import { fetchRecipeBySlug, getShareImageUrl } from "@/lib/strapi-client.js";
 
 // // 1. Helper to fetch recipe from Strapi
 // async function fetchRecipe(slug) {
@@ -32,9 +32,11 @@ export async function generateMetadata({ params }) {
 
   const title = recipe.name || recipe.title || "Recipe";
   const description = recipe.excerpt || recipe.summary || `Learn how to make ${title} for your dog with Grublify's healthy recipe.`;
-  const image = recipe.coverImage?.formats?.large?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${recipe.coverImage.formats.large.url}`
-    : "https://grublify.com/og-image-default.png";
+  const image = getShareImageUrl(
+    recipe.coverImage?.formats?.large?.url,
+    recipe.coverImage?.formats?.medium?.url,
+    recipe.coverImage?.url
+  );
   const tags = recipe.tags?.map(tag => tag.name) || [];
 
   return {

@@ -1,3 +1,32 @@
+const DEFAULT_SHARE_IMAGE = "https://grublify.com/try-grublify.png";
+
+/**
+ * Resolve a Strapi media URL. Cloud media is already absolute; local uploads are relative.
+ */
+export function getStrapiMediaUrl(url) {
+  if (!url || typeof url !== "string") return null;
+
+  if (url.startsWith("//")) {
+    return `https:${url}`;
+  }
+
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return url;
+  }
+
+  const base = process.env.NEXT_PUBLIC_STRAPI_URL?.replace(/\/$/, "") || "";
+  const path = url.startsWith("/") ? url : `/${url}`;
+  return `${base}${path}`;
+}
+
+export function getShareImageUrl(...urls) {
+  for (const url of urls) {
+    const resolved = getStrapiMediaUrl(url);
+    if (resolved) return resolved;
+  }
+  return DEFAULT_SHARE_IMAGE;
+}
+
 // fetch data for homepage
 export async function fetchHome() {
   try {

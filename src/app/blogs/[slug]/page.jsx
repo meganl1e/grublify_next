@@ -2,7 +2,7 @@
 import StrapiBlocksRenderer from "@/components/ui/blocks/strapi-blocks-renderer";
 import Link from "next/link";
 import NotFound from "@/app/not-found";
-import { fetchBlogBySlug } from "@/lib/strapi-client";
+import { fetchBlogBySlug, getShareImageUrl } from "@/lib/strapi-client";
 import Script from "next/script";
 
 export async function generateMetadata({ params }) {
@@ -21,11 +21,13 @@ export async function generateMetadata({ params }) {
   const publishedDate = blog.publishedDate;
   const author = blog.author?.name || "Grublify Team";
 
-  const shareImageUrl = seo.shareImage?.url
-    ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${seo.shareImage.url}`
-    : blog.coverImage?.formats?.large?.url
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${blog.coverImage.formats.large.url}`
-      : "https://grublify.com/_next/static/media/grublify_logo_simple.6f7f635f.png";
+  const shareImageUrl = getShareImageUrl(
+    seo.shareImage?.url,
+    seo.shareImage?.formats?.large?.url,
+    blog.coverImage?.formats?.large?.url,
+    blog.coverImage?.formats?.medium?.url,
+    blog.coverImage?.url
+  );
 
   return {
     title: `${title} | Grublify Blog`,
@@ -95,9 +97,11 @@ async function BlogPage({ params }) {
     "@type": "BlogPosting",
     "headline": blog.title,
     "description": blog.excerpt || blog.summary || "",
-    "image": blog.coverImage?.formats?.large?.url
-      ? `${process.env.NEXT_PUBLIC_STRAPI_URL}${blog.coverImage.formats.large.url}`
-      : "https://grublify.com/og-image-default.png",
+    "image": getShareImageUrl(
+      blog.coverImage?.formats?.large?.url,
+      blog.coverImage?.formats?.medium?.url,
+      blog.coverImage?.url
+    ),
     "author": {
       "@type": "Person",
       "name": blog.author?.name || "Grublify Team"
